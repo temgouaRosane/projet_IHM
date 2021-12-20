@@ -1,0 +1,5 @@
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ patient.FirstName }}"?</p>
+    <input type="submit" value="Confirm">
+    <a href="{% url 'usermanagement:viewpatientlist' %}" class="btn btn-purple"><h5>Cancel</h5></a>
+</form>
