@@ -22,19 +22,13 @@
             <div style="display: flex; flex-direction: column; margin-left: 25%;">
                 {% for m in medicaments %}
                     {% if m.idPatient == p %}
-                    <div>
-                        <li> {{m.MedicineName}} </li>
-                    </div>
-                    <div>
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    </div>
+                    <li> {{m.MedicineName}} </li>
+                    <input type="checkbox" style="background-color: black;" class="form-check-input" id="exampleCheck1">
                     {% endif %}
                 {% endfor %}
             </div>
-            <div style="display: flex; margin-left: 35%;">
-                <input style="height: 5vh;" type="submit" value="Valid">
-            </div>
         </div>
+        <input style="height: 3vh; margin-left: 80%;" type="submit" value="Valid">
         {% endfor %}
         <hr>
     </div>
