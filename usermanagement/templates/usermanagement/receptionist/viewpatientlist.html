@@ -1,0 +1,47 @@
+{% extends 'usermanagement/receptionist/receptionist.html' %}
+{% block content %}
+
+        <div>
+            {% comment %} 1)FirstName, 2)LastName, 3)Condition
+            {% endcomment %}
+             <h5>Patient List...</h5>
+            <hr>
+            <form style="text-align: center;" action="{% url 'usermanagement:viewpatientlist' %}" method="POST">
+                {% csrf_token %}
+                <label for="">Name</label>
+                <input name='name' type="text" value="{{selectName}}">
+                <button>🔍</button>
+                <br><hr>
+            </form>        
+            <table>
+                <thead>
+                    <th><h5>FirstName</h5></th>
+                    <th><h5 style="margin-left: 140%;">LastName</h5></th>
+                    <th><h5 style="margin-left: 310%;">Condition</h5></th>
+                    <th><h5 style="margin-left: 320%;">Service</h5></th>
+                    <th><h5 style="margin-left: 630%;">Edit</h5></th>
+                    <th><h5 style="margin-left: 800%;">Delete</h5></th>
+                        
+                </thead>
+        
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td ><h6>{{ patient.FirstName }}</h6></td>
+                        <td><h6 style="margin-left: 140%;">{{ patient.LastName }}</h6></td>
+                        <td><h6 style="margin-left: 310%;">{{ patient.condition }}</h6></td>
+                        <td><h6 style="margin-left: 320%;">{{ patient.Service }}</h6></td>
+                        <td><a  style="margin-left: 630%; height: 5vh;" href="{% url 'usermanagement:patient_update' patient.id %}" class="btn btn-purple"><h6>Update</h6></a></td>
+                        <td><a style="margin-left: 800%; height: 5vh;" href="{% url 'usermanagement:patient_confirm_delete' patient.id %}" class="btn btn-purple"><h6>Delete</h6></a></td>
+                    </tr>
+        
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+        </div>
+        
+    </div>
+</section> 
+
+{% endblock %}

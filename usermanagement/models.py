@@ -1,10 +1,11 @@
+from datetime import timezone
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 from django.forms.widgets import Select
-from django.utils import tree
+from django.utils import tree, timezone
 from multiselectfield import MultiSelectField
 from django.urls import reverse, reverse_lazy
 
@@ -22,6 +23,10 @@ Roles = [
     ('Labtech', 'Labtech'),
     ('HRM', 'HRM'),
     ('Specialist', 'Specialist'),
+    ('Ophtalmologist', 'Ophtalmologist'),
+    ('Pharmacist', 'Pharmacist'),
+    ('Dentist', 'Dentist'),
+
 ]
 
 SEXE = [
@@ -46,7 +51,7 @@ STATUS =(
 SERVICE = [
    
     ('Dental', 'Dental'),
-    ('General Medecine', 'General Medecine'),
+    ('General Medicine', 'General Medicine'),
     ('Opthalmogical', 'Opthalmogical'),
     ('Pediatric', 'pediatric'),
 
@@ -60,7 +65,7 @@ class CustomUser(AbstractUser):
         return self.username 
 
 class Patient(models.Model):
-    numero = models.IntegerField(null=True)
+    number = models.IntegerField(null=True, blank=True)
     FirstName = models.CharField(max_length=50)
     LastName = models.CharField(max_length=50)
     sexe = models.CharField(max_length=50, choices=SEXE, default='Male')
@@ -69,12 +74,12 @@ class Patient(models.Model):
     Address = models.CharField(max_length=25)
     Email_address = models.CharField(max_length=25)
     condition = models.CharField(max_length=50, choices=CONDITION, default='NoCritical')
-    Status = MultiSelectField(choices=STATUS, null= True)
-    temperature = models.FloatField(blank= True, null= True)
-    weight = models.FloatField(blank= True, null= True)
-    arterialPressure = models.FloatField(blank= True, null= True)
-    Note = models.TextField(blank= True, null= True)
     Service = models.CharField(max_length=50, choices=SERVICE, null=True)
+    Status = MultiSelectField(choices=STATUS, null= True)
+    #temperature = models.FloatField(blank= True, null= True)
+    #weight = models.FloatField(blank= True, null= True)
+    #arterialPressure = models.FloatField(blank= True, null= True)
+    #Note = models.TextField(blank= True, null= True)
     
     
     def __str__(self):
@@ -87,8 +92,16 @@ class Patient(models.Model):
 
 class Consultation(models.Model):
     consultationDate = models.DateField()
-    consultationCost = models.FloatField()
+    consultationCost = models.FloatField(blank=True, null=True)
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
+    consultation_reason = models.CharField(max_length=100)
+    allergy = models.CharField(max_length=100)
+    previous_history = models.CharField(max_length=200)
+    weight = models.FloatField(blank=True, null=True)
+    height = models.FloatField(blank=True, null=True)
+    temperature = models.FloatField()
+    arterialpressure = models.FloatField()
+    skin_appearence = models.CharField(max_length=100)
 
     def __str__(self):
         return self.idPatient.FirstName
@@ -108,13 +121,19 @@ class Prescription(models.Model):
 
 
 class Medicament(models.Model):
-    momMedicament = models.CharField(max_length=30)
-    description = models.TextField(blank= True, null= True)
+    Time = models.TimeField(auto_now=True)
+    Date = models.DateField(auto_now=True)
+    MedicineName = models.CharField(max_length=30)
+    MedicineCost = models.FloatField()
+    idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
 
 
 class Examen(models.Model):
-    nomExamen = models.TextField()
-    prix = models.FloatField()
+    Time = models.TimeField(auto_now=True)
+    Date = models.DateField(auto_now=True)
+    ExamDescription = models.CharField(max_length=200)
+    ExamCost = models.FloatField()
+    idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
 
 
 class Departement(models.Model):

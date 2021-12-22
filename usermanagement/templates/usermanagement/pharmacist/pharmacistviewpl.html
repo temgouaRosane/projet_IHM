@@ -1,0 +1,31 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+
+{% load static %}
+{% block content %}
+    <div style="border: solid; padding: 2%;">
+        {% for p in listePatient %}
+        <hr>
+        <div style="display: flex; justify-content: space-between;">
+            <div style="display: flex; border: solid;align-items: center;justify-content: center;width: 20%;">
+                {{p}}
+            </div>
+            <div style="display: flex; flex-direction: column;flex: 2;border: solid;">
+                {% for m in medicaments %}
+                    {% if m.idPatient == p %}
+                    <div>
+                        {{m.MedicineName}}
+                    </div>
+                    <div>
+                        <input type="checkbox" checked="checked" style="background-color: red;">
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div style="display: flex;justify-content: center;align-items: center;">
+                <input type="submit" value="Valid">
+            </div>
+        </div>
+        {% endfor %}
+        <hr>
+    </div>
+{% endblock %}

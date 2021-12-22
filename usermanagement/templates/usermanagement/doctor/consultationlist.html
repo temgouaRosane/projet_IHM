@@ -1,0 +1,55 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+{% load static %}
+<style>
+    tr{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: aqua;
+    }
+</style>
+
+{% block content %}
+
+    {% comment %}
+    1)IdPatient
+    2)Consultation_reason,
+    3)Allergy
+    4)Previous_history
+    5)ConsultationDate,
+    {% endcomment %}
+    <h5>consultation List...</h5>
+    <hr>
+    <form style="text-align: center;" action="{% url 'usermanagement:consultationlist' %}" method="POST">
+        {% csrf_token %}
+        <label for="">Name</label>
+        <input name='name' type="text" value="{{selectName}}">
+        <button>🔍</button>
+        <br>
+        <hr>
+    </form>
+    <table>
+        <thead>
+            <th><h5>Patient_Name <h5></th>
+            <th><h5 style="margin-left: 50%;">Consultation_reason</h5></th>
+            <th><h5 style="margin-left: 350%;">Allergy</h5></th>
+            <th><h5 style="margin-left: 250%;">Previous_history</h5></th>
+            <th><h5 style="margin-left: 300%;">ConsultationDate</h5></th>
+        </thead>
+
+        <tbody>
+            {% for consultation in consultations %}
+            <tr>
+                <td><h6>{{ consultation }}</h6></td>
+                <td><h6 style="margin-left: 50%;">{{ consultation.consultation_reason }}</h6></td>
+                <td><h6 style="margin-left: 350%;">{{ consultation.allergy }}</h6></td>
+                <td><h6 style="margin-left: 250%;">{{ consultation.previous_history}}</h6></td>
+                <td><h6 style="margin-left: 300%;">{{ consultation.consultationDate}}</h6></td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

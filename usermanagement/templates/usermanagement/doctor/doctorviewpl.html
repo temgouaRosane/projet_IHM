@@ -1,0 +1,53 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+{% block content %}
+
+<div>
+    {% comment %}
+    1)FirstName,
+    2)LastName,
+    3)Condition
+    {% endcomment %}
+
+    <h5>Patient List...</h5>
+    <hr>
+    <form style="text-align: center;" action="{% url 'usermanagement:doctorviewpl' %}" method="POST">
+        {% csrf_token %}
+        <label for="">Name</label>
+        <input name='name' type="text" value="{{selectName}}">
+        <button>🔍</button>
+        <br>
+        <hr>
+    </form>
+    <table>
+        <thead>
+            <th><h5>FirstName</h5></th>
+            <th><h5 style="margin-left: 150%;">LastName</h5></th>
+            <th><h5 style="margin-left: 300%;">Condition</h5></th>
+            <th><h5 style="margin-left: 330%;">Service</h5></th>
+            <th><h5 style="margin-left: 580%;">Edit</h5></th>
+            <th><h5 style="margin-left: 720%;">Delete</h5></th>
+        </thead>
+
+        <tbody>
+            {% for patient in patients %}
+
+            {% if patient.Service == 'General Medicine' %}
+            
+            <tr>
+                <td><h6>{{ patient.FirstName }}</h6></td>
+                <td><h6 style="margin-left: 150%;">{{ patient.LastName }}</h6></td>
+                <td><h6 style="margin-left: 300%;">{{ patient.condition }}</h6></td>
+                <td><h6 style="margin-left: 330%;">{{ patient.Service }}</h6></td>
+                <td><a style="margin-left: 580%; height: 5vh;" href="{% url 'usermanagement:patient_doctor_update' patient.id %}" class="btn btn-purple"><h5>Update</h5></a></td>
+                <td><a style="margin-left: 720%; height: 5vh;" href="{% url 'usermanagement:doctor_patient_confirm_delete' patient.id %}"class="btn btn-purple"><h5>Delete</h5></a></td>
+            </tr>
+            <tr>
+
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
