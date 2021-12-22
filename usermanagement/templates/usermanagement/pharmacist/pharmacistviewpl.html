@@ -1,28 +1,38 @@
-{% extends 'usermanagement/doctor/baseDoctor.html' %}
+{% extends 'usermanagement/pharmacist/basePharmacist.html' %}
 
 {% load static %}
 {% block content %}
-    <div style="border: solid; padding: 2%;">
+
+    <div style= "padding: 2%; margin-top: 5vh;">
+
+        <div style="display: flex;">
+            <div>
+                <h6>Patient_Name</h6>
+            </div>
+            <div>
+                <h6 style="margin-left: 227%;">Patient_Medicines</h6>
+            </div>
+        </div>
         {% for p in listePatient %}
         <hr>
-        <div style="display: flex; justify-content: space-between;">
-            <div style="display: flex; border: solid;align-items: center;justify-content: center;width: 20%;">
-                {{p}}
+        <div style="display: flex;">
+            <div style="display: flex; width: 10%;">
+               {{p}}
             </div>
-            <div style="display: flex; flex-direction: column;flex: 2;border: solid;">
+            <div style="display: flex; flex-direction: column; margin-left: 25%;">
                 {% for m in medicaments %}
                     {% if m.idPatient == p %}
                     <div>
-                        {{m.MedicineName}}
+                        <li> {{m.MedicineName}} </li>
                     </div>
                     <div>
-                        <input type="checkbox" checked="checked" style="background-color: red;">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     </div>
                     {% endif %}
                 {% endfor %}
             </div>
-            <div style="display: flex;justify-content: center;align-items: center;">
-                <input type="submit" value="Valid">
+            <div style="display: flex; margin-left: 35%;">
+                <input style="height: 5vh;" type="submit" value="Valid">
             </div>
         </div>
         {% endfor %}

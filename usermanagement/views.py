@@ -106,9 +106,6 @@ def doctorviewpl(request):
 
 
 def pharmacistviewpl(request):        
-    return render(request, 'usermanagement/pharmacist/pharmacistviewpl.html')
-
-def pharmacist(request):
     medicaments = Medicament.objects.all()
     listePatient = []
     for m in medicaments:
@@ -118,8 +115,11 @@ def pharmacist(request):
         'listePatient':listePatient,
         'medicaments':medicaments,
     }
-    return render(request=request,template_name='usermanagement/pharmacist/pharmacist.html',context=context)
+    return render(request=request,template_name='usermanagement/pharmacist/pharmacistviewpl.html',context=context)
 
+
+def pharmacist(request):
+    pass
 
 class DoctorPatientUpdateView(UpdateView):
     model = Patient
