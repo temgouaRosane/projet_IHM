@@ -1,0 +1,15 @@
+{% extends "usermanagement/pharmacist/basePharmacist.html" %}
+
+{% block content %}
+
+<h5>Facture... {{nom.FirstName}}&nbsp;{{nom.LastName}}</h5>
+<div>
+    {% for m in validMed %}
+        <div>
+            {{m.MedicineName}}
+            {{m.MedicineCost}}&nbsp;FCFA
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

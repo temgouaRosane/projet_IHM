@@ -84,7 +84,7 @@ class Patient(models.Model):
     
     
     def __str__(self):
-        return self.FirstName
+        return str(self.id)+':'+self.FirstName+' '+self.LastName
 
 
     def get_absolute_url(self):
@@ -92,7 +92,8 @@ class Patient(models.Model):
 
 
 class Consultation(models.Model):
-    consultationDate = models.DateField()
+    consultationDate = models.DateField(auto_now=True)
+    Time = models.TimeField(auto_now=True)
     consultationCost = models.FloatField(blank=True, null=True)
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
     consultation_reason = models.CharField(max_length=100)
@@ -105,7 +106,7 @@ class Consultation(models.Model):
     skin_appearence = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.idPatient.FirstName
+        return self.idPatient.__str__()
 
 
 
@@ -127,6 +128,7 @@ class Medicament(models.Model):
     MedicineName = models.CharField(max_length=30)
     MedicineCost = models.FloatField()
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
+    status = models.CharField(max_length=20, default="invalid")
 
 
 class Examen(models.Model):

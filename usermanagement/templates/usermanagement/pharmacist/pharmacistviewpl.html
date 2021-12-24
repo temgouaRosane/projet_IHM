@@ -14,21 +14,31 @@
             </div>
         </div>
         {% for p in listePatient %}
-        <hr>
-        <div style="display: flex;">
-            <div style="display: flex; width: 10%;">
-               {{p}}
+        <form method="post" action="{% url 'usermanagement:facturemedicament' p.id %}">
+            {% csrf_token %}
+            <hr>
+            <div style="display: flex;">
+                <div style="display: flex; width: 10%;">
+                   {{p}}
+                </div>
+                <div style="display: flex; flex-direction: column; margin-left: 25%;">
+                    {% for m in medicaments %}
+                        {% if m.idPatient == p %}
+                            {% if m.status != 'valid' %}
+                                <div style="display: flex; flex-direction: row;">
+                                    <li> {{m.MedicineName}} </li>
+                                    <select name="{{m.id}}" id="">
+                                        <option value="invalid">invalid</option>
+                                        <option value="valid">valid</option>
+                                    </select>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
-            <div style="display: flex; flex-direction: column; margin-left: 25%;">
-                {% for m in medicaments %}
-                    {% if m.idPatient == p %}
-                    <li> {{m.MedicineName}} </li>
-                    <input type="checkbox" style="background-color: black;" >
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <input style="height: 3vh; margin-left: 80%;" type="submit" value="Valid">
+            <input style="height: 3vh; margin-left: 80%;" type="submit" value="Valid">
+        </form>
         {% endfor %}
         <hr>
     </div>

@@ -132,7 +132,12 @@ def registerPatient(request,nom,prenom,cni):
 def patientDetails(request,nom,prenom,cni):
     p = Patient.objects.filter(FirstName=nom,LastName=prenom,CNI_number=cni)
     context = {'p':p[0],'patients':p}
-    return render(request, 'usermanagement/receptionist/patientDetails.html',context)
+    if request.user.role == "Receptionist":
+        return render(request, 'usermanagement/receptionist/patientDetails.html',context)
+    if request.user.role == "Doctor":
+        return render(request, 'usermanagement/doctor/patientDetails.html',context)
+    return home(request)
+    
 
 #'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
 #'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
@@ -176,12 +181,32 @@ def doctorviewpl(request):
 def pharmacist(request):        
     return render(request, 'usermanagement/pharmacist/pharmacist.html')
 
-def pharmacistviewpl(request):        
+def facturemedicament(request,id):
+    if request.method== 'POST':
+        listeMed = Medicament.objects.filter(idPatient__exact=id)
+        validMed = []
+        for m in listeMed:
+            if str(m.id) in request.POST:
+                if request.POST[str(m.id)] == 'valid':
+                    validMed.append(m)
+                    m.status = 'valid'
+                    m.save()
+        nom = Patient.objects.filter(id__exact=id)[0]
+        context = {'validMed':validMed,'nom':nom}
+        return render(request, 'usermanagement/pharmacist/facturemedicament.html',context)
+    return pharmacistviewpl(request)
+
+def pharmacistviewpl(request):
+    def ndMed(idPatient):
+        m = Medicament.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
+        print(idPatient)
+        return len(m)
     medicaments = Medicament.objects.all()
     listePatient = []
     for m in medicaments:
         if not m.idPatient in listePatient:
-            listePatient.append(m.idPatient)
+            if ndMed(m.idPatient.id)>0:
+                listePatient.append(m.idPatient)
     context = {
         'listePatient':listePatient,
         'medicaments':medicaments,
@@ -205,19 +230,39 @@ class DoctorPatientDeleteView(DeleteView):
 
 
 def consultationlist(request):
+    def contain(patientList,nom,prenom,cni):
+        for n,p,c,l in patientList:
+            if n==nom and p == prenom and c == cni:
+                return False
+        return True
+    name = ''
     if request.method == 'POST':
         name = request.POST['name']
-        consultations = Consultation.objects.filter(consultation_idPatient_FirstName__contains=name)
-        context = {
-            'consultations': consultations,
-            'selectName':name,
-        }
-        return render(request, 'usermanagement/doctor/consultationlist.html',context=context)
-    consultations = Consultation.objects.all()
+    patientList = []
+    patients = Patient.objects.filter(FirstName__contains = name)
+    listId = []
+    for p in patients:
+        listId.append(p.id) 
+
+    consultations = Consultation.objects.filter(idPatient__in=listId)
+    listId = []
+    for c in consultations:
+        if not c.idPatient.id in listId:
+            listId.append(c.idPatient.id)
+    
+    for p in patients:
+        if contain(patientList,p.FirstName,p.LastName,p.CNI_number) and p.id in listId:
+            tmpList = []
+            for a in patients:
+                if a.FirstName == p.FirstName and a.LastName ==  p.LastName and a.CNI_number ==  p.CNI_number:
+                    tmpList.append(a.id)
+            patientList.append([p.FirstName,p.LastName,p.CNI_number,tmpList])
     context = {
-        'consultations': consultations,
+        'consultationlist': consultations,
+        'patientList': patientList,
+        'selectName':name,
     }
-    return render(request, 'usermanagement/doctor/consultationlist.html', context)
+    return render(request, 'usermanagement/doctor/consultationlist.html',context=context)
 
 
 def newconsultation(request):

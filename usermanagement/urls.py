@@ -31,6 +31,7 @@ urlpatterns = [
     path('newmedicineprescription/', newmedicineprescription, name='newmedicineprescription'),
     path('registerPatient/<nom>,<prenom>,<cni>', registerPatient, name='registerPatient'),
     path('patientDetails/<nom>,<prenom>,<cni>', patientDetails, name='patientDetails'),
+    path('facturemedicament/<id>', facturemedicament, name='facturemedicament'),
 
     
 
