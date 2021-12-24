@@ -65,17 +65,18 @@ class CustomUser(AbstractUser):
         return self.username 
 
 class Patient(models.Model):
-    number = models.IntegerField(null=True, blank=True)
+    Date = models.DateField(auto_now=True)
+    Time = models.TimeField(auto_now=True)
+    CNI_number = models.CharField(max_length=20)
     FirstName = models.CharField(max_length=50)
     LastName = models.CharField(max_length=50)
     sexe = models.CharField(max_length=50, choices=SEXE, default='Male')
-    Phone_number = models.CharField(max_length=9)
+    Phone_number = models.CharField(max_length=100)
     BirthDate = models.DateField()    
     Address = models.CharField(max_length=25)
     Email_address = models.CharField(max_length=25)
     condition = models.CharField(max_length=50, choices=CONDITION, default='NoCritical')
     Service = models.CharField(max_length=50, choices=SERVICE, null=True)
-    Status = MultiSelectField(choices=STATUS, null= True)
     #temperature = models.FloatField(blank= True, null= True)
     #weight = models.FloatField(blank= True, null= True)
     #arterialPressure = models.FloatField(blank= True, null= True)

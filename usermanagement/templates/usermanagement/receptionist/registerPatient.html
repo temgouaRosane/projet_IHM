@@ -1,0 +1,20 @@
+{% extends 'usermanagement/receptionist/receptionist.html' %}
+
+{% block style %} <link rel="stylesheet" href=""/> {%endblock %} 
+
+{% block content %}
+
+<h5>Adding a patient...</h5>
+
+<div style="margin: auto; width: fit-content;">
+    <form method="POST" class="post-form">
+        <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="save btn" value="Save">
+    </form>
+</div>
+
+{% endblock %}
+
+

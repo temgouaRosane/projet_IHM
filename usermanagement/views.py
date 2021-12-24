@@ -11,9 +11,9 @@ def index(request):
 
 def home(request):
     if request.user.role == "Receptionist":
-        return render(request, 'usermanagement/receptionist/receptionist.html')
+        return viewpatientlist(request)
     elif request.user.role == "Doctor":
-        return render(request, 'usermanagement/doctor/doctor.html')
+        return render(request, 'usermanagement/doctor/doctorviewpl.html')
     elif request.user.role == "Pharmacist":
         return render(request, 'usermanagement/pharmacist/pharmacist.html')    
     else:
@@ -37,7 +37,7 @@ def addPatient(request):
     #traitement de la requete post
     if request.method == "POST":
         form = PatientForm(request.POST).save()
-        return render(request, 'usermanagement/receptionist/viewpatientlist.html') #redirect('/addPatient')
+        return viewpatientlist(request) #redirect('/addPatient')
     else:   
         form = PatientForm()    
     return render(request, 'usermanagement/receptionist/addPatient.html', {'form':form})
@@ -48,10 +48,12 @@ def receptionist(request):
     return render(request, 'usermanagement/receptionist/receptionist.html')
 
 
-
+'''
 def viewpatientlist(request):
     if request.method == 'POST':
-        name = request.POST['name']
+        name = ''
+        if 'name' in request.POST:
+            name = request.POST['name']
         patients = Patient.objects.filter(FirstName__contains=name)
         context = {
             'patients': patients,
@@ -63,8 +65,35 @@ def viewpatientlist(request):
         'patients': patients,
     }
     return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
+'''
 
 
+def viewpatientlist(request):
+    if request.method == 'POST':
+        name = ''
+        if 'name' in request.POST:
+            name = request.POST['name']
+        patients = Patient.objects.filter(FirstName__contains=name)
+        patientList = []
+        for p in patients:
+            if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
+                patientList.append([p.FirstName,p.LastName,p.CNI_number])
+        context = {
+            'patientList':patientList,
+            'patients': patients,
+            'selectName':name,
+        }
+        return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
+    patients = Patient.objects.all()
+    patientList = []
+    for p in patients:
+        if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
+            patientList.append([p.FirstName,p.LastName,p.CNI_number])
+    context = {
+        'patientList':patientList,
+        'patients': patients,
+    }
+    return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
 
 class PatientUpdateView(UpdateView):
     model = Patient
@@ -79,31 +108,73 @@ class PatientDeleteView(DeleteView):
     model = Patient
     success_url = reverse_lazy('usermanagement:viewpatientlist')
 
+def registerPatient(request,nom,prenom,cni):
+    if request.method == 'POST':
+        PatientForm(request.POST).save()
+        return viewpatientlist(request)
+    p = Patient.objects.filter(FirstName=nom,LastName=prenom,CNI_number=cni)
+    if not p is None:
+        p = p[0]
+        form = PatientForm(initial={
+            'FirstName': p.FirstName.__str__(),
+            'LastName': p.LastName.__str__(),
+            'sexe': p.sexe.__str__(),
+            'BirthDate': p.BirthDate.__str__(),
+            'CNI_number': p.CNI_number.__str__(),
+            'Address': p.Address.__str__(),
+            'Phone_number': p.Phone_number.__str__(),
+            'Email_address': p.Email_address.__str__(),
+            })
+        context = {'form':form,'patient':p}
+        return render(request=request,template_name='usermanagement/receptionist/registerPatient.html',context=context)
+    return render(request=request,template_name='usermanagement/receptionist/registerPatient.html')
 
+def patientDetails(request,nom,prenom,cni):
+    p = Patient.objects.filter(FirstName=nom,LastName=prenom,CNI_number=cni)
+    context = {'p':p[0],'patients':p}
+    return render(request, 'usermanagement/receptionist/patientDetails.html',context)
+
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
+#'''---------------------------------------------------------------------------------------DOCTOR--------------------------------------'''
 def doctor(request):        
     return render(request, 'usermanagement/doctor/doctor.html')
 
-
-def pharmacist(request):        
-    return render(request, 'usermanagement/pharmacist/pharmacist.html')
-
-
 def doctorviewpl(request):
     if request.method == 'POST':
-        name = request.POST['name']
-        patients = Patient.objects.filter(FirstName__contains=name)
+        name = ''
+        if 'name' in request.POST:
+            name = request.POST['name']
+        patients = Patient.objects.filter(FirstName__contains=name,Service__iexact="General Medicine")
+        patientList = []
+        for p in patients:
+            if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
+                patientList.append([p.FirstName,p.LastName,p.CNI_number])
         context = {
+            'patientList':patientList,
             'patients': patients,
             'selectName':name,
         }
-        return render(request, 'usermanagement/doctor/doctorviewpl.html',context=context)
-
-    patients = Patient.objects.all()
+        return render(request, 'usermanagement/doctor/doctorviewpl.html', context)
+    patients = Patient.objects.filter(Service__iexact="General Medicine")
+    patientList = []
+    for p in patients:
+        if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
+            patientList.append([p.FirstName,p.LastName,p.CNI_number])
     context = {
+        'patientList':patientList,
         'patients': patients,
     }
     return render(request, 'usermanagement/doctor/doctorviewpl.html', context)
 
+
+def pharmacist(request):        
+    return render(request, 'usermanagement/pharmacist/pharmacist.html')
 
 def pharmacistviewpl(request):        
     medicaments = Medicament.objects.all()
@@ -155,7 +226,7 @@ def newconsultation(request):
         form1 =  ConsultationForm(request.POST).save()
         return render(request, 'usermanagement/doctor/doctor.html') #redirect('/addPatient')
     else:   
-        form1 = ConsultationForm()    
+        form1 = ConsultationForm()
     return render(request, 'usermanagement/doctor/newconsultation.html', {'form':form1})
     #objet formulaire sous forme d'un dictionnaire:{'form':form}
 
@@ -194,11 +265,3 @@ def newmedicineprescription(request):
     else:   
         form = MedicineForm()    
     return render(request, 'usermanagement/doctor/newmedicineprescription.html', {'form':form})
-
-
-
-
-
-
-
-

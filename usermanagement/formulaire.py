@@ -8,7 +8,7 @@ from .models import Consultation, Examen, Medicament, Patient
 class PatientForm(ModelForm):
     class Meta:
         model= Patient
-        fields = ['number', 'FirstName', 'LastName', 'sexe', 'Phone_number', 'BirthDate', 'Address', 'Email_address', 'condition', 'Service' ,'Status']
+        fields = ['FirstName', 'LastName', 'sexe', 'BirthDate', 'Address','CNI_number','Phone_number', 'Email_address', 'condition', 'Service']
 
 class ConsultationForm(ModelForm):
     class Meta:

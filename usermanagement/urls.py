@@ -29,6 +29,8 @@ urlpatterns = [
     path('newexamprescription/', newexamprescription, name='newexamprescription'),
     path('prescriptionlist/', prescriptionlist, name='prescriptionlist'),
     path('newmedicineprescription/', newmedicineprescription, name='newmedicineprescription'),
+    path('registerPatient/<nom>,<prenom>,<cni>', registerPatient, name='registerPatient'),
+    path('patientDetails/<nom>,<prenom>,<cni>', patientDetails, name='patientDetails'),
 
     
 
