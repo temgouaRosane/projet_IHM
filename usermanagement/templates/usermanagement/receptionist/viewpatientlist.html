@@ -10,6 +10,7 @@
     {% endcomment %}
     <h5>Patient List...</h5>
     <hr>
+    {% csrf_token %}
     <form style="text-align: center;" action="{% url 'usermanagement:viewpatientlist' %}" method="POST">
         {% csrf_token %}
         <label for="">Name</label>
@@ -18,6 +19,23 @@
         <br>
         <hr>
     </form>
+
+    <div style="display: flex;">
+        <div style="width: 15%;">Patient ID</div>
+        <div style="width: 53%;">
+            <div style="width: 75%; display: flex;">
+                <div style="width: 20%;">date</div>
+                <div style="width: 27%;" >Time</div>
+                <div style="width: 45%;">Service</div>
+                <div style="width:1%">Condition</div>
+            </div >
+        </div>
+        <div style="display:flex;width: 15%;">
+            <div style="width: 50%;">Edit</div>
+            <div style="width: 55%;">Delete</div>
+        </div>
+        <div style="width: 15%;">Add Another Registration</div>
+    </div> <hr>
 
     <div class='Grand'>
         {% for nom,prenom,cni in patientList %}
@@ -46,76 +64,13 @@
                 {% endif %}
                 {% endfor %} </div>
             <div><a
-                href="{% url 'usermanagement:registerPatient' nom prenom cni %}" class="btn btn-purple">
-                <h6>Register Patient</h6>
+                href="{% url 'usermanagement:NewRegistration' nom prenom cni %}" class="btn btn-purple">
+                <h6>New Registration</h6>
                 </a></div>
         </div>
         <hr>
         {% endfor %}
     </div>
-
-    <!--
-        <table>
-            <thead>
-                <th>
-                    <h5>FirstName</h5>
-                </th>
-                <th>
-                    <h5 style="margin-left: 140%;">LastName</h5>
-                </th>
-                <th>
-                <h5 style="margin-left: 310%;">Condition</h5>
-            </th>
-            <th>
-                <h5 style="margin-left: 320%;">Service</h5>
-            </th>
-            <th>
-                <h5 style="margin-left: 630%;">Edit</h5>
-            </th>
-            <th>
-                <h5 style="margin-left: 800%;">Delete</h5>
-            </th>
-        </th>
-        <th>
-            <h5 style="margin-left: 800%;">Delete</h5>
-        </th>
-        
-    </thead>
-    
-    <tbody>
-        {% for patient in patients %}
-            <tr>
-                <td>
-                    <h6>{{ patient.FirstName }}</h6>
-                </td>
-                <td>
-                    <h6 style="margin-left: 140%;">{{ patient.LastName }}</h6>
-                </td>
-                <td>
-                    <h6 style="margin-left: 310%;">{{ patient.condition }}</h6>
-                </td>
-                <td>
-                    <h6 style="margin-left: 320%;">{{ patient.Service }}</h6>
-                </td>
-            </td>
-            <td>
-                    <h6 style="margin-left: 320%;">{{ patient.Date }}</h6>
-                </td>
-                <td><a style="margin-left: 630%; height: 5vh;"
-                    href="{% url 'usermanagement:patient_update' patient.id %}" class="btn btn-purple">
-                    <h6>Update</h6>
-                </a></td>
-                <td><a style="margin-left: 800%; height: 5vh;"
-                    href="{% url 'usermanagement:patient_confirm_delete' patient.id %}" class="btn btn-purple">
-                    <h6>Delete</h6>
-                    </a></td>
-                </tr>
-                
-            {% endfor %}
-        </tbody>
-    </table>
-    
--->
 </div>
 
 {% endblock %}

@@ -1,5 +1,39 @@
+{% extends "usermanagement/receptionist/receptionist.html" %}
+
+{% block content %}
+
+<br> <br>
+
 <form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ patient.FirstName }}"?</p>
-    <input type="submit" value="Confirm">
-    <a href="{% url 'usermanagement:viewpatientlist' %}" class="btn btn-purple"><h5>Cancel</h5></a>
+    <div> <h6> Are you sure you want to delete the patient with the following characteristics? </h6> </div> <br>
+    
+    <div style="display: flex; width: 100%;">
+        <div style="width: 15%;">
+            <div>firstName:</div> <br>
+            <div>LastName:</div> <br>
+            <div>CNI_number:</div> <br>
+            <div>Registration_Date:</div> <br>
+            <div>Registration_Time:</div> <br>
+            <div>Service:</div> <br>
+            <div>Condition:</div> <br> <br>
+            
+            <div><input type="submit" value="Confirm"></div>
+        </div>
+        <div>
+            <div>{{ patient.FirstName }}</div> <br>
+            <div>{{ patient.LastName }}</div> <br>
+            <div>{{ patient.CNI_number }}</div> <br>
+            <div>{{ patient.Date }}</div> <br>
+            <div>{{ patient.Time }}</div> <br>
+            <div>{{ patient.Service }}</div> <br>
+            <div>{{ patient.condition }}</div> <br> <br>
+            <div><a href="{% url 'usermanagement:viewpatientlist' %}" class="btn btn-purple"><h5 style="height: 2vh;">Cancel</h5></a></div>
+        </div>
+    </div>    
+    
+        
+        
 </form>
+
+{% endblock %}
+

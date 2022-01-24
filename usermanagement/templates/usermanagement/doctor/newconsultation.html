@@ -7,21 +7,6 @@
     <form method="POST" class="post-form">
         <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
         {% csrf_token %}
-        <!--
-        <div class="container">
-            <div class="row">
-
-                <div class="card col-2">
-                    {{form1.temperature.name}}
-                    {{form1.temperature}}
-                </div>
-                <div class="card col-2">
-                    {{form1.allergy.name}}
-                    {{form1.allergy}}
-                </div>
-            </div>
-        </div>
-        -->
         {{form.as_p}}
         <input type="submit" class="save btn" value="Save">
     </form>

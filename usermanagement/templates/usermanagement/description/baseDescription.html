@@ -1,4 +1,4 @@
-﻿{% load static %}
+{% load static %}
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,9 @@
 <title>{% block title %} Home{%endblock %} </title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="{% static 'usermanagement/plugins/bootstrap/css/bootstrap.min.css' %}"/>
+<!--
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css">
+-->
 <link rel="stylesheet" href="{% static 'usermanagement/plugins/morrisjs/morris.css' %}"/>
 <!-- Custom Css -->
 <link rel="stylesheet" href="{% static 'usermanagement/css/main.css' %}"/>
@@ -53,13 +55,7 @@
     
 <div class="container">
     <div class="welcome">
-        <h1> Welcome to Polyclinic Fultang </h1>
-    </div>
-
-    <div class="custom-login">
-        <p class="custom-text"> Already have an account? &ensp; <a class="btn btn-primary" href="{% url 'account_login' %}" role="button">Signin</a> </p>
-        <p class="custom-text"> Register Here for an Account &ensp; <a class="btn btn-primary" href="{% url 'account_signup' %}" role="button">Register</a></p>
-
+        <h3> Welcome to Polyclinic Fultang </h3>
     </div>
 </div>
 
@@ -77,7 +73,7 @@
     <aside id="leftsidebar" class="sidebar"> 
         <!-- User Info -->
         <div class="user-info">
-            <div class="admin-image"> <img src="{% static 'usermanagement/images/random-avatar7.jpg' %}" alt=""> </div>
+            <div class="admin-image"> <img src="{% static 'usermanagement/images/chu.jpg' %}" alt=""> </div>
             
 
         </div>
@@ -86,14 +82,14 @@
         <div class="menu">
             <ul class="list">
                 <li class="header">MAIN NAVIGATION</li>
+                <li class="active open"><a href="{% url 'usermanagement:index' %}"><i class="zmdi zmdi-home"></i><span>Home</span></a></li>                                               
                 <li class="active open"><a href="{% url 'usermanagement:about' %}"><i class="zmdi zmdi-home"></i><span>About</span></a></li>                                               
                 
                 <li><a href="{% url 'usermanagement:reception' %}" class="menu-toggle"><i class="zmdi zmdi-account-o"></i><span>Reception</span> </a></li>
                 
                 <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-account-o"></i><span>Departments</span> </a>
                     <ul class="ml-menu">
-                        <li><a href="patients.html">Dental unit</a></li>
-                        <li><a href="add-patient.html">Surgical Service</a></li>                       
+                        <li><a href="patients.html">Dental unit</a></li>                      
                         <li><a href="patient-profile.html">General Medicine</a></li>
                         <li><a href="patient-invoice.html">Ophtalmological service</a></li>
                         <li><a href="">Laboratory</a></li>
@@ -108,6 +104,13 @@
         </div>
         <!-- #Menu -->
     </aside>
+    <div class="container-fluid">
+
+        {% block content %}
+        
+        {% endblock %}
+    </div>
+
 </section>
 
 
@@ -125,6 +128,3 @@
 
 <!-- Mirrored from thememakker.com/templates/swift/hospital/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 20 Nov 2021 08:11:50 GMT -->
 </html>
-
-
-

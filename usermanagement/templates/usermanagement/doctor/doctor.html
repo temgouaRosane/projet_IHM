@@ -114,8 +114,8 @@
                 </li>
                 <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-account-o"></i><span>Prescription</span> </a>
                     <ul class="ml-menu">
-                        <li><a href="">Prescription list</a></li>
-                        <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-account-o"></i><span>New prescription</span> </a>
+                        <li><a href="{% url 'usermanagement:prescriptionlist' %}">Prescription list</a></li>
+                        <li><a href="javascript:void(0);" class="menu-toggle"><span>New prescription</span> </a>
                             <ul class="ml-menu">
                                 <li><a href="{% url 'usermanagement:newexamprescription' %}">Exam prescription</a></li>
                                 <li><a href="">Medecine prescription</a></li>   
@@ -153,11 +153,8 @@
     </div>
 </section> 
 
+
 <div class="color-bg-custom"></div>
-
-
-
-
 <!-- Jquery Core Js --> 
 <script src="{% static 'usermanagement/bundles/libscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js --> 
 <script src="{% static 'usermanagement/bundles/vendorscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js --> 
