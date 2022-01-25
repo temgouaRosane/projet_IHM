@@ -87,7 +87,13 @@
                     <li><a href="javascript:void(0);" class="menu-toggle"><i
                                 class="zmdi zmdi-account-o"></i><span>Prescription</span> </a>
                         <ul class="ml-menu">
-                            <li><a href="{% url 'usermanagement:prescriptionlist' %}">Prescription list</a></li>
+                            <li><a href="javascript:void(0);" class="menu-toggle"><span>Prescription List</span> </a>
+                            <ul class="ml-menu">
+                                    <li><a href="{% url 'usermanagement:examlist' %}">Exams List</a>
+                                    </li>
+                                    <li><a href="{% url 'usermanagement:medecinelist' %}">Medecines List</a></li>
+                                </ul>
+                            </li>
                             <li><a href="javascript:void(0);" class="menu-toggle"><span>New prescription</span> </a>
                                 <ul class="ml-menu">
                                     <li><a href="{% url 'usermanagement:newexamprescription' %}">Exam prescription</a>
@@ -118,8 +124,8 @@
                     </ul>
                 </div>
             {% endif %}
-            <small class="text-muted">Welcome to Polyclinic Fultang</small>
-            <h5> Doctor page </h5>
+            <small class="text-muted">Welcome to Polyclinic Fultang</small> <br>
+            <span style="text-decoration: solid;">Doctor page</span>  
             {% block content %}
             {% endblock %}
             

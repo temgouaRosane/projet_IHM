@@ -249,7 +249,45 @@ def newexamprescription(request):
         form = ExamForm()    
     return render(request, 'usermanagement/doctor/newexamprescription.html', {'form':form})
 
-def prescriptionlist(request):  
+
+def examlist(request):    
+    def ndExam(idPatient):
+        m = Examen.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
+        print(idPatient)
+        return len(m)
+    examens = Examen.objects.all()
+    listePatient = []
+    for m in examens:
+        if not m.idPatient in listePatient:
+            if ndExam(m.idPatient.id)>0:
+                listePatient.append(m.idPatient)
+    context = {
+        'listePatient':listePatient,
+        'examens':examens,
+    }
+    return render(request=request,template_name='usermanagement/doctor/examlist.html',context=context)
+
+def medecinelist(request):
+    def ndMed(idPatient):
+        m = Medicament.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
+        print(idPatient)
+        return len(m)
+    medicaments = Medicament.objects.all()
+    listePatient = []
+    for m in medicaments:
+        if not m.idPatient in listePatient:
+            if ndMed(m.idPatient.id)>0:
+                listePatient.append(m.idPatient)
+    context = {
+        'listePatient':listePatient,
+        'medicaments':medicaments,
+    }
+    return render(request=request,template_name='usermanagement/doctor/medecinelist.html',context=context)
+
+
+
+
+"""def prescriptionlist(request):  
     if request.method == 'POST':
         name = request.POST['name']
         examens = Examen.objects.filter(consultation_idPatient_FirstName__contains=name)
@@ -268,7 +306,7 @@ def prescriptionlist(request):
     }
     return render(request, 'usermanagement/doctor/prescriptionlist.html', context)
 
-"""def prescriptionlist(request):
+    def prescriptionlist(request):
     def ndMed(idPatient):
         m = Medicament.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
         print(idPatient)

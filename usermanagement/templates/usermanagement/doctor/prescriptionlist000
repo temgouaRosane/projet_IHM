@@ -1,4 +1,7 @@
-{% extends 'usermanagement/doctor/baseDoctor.html' %}
+
+
+<!--
+    {% extends 'usermanagement/doctor/baseDoctor.html' %}
 
 {% load static %}
 {% block style %}
@@ -39,8 +42,7 @@
         <th><h5 style="margin-left: 700%;">Time</h5></th>            
     </thead>
     <tbody> <hr>
-        {% for med  in medicaments %}
-       <!-- <tr style="border: solid; width: 100%;"></tr> -->  
+        {% for med  in medicaments %} 
         <tr>
             <td><h6>{{ med.idPatient }}</h6></td>
             <td><h6 style="margin-left: 100%;">{{ med.MedicineName }}</h6></td>
@@ -53,3 +55,5 @@
     </tbody>
 </table> <hr>
 {% endblock %}
+--> 
+

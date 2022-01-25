@@ -8,7 +8,8 @@
 <div>
     {% comment %} 1)FirstName, 2)LastName, 3)Condition
     {% endcomment %}
-    <h5>Patient List...</h5>
+    <span style="text-decoration: solid;">Patient List...</span>  
+    
     <hr>
     {% csrf_token %}
     <form style="text-align: center;" action="{% url 'usermanagement:viewpatientlist' %}" method="POST">

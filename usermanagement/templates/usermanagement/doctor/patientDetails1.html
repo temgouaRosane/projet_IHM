@@ -1,0 +1,76 @@
+{% extends "usermanagement/doctor/baseDoctor.html" %}
+{% block style %}
+<style>
+    .Grand,.secondGrand{
+        font-size: large;
+    }
+    .Grand{
+        width: 30%;
+        margin-bottom:5%;
+    }
+    .Grand div{
+        display: flex;
+    }
+    .Grand div div{
+    width: 50%;
+}
+</style>
+{% endblock %}
+{% block content %}
+
+<h5>Patient Details...</h5>
+
+<div class="Grand">
+    <div>
+        <div>Patient ID:</div>
+        <div>{{p.id}}</div>
+    </div>
+    <div>
+        <div>FirstName:</div>
+        <div>{{p.FirstName}}</div>
+    </div>
+    <div>
+        <div>LastName:</div>
+        <div>{{p.LastName}}</div>
+    </div>
+    <div>
+        <div>FirstName:</div>
+        <div>{{p.FirstName}}</div>
+    </div>
+    <div>
+        <div>Sexe:</div>
+        <div>{{p.sexe}}</div>
+    </div>
+    <div>
+        <div>BirthDate:</div>
+        <div>{{p.BirthDate}}</div>
+    </div>
+    <div>
+        <div>Address:</div>
+        <div>{{p.Address}}</div>
+    </div>
+    <div>
+        <div>CNI Number:</div>
+        <div>{{p.CNI_number}}</div>
+    </div>
+    <div>
+        <div>Email:</div>
+        <div>{{p.Email_address}}</div>
+    </div>
+</div>
+<div class="secondGrand">
+    {% for a in patients %}
+                {% if a.FirstName == p.FirstName and a.LastName == p.LastName and a.CNI_number == p.CNI_number %}
+                <div style="display: flex;">
+                    <div style="display: flex; width: 75%;">
+                        <div style="width: 15%;">{{a.Date}}</div>
+                        <div style="width: 20%;">{{a.Time}}</div>
+                        <div style="width: 35%;">{{a.Service}}</div>
+                        <div>{{a.condition}}</div>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+                {% endfor %}
+</div>
+{% endblock %}

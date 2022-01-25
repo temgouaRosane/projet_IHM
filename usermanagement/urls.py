@@ -47,7 +47,8 @@ urlpatterns = [
     path('consultationlist/', consultationlist, name='consultationlist'),
     path('newconsultation/', newconsultation, name='newconsultation'),
     path('newexamprescription/', newexamprescription, name='newexamprescription'),
-    path('prescriptionlist/', prescriptionlist, name='prescriptionlist'),
+    path('examlist/', examlist, name='examlist'),
+    path('medecinelist/', medecinelist, name='medecinelist'),
     path('newmedicineprescription/', newmedicineprescription, name='newmedicineprescription'),
 
 
