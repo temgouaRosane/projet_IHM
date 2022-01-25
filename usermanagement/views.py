@@ -20,6 +20,10 @@ def home(request):
         return doctorviewpl(request)
     elif request.user.role == "Pharmacist":
         return pharmacistviewpl(request)  
+    elif request.user.role == "Labtech":
+        return labtechviewpl(request)  
+    elif request.user.role == "Accountant":
+        return cahierviewpl(request)  
     else:
         return render(request, 'usermanagement/home.html')
 
@@ -238,7 +242,9 @@ def newconsultation(request):
 def newexamprescription(request):
     if request.method == "POST":
         form =  ExamForm(request.POST).save()
-        return render(request, 'usermanagement/doctor/prescriptionlist.html')
+        form = ExamForm()    
+
+        return render(request, 'usermanagement/doctor/newexamprescription.html', {'form':form})
     else:   
         form = ExamForm()    
     return render(request, 'usermanagement/doctor/newexamprescription.html', {'form':form})
@@ -283,7 +289,9 @@ def prescriptionlist(request):
 def newmedicineprescription(request):
     if request.method == "POST":
         form =  MedicineForm(request.POST).save()
-        return render(request, 'usermanagement/doctor/doctor.html') #redirect('/addPatient')
+        form = MedicineForm()    
+        return render(request, 'usermanagement/doctor/newmedicineprescription.html', {'form':form})
+        
     else:   
         form = MedicineForm()    
     return render(request, 'usermanagement/doctor/newmedicineprescription.html', {'form':form})
@@ -328,5 +336,47 @@ def pharmacistviewpl(request):
         'medicaments':medicaments,
     }
     return render(request=request,template_name='usermanagement/pharmacist/pharmacistviewpl.html',context=context)
+
+
+    
+#---------------------------------------LAB_TECHNICIAN---------------------------------------------#
+#---------------------------------------LAB_TECHNICIAN---------------------------------------------#
+#---------------------------------------LAB_TECHNICIAN---------------------------------------------#
+
+
+def labtechviewpl(request):
+    def ndExam(idPatient):
+        m = Examen.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
+        print(idPatient)
+        return len(m)
+    examens = Examen.objects.all()
+    listePatient = []
+    for m in examens:
+        if not m.idPatient in listePatient:
+            if ndExam(m.idPatient.id)>0:
+                listePatient.append(m.idPatient)
+    context = {
+        'listePatient':listePatient,
+        'examens':examens,
+    }
+    return render(request=request,template_name='usermanagement/labTechnician/labtechviewpl.html',context=context)
+
+
+def factureexamen(request,id):
+    if request.method== 'POST':
+        listeExamen = Examen.objects.filter(idPatient__exact=id)
+        validExam = []
+        for m in listeExamen:
+            if str(m.id) in request.POST:
+                if request.POST[str(m.id)] == 'valid':
+                    validExam.append(m)
+                    m.status = 'valid'
+                    m.save()
+        nom = Patient.objects.filter(id__exact=id)[0]
+        context = {'validExam':validExam,'nom':nom}
+        return render(request, 'usermanagement/labTechnician/factureexamen.html',context)
+    return labtechviewpl(request)
+
+
 
 

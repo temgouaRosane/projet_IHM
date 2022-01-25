@@ -59,6 +59,15 @@ urlpatterns = [
     path('facturemedicament/<id>', facturemedicament, name='facturemedicament'),
 
 
+#------------------------------------LAB_TECHNICIAN-----------------------------------------------#
+#------------------------------------LAB_TECHNICIAN-----------------------------------------------#
+#------------------------------------LAB_TECHNICIAN-----------------------------------------------#
+
+    path('labtechviewpl/', labtechviewpl, name='labtechviewpl'),
+    path('factureexamen/<id>', factureexamen, name='factureexamen'),
+
+
+
 
 
 ]

@@ -1,0 +1,45 @@
+{% extends 'usermanagement/labTechnician/baseLabTech.html' %}
+
+{% load static %}
+{% block content %}
+
+    <div style= "padding: 2%; margin-top: 5vh;">
+
+        <div style="display: flex;">
+            <div>
+                <h6>Patient_Name</h6>
+            </div>
+            <div>
+                <h6 style="margin-left: 227%;">Patient_Exams</h6>
+            </div>
+        </div>
+        {% for p in listePatient %}
+        <form method="post" action="{% url 'usermanagement:factureexamen' p.id %}">
+            {% csrf_token %}
+            <hr>
+            <div style="display: flex;">
+                <div style="display: flex; width: 10%;">
+                   {{p}}
+                </div>
+                <div style="display: flex; flex-direction: column; margin-left: 25%;">
+                    {% for m in examens %}
+                        {% if m.idPatient == p %}
+                            {% if m.status != 'valid' %}
+                                <div style="display: flex; flex-direction: row;">
+                                    <li> {{m.ExamDescription}} </li>
+                                    <select name="{{m.id}}" id="">
+                                        <option value="invalid">invalid</option>
+                                        <option value="valid">valid</option>
+                                    </select>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <input style="height: 3vh; margin-left: 80%;" type="submit" value="Valid">
+        </form>
+        {% endfor %}
+        <hr>
+    </div>
+{% endblock %}

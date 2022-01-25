@@ -137,6 +137,8 @@ class Examen(models.Model):
     ExamDescription = models.CharField(max_length=200)
     ExamCost = models.FloatField()
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
+    status = models.CharField(max_length=20, default="invalid")
+
 
 
 class Departement(models.Model):
