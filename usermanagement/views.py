@@ -23,7 +23,7 @@ def home(request):
     elif request.user.role == "Labtech":
         return labtechviewpl(request)  
     elif request.user.role == "Accountant":
-        return cahierviewpl(request)  
+        return cashierviewpl(request)  
     else:
         return render(request, 'usermanagement/home.html')
 
@@ -250,20 +250,26 @@ def newexamprescription(request):
     return render(request, 'usermanagement/doctor/newexamprescription.html', {'form':form})
 
 
-def examlist(request):    
+def examlist(request):
     def ndExam(idPatient):
         m = Examen.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
         print(idPatient)
         return len(m)
+    
+    name=""
+    if request.method == 'POST':
+        name = request.POST['name']
+    
     examens = Examen.objects.all()
     listePatient = []
     for m in examens:
         if not m.idPatient in listePatient:
-            if ndExam(m.idPatient.id)>0:
+            if ndExam(m.idPatient.id)>0 and str(m.idPatient).__contains__(name):
                 listePatient.append(m.idPatient)
     context = {
         'listePatient':listePatient,
         'examens':examens,
+        'selectName':name,
     }
     return render(request=request,template_name='usermanagement/doctor/examlist.html',context=context)
 
@@ -272,11 +278,16 @@ def medecinelist(request):
         m = Medicament.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
         print(idPatient)
         return len(m)
+
+    name=""
+    if request.method == 'POST':
+        name = request.POST['name']
+    
     medicaments = Medicament.objects.all()
     listePatient = []
     for m in medicaments:
         if not m.idPatient in listePatient:
-            if ndMed(m.idPatient.id)>0:
+            if ndMed(m.idPatient.id)>0 and str(m.idPatient).__contains__(name):
                 listePatient.append(m.idPatient)
     context = {
         'listePatient':listePatient,
@@ -416,5 +427,39 @@ def factureexamen(request,id):
     return labtechviewpl(request)
 
 
+#---------------------------------------CASHIER---------------------------------------------#
+
+
+def cashierviewpl(request):
+    medicament_list = Medicament.objects.all()
+    examen_list = Examen.objects.all()
+
+    listePatient = []
+    for m in medicament_list:
+        if not m.idPatient in listePatient and m.status == 'valid': 
+            listePatient.append(m.idPatient)
+
+    for m in examen_list:
+        if not m.idPatient in listePatient and m.status == 'valid':
+            listePatient.append(m.idPatient)
+
+
+    context = {"listePatient":listePatient,"examen_list":examen_list,"medicament_list":medicament_list}
+    return render(request, 'usermanagement/cashier/cashierviewpl.html',context=context)
+
+def viewbill(request,idPatient):
+    medicament_list = Medicament.objects.all()
+    examen_list = Examen.objects.all()
+
+    listePatient = []
+    for m in medicament_list:
+        if not m.idPatient in listePatient and m.status == 'valid' and m.idPatient == idPatient: 
+            listePatient.append(m.idPatient)
+
+    for m in examen_list:
+        if not m.idPatient in listePatient and m.status == 'valid' and m.idPatient == idPatient:
+            listePatient.append(m.idPatient)
+    context={}
+    return render(request,'usermanagement/cashier/viewbill.html',context=context)
 
 

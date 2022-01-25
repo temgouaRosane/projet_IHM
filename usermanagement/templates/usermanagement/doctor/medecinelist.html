@@ -5,7 +5,15 @@
 <br>
     <span style="text-decoration: solid;">Medecine List...</span>  
 
-
+  {% csrf_token %}
+        <form style="text-align: center;" action="{% url 'usermanagement:medecinelist' %}" method="POST">
+            {% csrf_token %}
+            <label for="">Name</label>
+            <input name='name' type="text" value="{{selectName}}">
+            <button>🔍</button>
+            <br>
+            <hr>
+        </form>
     <div style= "padding: 2%; margin-top: 5vh;">
 
         <div style="display: flex;">

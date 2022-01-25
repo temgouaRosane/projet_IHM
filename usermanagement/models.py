@@ -84,7 +84,7 @@ class Patient(models.Model):
     
     
     def __str__(self):
-        return str(self.id)+':'+self.FirstName+' '+self.LastName
+        return self.FirstName+' '+self.LastName+" CNI:"+self.CNI_number
 
 
     def get_absolute_url(self):
@@ -130,6 +130,9 @@ class Medicament(models.Model):
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
     status = models.CharField(max_length=20, default="invalid")
 
+    def __str__(self):
+        return self.MedicineName.__str__()+" "+self.idPatient.__str__()
+
 
 class Examen(models.Model):
     Time = models.TimeField(auto_now=True)
@@ -138,6 +141,8 @@ class Examen(models.Model):
     ExamCost = models.FloatField()
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
     status = models.CharField(max_length=20, default="invalid")
+    def __str__(self) -> str:
+        return str(self.idPatient)+' '+str(self.ExamDescription)
 
 
 

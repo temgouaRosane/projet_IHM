@@ -1,10 +1,22 @@
 {% extends 'usermanagement/doctor/baseDoctor.html' %}
 
 {% load static %}
+
+
+
 {% block content %}
 <br> 
     <span style="text-decoration: solid;">Exam List...</span>  
     <div style= "padding: 2%; margin-top: 5vh;">
+        {% csrf_token %}
+        <form style="text-align: center;" action="{% url 'usermanagement:examlist' %}" method="POST">
+            {% csrf_token %}
+            <label for="">Name</label>
+            <input name='name' type="text" value="{{selectName}}">
+            <button>🔍</button>
+            <br>
+            <hr>
+        </form>
 
         <div style="display: flex;">
             <div style="width: 25%;">

@@ -68,6 +68,16 @@ urlpatterns = [
     path('factureexamen/<id>', factureexamen, name='factureexamen'),
 
 
+#------------------------------------CASHIER-----------------------------------------------#
+#------------------------------------CASHIER-----------------------------------------------#
+#------------------------------------CASHIER-----------------------------------------------#
+
+    path('cashierviewpl/', cashierviewpl, name='cashierviewpl'),
+    path('viewbill/<idPatient>', viewbill, name='viewbill'),
+
+
+
+
 
 
 

@@ -10,7 +10,8 @@
     <form method="POST" class="post-form">
         <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.FirstName.name }}
+        {{ form.FirstName }}
         <input type="submit" class="save btn" value="Save">
     </form>
 </div>
