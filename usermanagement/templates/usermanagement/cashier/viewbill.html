@@ -2,4 +2,32 @@
 {% load static %}
 
 {% block content %}
+
+<br>
+    {{nom.FirstName}}&nbsp;{{nom.LastName}} Bill... <br> <br>
+<div>
+    {% for m in validMed %}
+        <div style="display: flex;">
+            <div style="width: 25%;">
+                {{m.MedicineName}}
+            </div>
+            <div>
+                {{m.MedicineCost}}&nbsp;FCFA
+            </div>
+        </div> <br>
+    {% endfor %}
+</div>
+<div>
+    {% for m in validExam %}
+        <div style="display: flex;">
+            <div style="width: 25%;">
+                {{m.ExamDescription}}
+            </div>
+            <div>
+                {{m.ExamCost}}&nbsp;FCFA
+            </div>
+        </div> <br>
+    {% endfor %}
+</div>
+
 {% endblock %}

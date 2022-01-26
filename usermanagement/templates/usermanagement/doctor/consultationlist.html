@@ -23,10 +23,10 @@
     <div style="display: flex;">
         <div style="width: 15%;">Patient ID</div>
         <div style="width: 85%;">
-            <div style="width: 75%; display: flex;">
-                <div style="width: 14%;">date</div>
-                <div style="width: 14%;" >Time</div>
-                <div style="width: 29%;">consultation_reason</div>
+            <div style="width: 100%; display: flex;">
+                <div style="width: 15%;">date</div>
+                <div style="width: 15%;" >Time</div>
+                <div style="width: 25%;">consultation_reason</div>
                 <div style="width:25%";>previous_history</div>
                 <div>Allergy</div>
             </div >
@@ -39,14 +39,14 @@
             <a style='width: 15%;' href="{% url 'usermanagement:patientDetails' nom prenom cni %}">
                 <div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div>
             </a>
-            <div style=" width: 70%;">
+            <div style=" width: 85%;">
                 {% for c in consultationlist %}
                 {% if c.idPatient.id in l %}
-                <div style="display: flex;">
-                    <div style="display: flex; width: 80%;">
-                        <div style="width: 17%;">{{c.consultationDate}}</div>
-                        <div style="width: 17%;">{{c.Time}}</div>
-                        <div style="width: 35%;">{{c.consultation_reason}}</div>
+                <div style="display: flex; width: 100%;">
+                    <div style="display: flex; width: 100%;">
+                        <div style="width: 15%;">{{c.consultationDate}}</div>
+                        <div style="width: 15%;">{{c.Time}}</div>
+                        <div style="width: 25%;">{{c.consultation_reason}}</div>
                         <div style="width: 25%;">{{c.previous_history}}</div>
                         <div>{{c.allergy}}</div>
                     </div>

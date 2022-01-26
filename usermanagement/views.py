@@ -24,6 +24,8 @@ def home(request):
         return labtechviewpl(request)  
     elif request.user.role == "Accountant":
         return cashierviewpl(request)  
+    elif request.user.role == "Dentist":
+        return dentistviewpl(request)  
     else:
         return render(request, 'usermanagement/home.html')
 
@@ -296,45 +298,6 @@ def medecinelist(request):
     return render(request=request,template_name='usermanagement/doctor/medecinelist.html',context=context)
 
 
-
-
-"""def prescriptionlist(request):  
-    if request.method == 'POST':
-        name = request.POST['name']
-        examens = Examen.objects.filter(consultation_idPatient_FirstName__contains=name)
-        medicaments = Medicament.objects.filter(consultation_idPatient_FirstName__contains=name)
-        context = {
-            'examens': examens,
-            'medicaments': medicaments,
-            'selectName':name,
-        }
-        return render(request, 'usermanagement/doctor/doctor.html',context=context)
-    examens = Examen.objects.all()
-    medicaments = Medicament.objects.all()
-    context = {
-            'examens': examens,
-            'medicaments': medicaments,
-    }
-    return render(request, 'usermanagement/doctor/prescriptionlist.html', context)
-
-    def prescriptionlist(request):
-    def ndMed(idPatient):
-        m = Medicament.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
-        print(idPatient)
-        return len(m)
-    medicaments = Medicament.objects.all()
-    listePatient = []
-    for m in medicaments:
-        if not m.idPatient in listePatient:
-            if ndMed(m.idPatient.id)>0:
-                listePatient.append(m.idPatient)
-    context = {
-        'listePatient':listePatient,
-        'medicaments':medicaments,
-    }
-    return render(request=request,template_name='usermanagement/doctor/consultationlist.html',context=context)
-
-"""
 def newmedicineprescription(request):
     if request.method == "POST":
         form =  MedicineForm(request.POST).save()
@@ -428,6 +391,9 @@ def factureexamen(request,id):
 
 
 #---------------------------------------CASHIER---------------------------------------------#
+#---------------------------------------CASHIER---------------------------------------------#
+#---------------------------------------CASHIER---------------------------------------------#
+#---------------------------------------CASHIER---------------------------------------------#
 
 
 def cashierviewpl(request):
@@ -462,4 +428,57 @@ def viewbill(request,idPatient):
     context={}
     return render(request,'usermanagement/cashier/viewbill.html',context=context)
 
+
+
+
+#---------------------------------------DENTIST---------------------------------------------#
+#---------------------------------------DENTIST---------------------------------------------#
+#---------------------------------------DENTIST---------------------------------------------#
+#---------------------------------------DENTIST---------------------------------------------#
+#---------------------------------------DENTIST---------------------------------------------#
+#---------------------------------------DENTIST---------------------------------------------#
+
+def dentistviewpl(request):
+    return render(request, 'usermanagement/dentist/dentistviewpl.html')
+
+def dentistviewpl(request):
+    if request.method == 'POST':
+        name = ''
+        if 'name' in request.POST:
+            name = request.POST['name']
+        patients = Patient.objects.filter(FirstName__contains=name,Service__iexact="Dental")
+        patientList = []
+        for p in patients:
+            if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
+                patientList.append([p.FirstName,p.LastName,p.CNI_number])
+        context = {
+            'patientList':patientList,
+            'patients': patients,
+            'selectName':name,
+        }
+        return render(request, 'usermanagement/doctor/dentistviewpl.html', context)
+    patients = Patient.objects.filter(Service__iexact="Dental")
+    patientList = []
+    for p in patients:
+        if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
+            patientList.append([p.FirstName,p.LastName,p.CNI_number])
+    context = {
+        'patientList':patientList,
+        'patients': patients,
+    }
+    return render(request, 'usermanagement/doctor/doctorviewpl.html', context)
+
+   
+def dconsultationlist(request):
+    return render(request, 'usermanagement/dentist/dconsultationlist.html')
+   
+def dnewconsultation(request):
+    return render(request, 'usermanagement/dentist/dnewconsultation.html')
+   
+def dexamlist(request):
+    return render(request, 'usermanagement/dentist/dexamlist.html')
+
+def dnewexamprescription(request):
+    return render(request, 'usermanagement/dentist/dnewexamprescription.html')
+   
 

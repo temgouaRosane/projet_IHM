@@ -76,6 +76,24 @@ urlpatterns = [
     path('viewbill/<idPatient>', viewbill, name='viewbill'),
 
 
+#------------------------------------DENTIST-----------------------------------------------#
+#------------------------------------DENTIST-----------------------------------------------#
+#------------------------------------DENTIST-----------------------------------------------#
+#------------------------------------DENTIST-----------------------------------------------#
+
+    path('dentistviewpl/', dentistviewpl, name='dentistviewpl'),
+    path('patient_doctor_update/<int:pk>/', DoctorPatientUpdateView.as_view(), name = 'patient_doctor_update'),
+    path('doctor_patient_confirm_delete/<int:pk>/', DoctorPatientDeleteView.as_view(), name = 'doctor_patient_confirm_delete'),
+    path('dconsultationlist/', dconsultationlist, name='dconsultationlist'),
+    path('dnewconsultation/', dnewconsultation, name='dnewconsultation'),
+    path('dnewexamprescription/', newexamprescription, name='dnewexamprescription'),
+    path('dexamlist/', dexamlist, name='dexamlist'),
+    path('dmedecinelist/', medecinelist, name='dmedecinelist'),
+    path('dnewmedicineprescription/', newmedicineprescription, name='dnewmedicineprescription'),
+
+
+
+
 
 
 

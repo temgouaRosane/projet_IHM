@@ -18,7 +18,7 @@
             <hr>
         </form>
 
-        <div style="display: flex;">
+        <div style="display: flex; width: 100%;">
             <div style="width: 25%;">
                 <h6>Patient_Name</h6>
             </div>
@@ -44,7 +44,7 @@
                     {% for m in examens %}
                         {% if m.idPatient == p %}
                             {% if m.status != 'valid' %}
-                            <div style="display: flex; flex-direction:row;">
+                            <div style="display: flex;  width: 100%; flex-direction:row;">
                                 <div style="width: 33%;">
                                     <li> {{m.ExamDescription}} </li> 
                                 </div>

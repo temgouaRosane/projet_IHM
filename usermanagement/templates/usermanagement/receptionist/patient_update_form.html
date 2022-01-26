@@ -7,7 +7,27 @@
 <h5>Updating patient... {{ this.patients.FirstName}}</h5>
 
 <form method="post">{% csrf_token %}
-    {{ form.as_p }}
+    <div>{{ form.FirstName.name }}</div>        
+        <div>{{ form.FirstName }}</div>
+        <div>{{ form.LastName.name }}</div>
+        <div>{{ form.LastName }}</div>
+        <div>{{ form.sexe.name }}</div>
+        <div>{{ form.sexe }}</div>
+        <div>{{ form.BirthDate.name }}</div>
+        <div>{{ form.BirthDate }}</div>
+        <div>{{ form.Address.name }}</div>
+        <div>{{ form.Address }}</div>
+        <div>{{ form.CNI_number.name }}</div>
+        <div>{{ form.CNI_number }}</div>
+        <div>{{ form.Phone_number.name }}</div>
+        <div>{{ form.Phone_number }}</div>
+        <div>{{ form.Email_address.name }}</div>
+        <div> {{ form.Email_address }}</div>
+        <div>{{ form.condition.name }}</div>
+        <div>{{ form.condition }}</div>
+        <div>{{ form.Service.name }}</div>
+        <div>{{ form.Service }}</div>
+        
     <input type="submit" value="Update">
 </form>
 
