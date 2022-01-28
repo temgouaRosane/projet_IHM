@@ -378,6 +378,7 @@ def factureexamen(request,id):
     if request.method== 'POST':
         listeExamen = Examen.objects.filter(idPatient__exact=id)
         validExam = []
+        cost = []
         for m in listeExamen:
             if str(m.id) in request.POST:
                 if request.POST[str(m.id)] == 'valid':
@@ -414,18 +415,29 @@ def cashierviewpl(request):
     return render(request, 'usermanagement/cashier/cashierviewpl.html',context=context)
 
 def viewbill(request,idPatient):
-    medicament_list = Medicament.objects.all()
-    examen_list = Examen.objects.all()
 
-    listePatient = []
+    nom = Patient.objects.filter(id__exact=idPatient)[0]
+
+    medicament_list = Medicament.objects.filter(idPatient__exact=idPatient)
+    examen_list = Examen.objects.filter(idPatient__exact=idPatient)
+
+    coast = 0
+    validMed = []
     for m in medicament_list:
-        if not m.idPatient in listePatient and m.status == 'valid' and m.idPatient == idPatient: 
-            listePatient.append(m.idPatient)
-
+        if not m in validMed and m.status == 'valid' and m.idPatient.id == int(idPatient): 
+            validMed.append(m)
+            coast += m.MedicineCost
+    validExam = []
     for m in examen_list:
-        if not m.idPatient in listePatient and m.status == 'valid' and m.idPatient == idPatient:
-            listePatient.append(m.idPatient)
-    context={}
+        if not m in validExam and m.status == 'valid' and m.idPatient.id == int(idPatient):
+            validExam.append(m) 
+            coast += m.ExamCost
+    context={
+        "validMed":validMed,
+        "validExam":validExam,
+        "nom":nom,
+        "coast":coast
+        }
     return render(request,'usermanagement/cashier/viewbill.html',context=context)
 
 
@@ -438,8 +450,8 @@ def viewbill(request,idPatient):
 #---------------------------------------DENTIST---------------------------------------------#
 #---------------------------------------DENTIST---------------------------------------------#
 
-def dentistviewpl(request):
-    return render(request, 'usermanagement/dentist/dentistviewpl.html')
+# def dentistviewpl(request):
+#     return render(request, 'usermanagement/dentist/dentistviewpl.html')
 
 def dentistviewpl(request):
     if request.method == 'POST':
@@ -456,7 +468,7 @@ def dentistviewpl(request):
             'patients': patients,
             'selectName':name,
         }
-        return render(request, 'usermanagement/doctor/dentistviewpl.html', context)
+        return render(request, 'usermanagement/dentist/dentistviewpl.html', context)
     patients = Patient.objects.filter(Service__iexact="Dental")
     patientList = []
     for p in patients:
@@ -466,19 +478,119 @@ def dentistviewpl(request):
         'patientList':patientList,
         'patients': patients,
     }
-    return render(request, 'usermanagement/doctor/doctorviewpl.html', context)
+    return render(request, 'usermanagement/dentist/dentistviewpl.html', context)
 
    
 def dconsultationlist(request):
-    return render(request, 'usermanagement/dentist/dconsultationlist.html')
+    def contain(patientList,nom,prenom,cni):
+        for n,p,c,l in patientList:
+            if n==nom and p == prenom and c == cni:
+                return False
+        return True
+    name = ''
+    if request.method == 'POST':
+        if 'name' in request.POST:
+            name = request.POST['name']
+    patientList = []
+    patients = Patient.objects.filter(FirstName__contains = name)
+    listId = []
+    for p in patients:
+        listId.append(p.id) 
+
+    consultations = Consultation.objects.filter(idPatient__in=listId)
+    listId = []
+    for c in consultations:
+        if not c.idPatient.id in listId:
+            listId.append(c.idPatient.id)
+    
+    for p in patients:
+        if contain(patientList,p.FirstName,p.LastName,p.CNI_number) and p.id in listId:
+            tmpList = []
+            for a in patients:
+                if a.FirstName == p.FirstName and a.LastName ==  p.LastName and a.CNI_number ==  p.CNI_number:
+                    tmpList.append(a.id)
+            patientList.append([p.FirstName,p.LastName,p.CNI_number,tmpList])
+    context = {
+        'consultationlist': consultations,
+        'patientList': patientList,
+        'selectName':name,
+    }
+    return render(request, 'usermanagement/dentist/dconsultationlist.html',context=context)
+
    
 def dnewconsultation(request):
-    return render(request, 'usermanagement/dentist/dnewconsultation.html')
+    if request.method == "POST":
+        form1 =  ConsultationForm(request.POST).save()
+        return consultationlist(request)
+    else:   
+        form1 = ConsultationForm()
+    return render(request, 'usermanagement/dentist/dnewconsultation.html', {'form':form1})
    
 def dexamlist(request):
-    return render(request, 'usermanagement/dentist/dexamlist.html')
+    def ndExam(idPatient):
+        m = Examen.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
+        print(idPatient)
+        return len(m)
+    
+    name=""
+    if request.method == 'POST':
+        name = request.POST['name']
+    
+    examens = Examen.objects.all()
+    listePatient = []
+    for m in examens:
+        if not m.idPatient in listePatient:
+            if ndExam(m.idPatient.id)>0 and str(m.idPatient).__contains__(name):
+                listePatient.append(m.idPatient)
+    context = {
+        'listePatient':listePatient,
+        'examens':examens,
+        'selectName':name,
+    }
+    return render(request=request,template_name='usermanagement/dentist/dexamlist.html',context=context)
 
 def dnewexamprescription(request):
-    return render(request, 'usermanagement/dentist/dnewexamprescription.html')
+    if request.method == "POST":
+        form =  ExamForm(request.POST).save()
+        form = ExamForm()    
+
+        return render(request, 'usermanagement/dentist/dnewexamprescription.html', {'form':form})
+    else:   
+        form = ExamForm()    
+    return render(request, 'usermanagement/dentist/dnewexamprescription.html', {'form':form})
+
+def dmedecinelist(request):
+    def ndMed(idPatient):
+        m = Medicament.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
+        print(idPatient)
+        return len(m)
+
+    name=""
+    if request.method == 'POST':
+        name = request.POST['name']
+    
+    medicaments = Medicament.objects.all()
+    listePatient = []
+    for m in medicaments:
+        if not m.idPatient in listePatient:
+            if ndMed(m.idPatient.id)>0 and str(m.idPatient).__contains__(name):
+                listePatient.append(m.idPatient)
+    context = {
+        'listePatient':listePatient,
+        'medicaments':medicaments,
+    }
+    return render(request=request,template_name='usermanagement/dentist/dmedecinelist.html',context=context)
+
+def dnewmedecineprescription(request):
+    if request.method == "POST":
+        form =  MedicineForm(request.POST).save()
+        form = MedicineForm()    
+        return render(request, 'usermanagement/dentist/dnewmedecineprescription.html', {'form':form})
+        
+    else:   
+        form = MedicineForm()    
+    return render(request, 'usermanagement/dentist/dnewmedecineprescription.html', {'form':form})
+
+
    
 

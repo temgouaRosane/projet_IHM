@@ -1,0 +1,21 @@
+{% extends 'usermanagement/dentist/basedentist.html' %}
+
+{% load static %}
+{% block content %}
+
+<div style="margin: auto; width: fit-content;">
+    <form method="POST" class="post-form">
+        <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
+        {% csrf_token %}
+        <div>{{ form.idPatient.name }}</div>
+        <div>{{ form.idPatient }}</div>
+        <div>{{ form.ExamDescription.name }}</div>
+        <div>{{ form.ExamDescription }}</div>
+        <div>{{ form.ExamCost.name }}</div>
+        <div>{{ form.ExamCost }}</div>
+        
+        <input type="submit" class="save btn" value="Save">
+    </form>
+</div>
+
+{% endblock %}

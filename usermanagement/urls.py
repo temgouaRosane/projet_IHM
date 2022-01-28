@@ -89,7 +89,7 @@ urlpatterns = [
     path('dnewexamprescription/', newexamprescription, name='dnewexamprescription'),
     path('dexamlist/', dexamlist, name='dexamlist'),
     path('dmedecinelist/', medecinelist, name='dmedecinelist'),
-    path('dnewmedicineprescription/', newmedicineprescription, name='dnewmedicineprescription'),
+    path('dnewmedecineprescription/', dnewmedecineprescription, name='dnewmedecineprescription'),
 
 
 

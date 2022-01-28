@@ -1,0 +1,63 @@
+{% extends 'usermanagement/dentist/basedentist.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'usermanagement/css/doctorviewpl.css' %}">
+{% endblock style %}
+{% block content %}
+<div>
+    {% comment %} 1)FirstName, 2)LastName, 3)Condition
+    {% endcomment %}
+    <h5>Consultation List...</h5>
+    <hr>
+    {% csrf_token %}
+    <form style="text-align: center;" action="{% url 'usermanagement:dconsultationlist' %}" method="POST">
+        {% csrf_token %}
+        <label for="">Name</label>
+        <input name='name' type="text" value="{{selectName}}">
+        <button>🔍</button>
+        <br>
+        <hr>
+    </form>
+
+    <div style="display: flex;">
+        <div style="width: 15%;">Patient ID</div>
+        <div style="width: 85%;">
+            <div style="width: 100%; display: flex;">
+                <div style="width: 15%;">date</div>
+                <div style="width: 15%;" >Time</div>
+                <div style="width: 25%;">consultation_reason</div>
+                <div style="width:25%";>previous_history</div>
+                <div>Allergy</div>
+            </div >
+        </div>
+    </div> <hr>
+
+    <div class='Grand'>
+        {% for nom,prenom,cni,l in patientList %}
+        <div class="patient" style='display:flex'>
+            <a style='width: 15%;' href="{% url 'usermanagement:patientDetails' nom prenom cni %}">
+                <div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div>
+            </a>
+            <div style=" width: 85%;">
+                {% for c in consultationlist %}
+                {% if c.idPatient.id in l %}
+                <div style="display: flex; width: 100%;">
+                    <div style="display: flex; width: 100%;">
+                        <div style="width: 15%;">{{c.consultationDate}}</div>
+                        <div style="width: 15%;">{{c.Time}}</div>
+                        <div style="width: 25%;">{{c.consultation_reason}}</div>
+                        <div style="width: 25%;">{{c.previous_history}}</div>
+                        <div>{{c.allergy}}</div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

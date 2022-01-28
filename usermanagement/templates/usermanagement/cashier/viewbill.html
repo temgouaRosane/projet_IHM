@@ -1,10 +1,9 @@
 {% extends 'usermanagement/cashier/basecashier.html' %}
 {% load static %}
 
-{% block content %}
-
-<br>
-    {{nom.FirstName}}&nbsp;{{nom.LastName}} Bill... <br> <br>
+{% block content %} 
+<br> <br>   
+<strong>{{nom.FirstName}}&nbsp;{{nom.LastName}} Bill... <br> <br></strong>
 <div>
     {% for m in validMed %}
         <div style="display: flex;">
@@ -17,6 +16,7 @@
         </div> <br>
     {% endfor %}
 </div>
+<hr>
 <div>
     {% for m in validExam %}
         <div style="display: flex;">
@@ -29,5 +29,11 @@
         </div> <br>
     {% endfor %}
 </div>
+<hr>
+<div style="margin-left: 25%;">Total : {{coast}} <br> <br>
+    
+<button style="height: 5vh; width: 6vw;"onclick="print()">Print</button>
+</div>
+
 
 {% endblock %}
