@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 
-<!-- Mirrored from thememakker.com/templates/swift/hospital/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 20 Nov 2021 08:11:15 GMT -->
 
 <head>
     <meta charset="UTF-8">
@@ -73,7 +72,11 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="active open"><a href="{% url 'usermanagement:cashierviewpl' %}"><i class="zmdi zmdi-home"></i><span>View Bill list</span></a></li>
+                    <!-- <li class="active open"><a href="{% url 'usermanagement:cashierviewpl' %}"><i class="zmdi zmdi-home"></i><span>View Bill list</span></a></li> -->
+                    <li class="active open"><a href="{% url 'usermanagement:viewconsultationlist' %}"><i class="zmdi zmdi-home"></i><span>View ConsultationList</span></a></li>
+                    <li class="active open"><a href="{% url 'usermanagement:cashierviewexam' %}"><i class="zmdi zmdi-home"></i><span>View ExamsList</span></a></li>
+
+
                 </ul>
             </div>
             <!-- #Menu -->

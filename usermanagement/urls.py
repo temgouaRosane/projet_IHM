@@ -74,6 +74,14 @@ urlpatterns = [
 
     path('cashierviewpl/', cashierviewpl, name='cashierviewpl'),
     path('viewbill/<idPatient>', viewbill, name='viewbill'),
+    path('viewconsultationlist/', viewconsultationlist, name='viewconsultationlist'),
+    path('cashierviewexam/', cashierviewexam, name='cashierviewexam'),
+    path('validation/<id>', validation, name='validation'),
+    path('savevalidation/<id>', savevalidation, name='savevalidation'),
+    path('savevalidationexams/<id>', savevalidationexams, name='savevalidationexams'),
+    path('validationexams/<id>', validationexams, name='validationexams'),
+
+
 
 
 #------------------------------------DENTIST-----------------------------------------------#
@@ -86,9 +94,9 @@ urlpatterns = [
     path('doctor_patient_confirm_delete/<int:pk>/', DoctorPatientDeleteView.as_view(), name = 'doctor_patient_confirm_delete'),
     path('dconsultationlist/', dconsultationlist, name='dconsultationlist'),
     path('dnewconsultation/', dnewconsultation, name='dnewconsultation'),
-    path('dnewexamprescription/', newexamprescription, name='dnewexamprescription'),
+    path('dnewexamprescription/', dnewexamprescription, name='dnewexamprescription'),
     path('dexamlist/', dexamlist, name='dexamlist'),
-    path('dmedecinelist/', medecinelist, name='dmedecinelist'),
+    path('dmedecinelist/', dmedecinelist, name='dmedecinelist'),
     path('dnewmedecineprescription/', dnewmedecineprescription, name='dnewmedecineprescription'),
 
 

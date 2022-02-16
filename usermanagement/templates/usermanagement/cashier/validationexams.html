@@ -1,0 +1,42 @@
+{% extends 'usermanagement/cashier/basecashier.html' %}
+{% load static %}
+
+{% block style %}
+    <style>
+        a+a>input{
+            background-color: rgb(201, 38, 38);
+            color: #fff;
+        }
+        a>input{
+            background-color: rgb(37, 192, 44);
+            color: #fff;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<hr>
+
+<p>Are you sure you want to valid ExamsCost of: <b> {{ p.idPatient.FirstName }}? </b> </p>
+
+<div style="display: flex;flex-direction: column;  width: 100%;">
+    <div style="display: flex; width: 25%;">
+        {{p.ExamDescription}}
+    </div>
+    <div style="display: flex; width: 25%;">
+        {{p.idPatient.Service}}
+    </div>
+    <div style="display: flex; width: 25%;">
+        {{p.ExamCost}}
+    </div>
+</div>
+
+<a href="{% url 'usermanagement:savevalidationexams' p.id %}">
+    <input type="button" value="Valid">
+</a>
+<a href="{% url 'usermanagement:cashierviewexam' %}">
+    <input type="button" value="Cancel">
+</a>
+
+{% endblock %}

@@ -7,10 +7,17 @@
     <form method="POST" class="post-form">
         <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
         {% csrf_token %}
-        <div>{{form.consultationCost.name}}</div>
-        <div>{{form.consultationCost}}</div>
-        <div>{{form.idPatient.name}}</div>
-        <div>{{form.idPatient}}</div>
+        
+        <div>Name</div>
+        <div>
+            <select name="idPatient" required="" id="id_idPatient">
+                <option value="" selected="">---------</option>
+                {% for p in patientList %}
+                <option value="{{p.id}}">{{p}}</option>
+                {% endfor %}
+              
+            </select>
+        </div>
         <div>{{form.consultation_reason.name}}</div>
         <div>{{form.consultation_reason}}</div>
         <div>{{form.allergy.name}}</div>

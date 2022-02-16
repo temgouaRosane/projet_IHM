@@ -1,19 +1,29 @@
 {% extends "usermanagement/pharmacist/basePharmacist.html" %}
 
 {% block content %}
- <br>
-    {{nom.FirstName}}&nbsp;{{nom.LastName}} Bill... <br> <br>
-<div>
-    {% for m in validMed %}
-        <div style="display: flex;">
-            <div style="width: 25%;">
-                {{m.MedicineName}}
-            </div>
-            <div>
-                {{m.MedicineCost}}&nbsp;FCFA
-            </div>
-        </div> <br>
-    {% endfor %}
+<div id="bill">    
+    <br> <br>
+    <strong>
+    
+        {{nom.FirstName}}&nbsp;{{nom.LastName}}
+    </strong>  Bill... <br> <br>
+    <div>
+        {% for m in validMed %}
+            <div style="display: flex;">
+                <div style="width: 25%;">
+                    {{m.MedicineName}}
+                </div>
+                <div>
+                    {{m.MedicineCost}}&nbsp;FCFA
+                </div>
+            </div> <br>
+        {% endfor %}
+    </div>
+    <hr>
+    <div style="margin-left: 25%">Total: {{coast}} &nbsp; FCFA <br> <br>
+        <!-- <button style="height:5vh; width: 6vw;" onclick="print()">Print</button> -->
+    </div>
 </div>
+<button style="height:5vh; width: 6vw; margin-left: 19vw;" onclick="javascript:imprimer_bloc('bill');">Print</button>
 
 {% endblock %}

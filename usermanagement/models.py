@@ -50,13 +50,34 @@ STATUS =(
 
 SERVICE = [
    
-    ('Dental', 'Dental'),
-    ('General Medicine', 'General Medicine'),
-    ('Opthalmogical', 'Opthalmogical'),
-    ('Pediatric', 'pediatric'),
-
+    ('Generalist', 'Generalist'),
+    ('Specialist', 'Specialist'),
+    
 ]
 
+COST = [
+    ('2000', '2000'),
+    ('5000', '5000')
+    
+]
+
+EXAM = [
+    ('bloodtest', 'bloodtest'),
+    ('Goutte Epaisse', 'Goutte Epaisse'),
+    ('Electrophorese', 'Electrophorese'),
+    ('Covid', 'Covid'),
+    
+]
+
+DROG = [
+    ('Efferalgan', 'Efferalgan'),
+    ('Doliprane', 'Doliprane'),
+    ('Paracetamol', 'Paracetamol'),
+    ('Zentel', 'Zentel'),
+    ('Flagentyl', 'Flagentyl'),
+    ('Antadys', 'Antadys'),
+    ('Arthemeter', 'Arthemeter'),
+]
 
 class CustomUser(AbstractUser):
     role = models.CharField(max_length=20, default='NoRole', choices = Roles)
@@ -77,14 +98,16 @@ class Patient(models.Model):
     Email_address = models.CharField(max_length=25)
     condition = models.CharField(max_length=50, choices=CONDITION, default='NoCritical')
     Service = models.CharField(max_length=50, choices=SERVICE, null=True)
-    #temperature = models.FloatField(blank= True, null= True)
+    ConsultationCost = models.CharField(max_length=23, blank= True, null= True)
+    status = models.CharField(max_length=20, default="invalid")
+    
     #weight = models.FloatField(blank= True, null= True)
     #arterialPressure = models.FloatField(blank= True, null= True)
     #Note = models.TextField(blank= True, null= True)
     
     
     def __str__(self):
-        return self.FirstName+' '+self.LastName+" CNI:"+self.CNI_number
+        return self.FirstName+' '+self.LastName
 
 
     def get_absolute_url(self):
@@ -104,6 +127,8 @@ class Consultation(models.Model):
     temperature = models.FloatField()
     arterialpressure = models.FloatField()
     skin_appearence = models.CharField(max_length=100)
+    status = models.CharField(max_length=20, default="invalid")
+
 
     def __str__(self):
         return self.idPatient.__str__()
@@ -125,7 +150,8 @@ class Prescription(models.Model):
 class Medicament(models.Model):
     Time = models.TimeField(auto_now=True)
     Date = models.DateField(auto_now=True)
-    MedicineName = models.CharField(max_length=30)
+    MedicineName =models.CharField(max_length=50, choices=DROG, null=True)
+
     MedicineCost = models.FloatField()
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
     status = models.CharField(max_length=20, default="invalid")
@@ -137,10 +163,11 @@ class Medicament(models.Model):
 class Examen(models.Model):
     Time = models.TimeField(auto_now=True)
     Date = models.DateField(auto_now=True)
-    ExamDescription = models.CharField(max_length=200)
-    ExamCost = models.FloatField()
+    ExamDescription =models.CharField(max_length=50, choices=EXAM, null=True)
+    ExamCost = models.CharField(max_length=23, blank= True, null= True)
     idPatient = models.ForeignKey("Patient", on_delete=models.CASCADE, null= False)
     status = models.CharField(max_length=20, default="invalid")
+    pstatus =  models.CharField(max_length=20, default="invalid")
     def __str__(self) -> str:
         return str(self.idPatient)+' '+str(self.ExamDescription)
 

@@ -1,0 +1,55 @@
+{% extends 'usermanagement/cashier/basecashier.html' %}
+
+{% load static %}
+{% block content %}
+
+
+<hr>
+{% csrf_token %}
+<form style="text-align: center;" action="{% url 'usermanagement:viewconsultationlist' %}" method="POST">
+    {% csrf_token %}
+    <label for="">Name</label>
+    <input name='name' type="text" value="{{selectName}}">
+    <button>🔍</button>
+    <hr>
+</form>
+
+<br>
+<span style="text-decoration: solid;">Patient List...</span>
+<div style="padding: 2%; margin-top: 5vh;">
+
+    <div style="display: flex;">
+        <div style="width: 25%;">
+            <h6>Patient_Name</h6>
+        </div>
+        <div style="width: 25%;">
+            <h6>Service</h6>
+        </div>
+        <div style="width: 30%;">
+            <h6>ConsultationCost</h6>
+        </div>
+        <div>
+            <h6>Valid</h6>
+        </div>
+    </div>
+    {% for p in patientList %}
+    <form method="post" action="{% url 'usermanagement:validation' p.id %}">
+        {% csrf_token %}
+        <hr>
+        <div style="display: flex;  width: 100%;">
+            <div style="display: flex; width: 25%;">
+                {{p}}
+            </div>
+            <div style="display: flex; width: 25%;">
+                {{p.Service}}
+            </div>
+            <div style="display: flex; width: 25%;">
+                {{p.ConsultationCost}}
+            </div>
+        </div>
+        <input style="margin-left: 80%; height: 5vh; width: 5vw" type="submit" value="Valid">
+    </form>
+    {% endfor %}
+    <hr>
+</div>
+{% endblock %}
