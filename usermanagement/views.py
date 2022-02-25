@@ -1,8 +1,13 @@
+from multiprocessing import context
+import re
 from django.shortcuts import redirect, render
 from django.views.generic.edit import UpdateView, DeleteView
 from usermanagement.models import Consultation, Examen, Medicament, Patient
 from .formulaire import  MedicineForm, PatientForm, ConsultationForm, ExamForm
 from django.urls import reverse_lazy
+from django.http import HttpResponse
+import datetime
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -63,13 +68,20 @@ def ophtalmoservice(request):
 
 def addPatient(request):
     #traitement de la requete post
+   
     if request.method == "POST":
         form = PatientForm(request.POST).save()
         return viewpatientlist(request) #redirect('/addPatient')
     else:   
-        form = PatientForm()    
-    return render(request, 'usermanagement/receptionist/addPatient.html', {'form':form})
+        form = PatientForm()
+        context={
+            'current_date': datetime.datetime.now().date().__str__(),
+            'form':form
+        }
+    return render(request, 'usermanagement/receptionist/addPatient.html', context=context)
     #objet formulaire sous forme d'un dictionnaire:{'form':form}
+    
+    
 
 
 def receptionist(request):
@@ -82,6 +94,9 @@ def viewpatientlist(request):
         if 'name' in request.POST:
             name = request.POST['name']
         patients = Patient.objects.filter(FirstName__contains=name)
+        paginator = Paginator(patients, 5)
+        page = request.GET.get('page')
+        patients = paginator.get_page(page)
         patientList = []
         for p in patients:
             if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
@@ -90,9 +105,13 @@ def viewpatientlist(request):
             'patientList':patientList,
             'patients': patients,
             'selectName':name,
+            
         }
         return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
     patients = Patient.objects.all()
+    paginator = Paginator(patients, 5)
+    page = request.GET.get('page')
+    patients = paginator.get_page(page)
     patientList = []
     for p in patients:
         if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
@@ -100,6 +119,7 @@ def viewpatientlist(request):
     context = {
         'patientList':patientList,
         'patients': patients,
+        
     }
     return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
 
@@ -116,29 +136,30 @@ class PatientDeleteView(DeleteView):
     model = Patient
     success_url = reverse_lazy('usermanagement:viewpatientlist')
 
-def NewRegistration(request,nom,prenom,cni):
+def NewRegistration(request,nom):
     if request.method == 'POST':
         PatientForm(request.POST).save()
         return viewpatientlist(request)
-    p = Patient.objects.filter(FirstName=nom,LastName=prenom,CNI_number=cni)
+    p = Patient.objects.filter(FirstName=nom)
     if not p is None:
         p = p[0]
         form = PatientForm(initial={
             'FirstName': p.FirstName.__str__(),
             'LastName': p.LastName.__str__(),
-            'sexe': p.sexe.__str__(),
+            'gender': p.gender.__str__(),
             'BirthDate': p.BirthDate.__str__(),
             'CNI_number': p.CNI_number.__str__(),
             'Address': p.Address.__str__(),
             'Phone_number': p.Phone_number.__str__(),
             'Email_address': p.Email_address.__str__(),
             })
-        context = {'form':form,'patient':p}
+        date = p.BirthDate.__str__()
+        context = {'form':form,'p':p,'date':date}
         return render(request=request,template_name='usermanagement/receptionist/NewRegistration.html',context=context)
     return render(request=request,template_name='usermanagement/receptionist/NewRegistration.html')
 
-def patientDetails(request,nom,prenom,cni):
-    p = Patient.objects.filter(FirstName=nom,LastName=prenom,CNI_number=cni)
+def patientDetails(request,nom):
+    p = Patient.objects.filter(FirstName=nom)
     context = {'p':p[0],'patients':p}
     if request.user.role == "Receptionist":
         return render(request, 'usermanagement/receptionist/patientDetails.html',context)
@@ -531,6 +552,15 @@ def savevalidationexams(request,id):
         pass
     return cashierviewexam(request)
 
+def consultationbill(request, id):
+    p = Patient.objects.filter(id__exact=id)
+    context = {}
+    if not p is None:
+        context={
+            "p": p[0]
+        }
+    return render(request,'usermanagement/cashier/consultationbill.html',context=context)
+     
 
 
 

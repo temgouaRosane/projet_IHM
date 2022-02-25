@@ -8,6 +8,7 @@ import django.utils.timezone
 import multiselectfield.db.fields
 
 
+
 class Migration(migrations.Migration):
 
     initial = True

@@ -1,0 +1,19 @@
+{% extends 'usermanagement/cashier/basecashier.html' %}
+
+{% load static %}
+{% block content %}
+<div style="text-align: center;">Consultation Bill...</div>
+    <div style="display: flex; width: 100%;margin-left: 10vw;">
+        <div style="width:30%">
+            <div>Patient Name: </div>
+            <div>Service:</div>
+            <div>Consultation Cost: </div>
+        </div>
+        <div style="width: 30%;">
+            <div style="display: flex; width: 25%;">{{p}}</div>
+            <div style="display: flex; width: 25%;">{{p.Service}}</div>
+            <div style="display: flex; width: 25%;">{{p.ConsultationCost}}</div>
+        </div>
+    </div>
+
+{% endblock %}

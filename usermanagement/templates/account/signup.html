@@ -38,6 +38,10 @@
   {% csrf_token %}
 
   {{ form.as_p }}
+  <!-- <div>{{ form.username.name }}</div>
+  <div> {{ form.username }}</div>
+  <div> {{ form.email.name }}</div>
+  <div> {{ form.email }}</div> -->
 
   {% if redirect_field_value %}
 

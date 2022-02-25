@@ -21,18 +21,11 @@
 <p>Are you sure you want to valid ConsultationCost of: <b> {{ p.FirstName }} </b> </p>
 
 <div style="display: flex;flex-direction: column;  width: 100%;">
-    <div style="display: flex; width: 25%;">
-        {{p}}
-    </div>
-    <div style="display: flex; width: 25%;">
-        {{p.Service}}
-    </div>
-    <div style="display: flex; width: 25%;">
-        {{p.ConsultationCost}}
-    </div>
+    <div style="display: flex; width: 25%;">{{p}}</div>
+    <div style="display: flex; width: 25%;">{{p.Service}}</div>
+    <div style="display: flex; width: 25%;">{{p.ConsultationCost}}</div>
 </div>
-<a href="{% url 'usermanagement:savevalidation' p.
-id %}">
+<a href="{% url 'usermanagement:consultationbill' p.id %}">
     <input type="button" value="Valid">
 </a>
 <a href="{% url 'usermanagement:viewconsultationlist' %}">

@@ -8,6 +8,7 @@ from django.forms.widgets import Select
 from django.utils import tree, timezone
 from multiselectfield import MultiSelectField
 from django.urls import reverse, reverse_lazy
+from django import forms
 
 
 User = settings.AUTH_USER_MODEL
@@ -86,19 +87,19 @@ class CustomUser(AbstractUser):
         return self.username 
 
 class Patient(models.Model):
-    Date = models.DateField(auto_now=True)
-    Time = models.TimeField(auto_now=True)
-    CNI_number = models.CharField(max_length=20)
-    FirstName = models.CharField(max_length=50)
-    LastName = models.CharField(max_length=50)
-    sexe = models.CharField(max_length=50, choices=SEXE, default='Male')
-    Phone_number = models.CharField(max_length=100)
-    BirthDate = models.DateField()    
-    Address = models.CharField(max_length=25)
-    Email_address = models.CharField(max_length=25)
+    Date = models.DateField(auto_now=True,  blank= True)
+    Time = models.TimeField(auto_now=True,  blank= True)
+    CNI_number = models.CharField(max_length=20,  blank= True, default=" ")
+    FirstName = models.CharField(max_length=50,  blank= True)
+    LastName = models.CharField(max_length=50,  blank= True, default=" ")
+    gender = models.CharField(max_length=50, choices=SEXE, default='Male',  blank= True)
+    Phone_number = models.CharField(max_length=100,  blank= True, default=" ")
+    BirthDate = models.DateField( blank= True,null=True, default="0000-00-00")      
+    Address = models.CharField(max_length=25,  blank= True, default=" ")
+    Email_address = models.CharField(max_length=25, blank= True, default=" ")
     condition = models.CharField(max_length=50, choices=CONDITION, default='NoCritical')
-    Service = models.CharField(max_length=50, choices=SERVICE, null=True)
-    ConsultationCost = models.CharField(max_length=23, blank= True, null= True)
+    Service = models.CharField(max_length=50, choices=SERVICE, default='Generalist')
+    ConsultationCost = models.CharField(max_length=23, blank= True)
     status = models.CharField(max_length=20, default="invalid")
     
     #weight = models.FloatField(blank= True, null= True)
@@ -107,7 +108,7 @@ class Patient(models.Model):
     
     
     def __str__(self):
-        return self.FirstName+' '+self.LastName
+        return self.FirstName.__str__()+' '+self.LastName.__str__()
 
 
     def get_absolute_url(self):

@@ -33,8 +33,8 @@ urlpatterns = [
     path('addPatient/', addPatient, name='addPatient'),
     path('patient_update/<int:pk>/', PatientUpdateView.as_view(), name = 'patient_update'),
     path('patient_confirm_delete/<int:pk>/', PatientDeleteView.as_view(), name = 'patient_confirm_delete'),
-    path('NewRegistration/<nom>,<prenom>,<cni>', NewRegistration, name='NewRegistration'),
-    path('patientDetails/<nom>,<prenom>,<cni>', patientDetails, name='patientDetails'),
+    path('NewRegistration/<nom>', NewRegistration, name='NewRegistration'),
+    path('patientDetails/<nom>', patientDetails, name='patientDetails'),
 
 
 #------------------------------------------------DOCTOR-----------------------------------#
@@ -80,6 +80,7 @@ urlpatterns = [
     path('savevalidation/<id>', savevalidation, name='savevalidation'),
     path('savevalidationexams/<id>', savevalidationexams, name='savevalidationexams'),
     path('validationexams/<id>', validationexams, name='validationexams'),
+    path('consultationbill/<id>', consultationbill, name='consultationbill'),
 
 
 
