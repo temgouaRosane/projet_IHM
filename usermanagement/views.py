@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 import datetime
 from django.core.paginator import Paginator
+from usermanagement.models import Patient
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -93,7 +95,7 @@ def viewpatientlist(request):
         name = ''
         if 'name' in request.POST:
             name = request.POST['name']
-        patients = Patient.objects.filter(FirstName__contains=name)
+        patients = Patient.objects.filter(FirstName__contains=name).order_by("Date")[::-1]
         paginator = Paginator(patients, 5)
         page = request.GET.get('page')
         patients = paginator.get_page(page)
@@ -101,6 +103,7 @@ def viewpatientlist(request):
         for p in patients:
             if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
                 patientList.append([p.FirstName,p.LastName,p.CNI_number])
+                
         context = {
             'patientList':patientList,
             'patients': patients,
@@ -108,7 +111,7 @@ def viewpatientlist(request):
             
         }
         return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
-    patients = Patient.objects.all()
+    patients = Patient.objects.all().order_by("Date")[::-1]
     paginator = Paginator(patients, 5)
     page = request.GET.get('page')
     patients = paginator.get_page(page)
@@ -116,6 +119,7 @@ def viewpatientlist(request):
     for p in patients:
         if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
             patientList.append([p.FirstName,p.LastName,p.CNI_number])
+           
     context = {
         'patientList':patientList,
         'patients': patients,
@@ -123,13 +127,27 @@ def viewpatientlist(request):
     }
     return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
 
-class PatientUpdateView(UpdateView):
-    model = Patient
-    context = {
-        'patients': Patient.objects.all()
-    }
-    fields = '__all__'
-    template_name = 'usermanagement/receptionist/patient_update_form.html'
+def PatientUpdateView(request,pk):
+    if request.method=='POST':
+        patient= Patient.objects.filter(id__iexact=pk)[0]
+        form= PatientForm(request.POST)
+        if form.is_valid():
+            patient.FirstName= form.cleaned_data['FirstName']
+            patient.LastName= form.cleaned_data['LastName']
+            patient.gender= form.cleaned_data['gender']
+            patient.BirthDate= form.cleaned_data['BirthDate']
+            patient.Address= form.cleaned_data['Address']
+            patient.CNI_number= form.cleaned_data['CNI_number']
+            patient.Phone_number= form.cleaned_data['Phone_number']
+            patient.Email_address= form.cleaned_data['Email_address']
+            patient.condition= form.cleaned_data['condition']
+            patient.Service= form.cleaned_data['Service']
+            patient.ConsultationCost= form.cleaned_data['ConsultationCost']
+            patient.FirstName= form.cleaned_data['FirstName']
+            patient.FirstName= form.cleaned_data['FirstName']
+            patient.save()
+    return render(request, 'usermanagement/receptionist/patient_update_form.html')
+
 
 
 class PatientDeleteView(DeleteView):
@@ -484,12 +502,7 @@ def viewbill(request,idPatient):
     return render(request,'usermanagement/cashier/viewbill.html',context=context)
 
 def viewconsultationlist(request):
-    
-    def ndMed(idPatient):
-        m = Medicament.objects.filter(idPatient__exact=idPatient,status__exact='invalid')
-        print(idPatient)
-        return len(m)
-    patientList = Patient.objects.filter(status__exact='invalid')
+    patientList = Patient.objects.filter(status__iexact='invalid').order_by("Date")[::-1]
     context = {
         'patientList':patientList,
     }
@@ -553,13 +566,32 @@ def savevalidationexams(request,id):
     return cashierviewexam(request)
 
 def consultationbill(request, id):
-    p = Patient.objects.filter(id__exact=id)
     context = {}
+    p = Patient.objects.filter(id__exact=id)[0]
+    p.status = "valid"
+    p.save()
     if not p is None:
         context={
-            "p": p[0]
+            "p": p
         }
     return render(request,'usermanagement/cashier/consultationbill.html',context=context)
+
+
+def cashierhistory(request):
+    patientList = Patient.objects.filter(status__exact='valid').order_by("Date")[::-1]
+    context = {
+        'patientList':patientList,
+    }
+    return render(request,'usermanagement/cashier/cashierhistory.html', context=context)
+
+
+def examshistory(request):
+    examList = Examen.objects.filter(status__exact='valid').order_by("Date")[::-1]
+    context = {
+        'examList':examList,
+    }
+    return render(request=request,template_name='usermanagement/cashier/examshistory.html',context=context)
+
      
 
 

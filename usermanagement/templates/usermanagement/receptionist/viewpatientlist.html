@@ -118,7 +118,7 @@
         </span>
 
         {% if patients.has_next %}
-            <a href="?page={{ patients.next_page_number }}">next</a>
+            <a href="?page={{ patients.next_page_number }}, name={{selectName}}">next</a>
             <a href="?page={{ patients.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>

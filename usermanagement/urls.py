@@ -31,7 +31,7 @@ urlpatterns = [
     path('receptionist/', receptionist, name='receptionist'),
     path('viewpatientlist/', viewpatientlist, name='viewpatientlist'),
     path('addPatient/', addPatient, name='addPatient'),
-    path('patient_update/<int:pk>/', PatientUpdateView.as_view(), name = 'patient_update'),
+    path('patient_update/<int:pk>/', PatientUpdateView, name = 'patient_update'),
     path('patient_confirm_delete/<int:pk>/', PatientDeleteView.as_view(), name = 'patient_confirm_delete'),
     path('NewRegistration/<nom>', NewRegistration, name='NewRegistration'),
     path('patientDetails/<nom>', patientDetails, name='patientDetails'),
@@ -81,6 +81,8 @@ urlpatterns = [
     path('savevalidationexams/<id>', savevalidationexams, name='savevalidationexams'),
     path('validationexams/<id>', validationexams, name='validationexams'),
     path('consultationbill/<id>', consultationbill, name='consultationbill'),
+    path('cashierhistory/', cashierhistory, name='cashierhistory'),
+    path('examshistory/', examshistory, name='examshistory'),
 
 
 
