@@ -91,8 +91,8 @@ def receptionist(request):
 
 
 def viewpatientlist(request):
+    name = ''
     if request.method == 'POST':
-        name = ''
         if 'name' in request.POST:
             name = request.POST['name']
         patients = Patient.objects.filter(FirstName__contains=name).order_by("Date")[::-1]
@@ -287,12 +287,9 @@ def newconsultation(request):
 
 def newexamprescription(request):
     if request.method == "POST":
-        form =  ExamForm(request.POST).save()
-        form = ExamForm()    
-
-        return render(request, 'usermanagement/doctor/newexamprescription.html', {'form':form})
-    else:   
-        form = ExamForm()    
+        form =  ExamForm(request.POST).save()  
+ 
+    form = ExamForm()    
     patientList = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
     context = {
         'form':form,
@@ -349,15 +346,13 @@ def medecinelist(request):
 
 def newmedicineprescription(request):
     if request.method == "POST":
-        form =  MedicineForm(request.POST).save()
-        form = MedicineForm()    
-        return render(request, 'usermanagement/doctor/newmedicineprescription.html', {'form':form})    
-    else:   
-        form = MedicineForm()  
-        patientList = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
-        context = {
-            'form':form,
-            'patientList':patientList,
+        form =  MedicineForm(request.POST).save() 
+         
+    form = MedicineForm()  
+    patientList = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
+    context = {
+        'form':form,
+        'patientList':patientList,
         }
     return render(request, 'usermanagement/doctor/newmedicineprescription.html', context=context)  
     #return render(request, 'usermanagement/doctor/newmedicineprescription.html', {'form':form})
@@ -423,7 +418,14 @@ def labtechviewpl(request):
         print(idPatient)
         return len(m)
     examens = Examen.objects.all()
-    listePatient = []
+
+    name = ''
+    if request.method == 'POST':
+        if 'name' in request.POST:
+            name = request.POST['name']
+    listePatient = Patient.objects.filter(FirstName__contains=name).order_by("Date")[::-1]
+
+    # listePatient = []
     for m in examens:
         if not m.idPatient in listePatient:
             if ndExam(m.idPatient.id)>0:
@@ -431,6 +433,7 @@ def labtechviewpl(request):
     context = {
         'listePatient':listePatient,
         'examens':examens,
+        # 'patients':patients,
     }
     return render(request=request,template_name='usermanagement/labTechnician/labtechviewpl.html',context=context)
 
@@ -474,11 +477,10 @@ def cashierviewpl(request):
 
     context = {"listePatient":listePatient,"examen_list":examen_list,"medicament_list":medicament_list}
     return render(request, 'usermanagement/cashier/cashierviewpl.html',context=context)
+    
 
 def viewbill(request,idPatient):
-
     nom = Patient.objects.filter(id__exact=idPatient)[0]
-
     medicament_list = Medicament.objects.filter(idPatient__exact=idPatient)
     examen_list = Examen.objects.filter(idPatient__exact=idPatient)
 
@@ -502,7 +504,11 @@ def viewbill(request,idPatient):
     return render(request,'usermanagement/cashier/viewbill.html',context=context)
 
 def viewconsultationlist(request):
-    patientList = Patient.objects.filter(status__iexact='invalid').order_by("Date")[::-1]
+    name = ''
+    if request.method == 'POST':
+        if 'name' in request.POST:
+            name = request.POST['name']
+    patientList = Patient.objects.filter(status__iexact='invalid',FirstName__contains=name).order_by("Date")[::-1]
     context = {
         'patientList':patientList,
     }
@@ -525,24 +531,15 @@ def savevalidation(request,id):
     return viewconsultationlist(request)
 
 def cashierviewexam(request):
-    # if request.method == 'POST':
-    #     name = ''
-    #     if 'name' in request.POST:
-    #         name = request.POST['name']
-    #     patients = Patient.objects.filter(FirstName__contains=name)
-    #     patientList = []
-    #     for p in patients:
-    #         if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
-    #             patientList.append([p.FirstName,p.LastName,p.CNI_number])
-    #     context = {
-    #         'patientList':patientList,
-    #         'patients': patients,
-    #         'selectName':name,
-    #     }
-    #     return render(request, 'usermanagement/cashier/cashierviewexam.html', context)
-    examList = Examen.objects.filter(pstatus__exact='invalid')
+    name = ''
+    if request.method == 'POST':
+        if 'name' in request.POST:
+            name = request.POST['name']   #Il faut la jointure pour filtrer selon le nom
+    patientList = Patient.objects.filter(FirstName__contains=name).order_by("Date")[::-1]
+    examList = Examen.objects.filter(status__exact='invalid')
     context = {
         'examList':examList,
+        'patientList':patientList,
     }
     return render(request=request,template_name='usermanagement/cashier/cashierviewexam.html',context=context)
 
@@ -578,7 +575,11 @@ def consultationbill(request, id):
 
 
 def cashierhistory(request):
-    patientList = Patient.objects.filter(status__exact='valid').order_by("Date")[::-1]
+    name = ''
+    if request.method == 'POST':
+        if 'name' in request.POST:
+            name = request.POST['name']
+    patientList = Patient.objects.filter(status__exact='valid', FirstName__contains=name).order_by("Date")[::-1]
     context = {
         'patientList':patientList,
     }
@@ -586,6 +587,10 @@ def cashierhistory(request):
 
 
 def examshistory(request):
+    name = ''
+    if request.method == 'POST':
+        if 'name' in request.POST:
+            name = request.POST['name']  #Il faut la jointure pour filtrer selon le nom
     examList = Examen.objects.filter(status__exact='valid').order_by("Date")[::-1]
     context = {
         'examList':examList,

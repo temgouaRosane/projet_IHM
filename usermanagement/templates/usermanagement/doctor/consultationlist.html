@@ -36,7 +36,7 @@
     <div class='Grand'>
         {% for nom,prenom,cni,l in patientList %}
         <div class="patient" style='display:flex'>
-            <a style='width: 15%;' href="{% url 'usermanagement:patientDetails' nom prenom cni %}">
+            <a style='width: 15%;' href="{% url 'usermanagement:patientDetails' nom %}">
                 <div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div>
             </a>
             <div style=" width: 85%;">

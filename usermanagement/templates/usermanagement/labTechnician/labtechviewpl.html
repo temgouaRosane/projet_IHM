@@ -2,11 +2,20 @@
 
 {% load static %}
 {% block content %}
-<br>
-    <span style="text-decoration: solid;">Patient List...</span>  
+<br> <br>
+    <span style="text-decoration: solid;">Patient List...</span> 
+
+{% csrf_token %}
+<form style="text-align: center;" action="{% url 'usermanagement:labtechviewpl' %}" method="POST">
+    {% csrf_token %}
+    <label for="">Name</label>
+    <input name='name' type="text" value="{{selectName}}">
+    <button>🔍</button>
+    <hr>
+</form>
 
 
-    <div style= "padding: 2%; margin-top: 5vh;">
+    <div style= "padding: 1%; margin-top: 5vh;">
 
         <div style="display: flex;">
             <div style="width: 17%;">
