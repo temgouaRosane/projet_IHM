@@ -52,15 +52,64 @@
         {% csrf_token %}
         <div style="display: flex; width: 100%;">
             <div style="width: 33%; display: flex; flex-direction: column;">
+                <style>
+                    input[type=text]{
+                        background-color: transparent;
+                        border: none;
+                        border-bottom: solid 1px rgb(45, 134, 161);
+                        transition: all 1s ease;
+                    }
+                    input:focus{
+                        border-bottom: solid 1px rgb(29, 4, 84);
+                    }
+                </style>
                 <div>FirstName</div>        
                 <div><input type="text" name="FirstName" maxlength="50" style="margin-bottom: 5vh;" required="" id="id_FirstName"></div>
                 <div>LastName</div>
                 <div><input type="text" name="LastName" maxlength="50" style="margin-bottom: 5vh;" id="id_LastName"></div>
                 <div>gender</div>
                 <div>
-                    <select style="width: 11.68vw; height: 4.5vh; margin-bottom: 5vh;" name="sexe" id="id_sexe">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexe" id="flexRadioDefault1" value="Male">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Male
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexe" id="flexRadioDefault2" value="Female" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Female
+                        </label>
+                        
+3
+4
+5
+6
+7
+8
+9
+10
+11
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<script>
+$(function(){
+   $('.datepicker').datepicker({
+      format: 'mm-dd-yyyy'
+    });
+});
+</script>
+<div class="col-md-6">
+	<input type="text" class="form-control datepicker" placeholder="Select Date"/>
+</div>
+                        <!-- <input type="radio" name="sexe" id="id_sexe" value="Male">
+                        <label for="male">Male</label>
+                        <input type="radio" name="sexe" id="id_sexe" value="Female">
+                        <label for="male">Female</label> -->
+                      </div>
+                      
+                    <!-- <select style="width: 11.68vw; height: 4.5vh; margin-bottom: 5vh;" name="sexe" id="id_sexe">
                     <option value="Male" selected="">Male</option>
-                    <option value="Female">Female</option></select>
+                    <option value="Female">Female</option></select> -->
                 </div>
                 <div>BirthDate</div>
                 <div><input type="date" name="BirthDate" id="id_BirthDate" max="{{current_date}}" style="width: 11.68vw; height: 4.5vh; margin-bottom: 5vh;"></div>

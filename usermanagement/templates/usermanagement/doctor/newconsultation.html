@@ -3,40 +3,49 @@
 {% load static %}
 {% block content %}
 <h5>New Consutaltion...</h5>
-<div style="margin: auto; width: fit-content;">
+<div>
     <form method="POST" class="post-form">
         <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
         {% csrf_token %}
-        
-        <div>Name</div>
-        <div>
-            <select name="idPatient" required="" id="id_idPatient">
-                <option value="" selected="">---------</option>
-                {% for p in patientList %}
-                <option value="{{p.id}}">{{p}}</option>
-                {% endfor %}
-              
-            </select>
+        <div style="display:flex; justify-content:space-between">
+            <div>
+                <div>Name</div>
+                <div>
+                    <select name="idPatient" required="" id="id_idPatient">
+                        <option value="" selected="">---------</option>
+                        {% for p in patientList %}
+                        <option value="{{p.id}}">{{p}}</option>
+                        {% endfor %}
+                    
+                    </select>
+                </div>
+                <div>{{form.consultation_reason.name}}</div>
+                <div style="border: none ; background-color:blue" >{{form.consultation_reason}}</div>
+                <div>{{form.allergy.name}}</div>
+                <div>{{form.allergy}}</div>
+                <div>{{form.previous_history.name}}</div>
+                <div>{{form.previous_history}}</div>
+                <div>{{form.weight.name}}</div>
+                <div>{{form.weight}}</div>
+                <div>{{form.height.name}}</div>
+                <div>{{form.height}}</div>
+                <div>{{form.temperature.name}}</div>
+                <div>{{form.temperature}}</div>
+                <div>{{form.arterialpressure.name}}</div>
+                <div>{{form.arterialpressure}}</div>
+                <div>{{form.skin_appearence.name}}</div>
+                <div>{{form.skin_appearence}}</div>
+            </div>
+            <div>
+                <div>{{form.Consultation_Notes.name}}</div>
+                <div>{{form.Consultation_Notes}}</div>
+            </div>
         </div>
-        <div>{{form.consultation_reason.name}}</div>
-        <div>{{form.consultation_reason}}</div>
-        <div>{{form.allergy.name}}</div>
-        <div>{{form.allergy}}</div>
-        <div>{{form.previous_history.name}}</div>
-        <div>{{form.previous_history}}</div>
-        <div>{{form.weight.name}}</div>
-        <div>{{form.weight}}</div>
-        <div>{{form.height.name}}</div>
-        <div>{{form.height}}</div>
-        <div>{{form.temperature.name}}</div>
-        <div>{{form.temperature}}</div>
-        <div>{{form.arterialpressure.name}}</div>
-        <div>{{form.arterialpressure}}</div>
-        <div>{{form.skin_appearence.name}}</div>
-        <div>{{form.skin_appearence}}</div>
+        <div style="justify-content:center ;">
+            <input type="submit" class="save btn" value="Save">
+        </div>   
         
-       
-        <input type="submit" class="save btn" value="Save">
+
     </form>
 </div>
 {% endblock %}

@@ -129,6 +129,7 @@ class Consultation(models.Model):
     arterialpressure = models.FloatField()
     skin_appearence = models.CharField(max_length=100)
     status = models.CharField(max_length=20, default="invalid")
+    Consultation_Notes = models.TextField(blank=True, null=True, max_length=100000)
 
 
     def __str__(self):

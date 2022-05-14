@@ -20,7 +20,7 @@ class PatientForm(ModelForm):
 class ConsultationForm(ModelForm):
     class Meta:
         model= Consultation
-        fields = ['consultationCost', 'idPatient', 'consultation_reason', 'allergy', 'previous_history','weight', 'height', 'temperature', 'arterialpressure','skin_appearence' ]
+        fields = ['consultationCost', 'idPatient', 'consultation_reason', 'allergy', 'previous_history','weight', 'height', 'temperature', 'arterialpressure','skin_appearence', 'Consultation_Notes' ]
 
 class ExamForm(ModelForm):
     class Meta:
