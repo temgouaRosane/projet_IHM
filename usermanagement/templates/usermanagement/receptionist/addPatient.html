@@ -70,37 +70,16 @@
                 <div>gender</div>
                 <div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sexe" id="flexRadioDefault1" value="Male">
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" name="sexe" id="sexe1" value="Male">
+                        <label class="form-check-label" for="sexe1">
                           Male
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sexe" id="flexRadioDefault2" value="Female" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="sexe" id="sexe2" value="Female" checked>
+                        <label class="form-check-label" for="sexe2">
                           Female
                         </label>
-                        
-3
-4
-5
-6
-7
-8
-9
-10
-11
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<script>
-$(function(){
-   $('.datepicker').datepicker({
-      format: 'mm-dd-yyyy'
-    });
-});
-</script>
-<div class="col-md-6">
-	<input type="text" class="form-control datepicker" placeholder="Select Date"/>
-</div>
                         <!-- <input type="radio" name="sexe" id="id_sexe" value="Male">
                         <label for="male">Male</label>
                         <input type="radio" name="sexe" id="id_sexe" value="Female">
@@ -127,19 +106,43 @@ $(function(){
             <div style="width: 33%;">
                 <div>condition</div>
                 <div>
-                    <select name="condition" id="id_condition"  style="width: 11.68vw; height: 4.5vh; margin-bottom: 5vh;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="condition" id="condition1" value="Critical">
+                        <label class="form-check-label" for="condition1">
+                            Critical
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="condition" id="condition2" value="NoCritical" checked>
+                        <label class="form-check-label" for="condition2">
+                            NoCritical
+                        </label>
+                      </div>
+                    <!-- <select name="condition" id="id_condition"  style="width: 11.68vw; height: 4.5vh; margin-bottom: 5vh;">
                         <option value="NoCritical" selected="">NoCritical</option>
                         <option value="Critical">Critical</option>
     
-                    </select>
+                    </select> -->
                 </div>
                 <div>Service</div>
                 <div>
-                    <select name="Service"  id="id_Service"  style="width: 11.68vw; height: 4.5vh; margin-bottom: 5vh;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Service" id="Service1" value="Generalist" checked>
+                        <label class="form-check-label" for="Service1">
+                            Generalist
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Service" id="Service2" value="Specialist" >
+                        <label class="form-check-label" for="Service2">
+                            Specialist
+                        </label>
+                      </div>
+                    <!-- <select name="Service"  id="id_Service"  style="width: 11.68vw; height: 4.5vh; margin-bottom: 5vh;">
                         <option value="" selected="">---------</option>
                         <option value="Generalist">Generalist</option>
                         <option value="Specialist">Specialist</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div>ConsultationCost</div>
                 <div><input type="text" name="ConsultationCost" maxlength="23" style="margin-bottom: 5vh;" id="id_ConsultationCost" readonly=""></div>
@@ -150,7 +153,13 @@ $(function(){
         </div>       
         <script>
             document.getElementById("id_ConsultationCost").readOnly = true;
-            
+            document.getElementById("id_ConsultationCost").value = 2000;
+            document.getElementById('Service1').addEventListener('click',function(){
+                document.getElementById("id_ConsultationCost").value = 2000;
+            })
+            document.getElementById('Service2').addEventListener('click',function(){
+                document.getElementById("id_ConsultationCost").value = 5000;
+            })
             document.getElementById("id_Service").addEventListener("change",function(){
                 if("Generalist"===document.getElementById("id_Service").value){
                     document.getElementById("id_ConsultationCost").value = 2000;

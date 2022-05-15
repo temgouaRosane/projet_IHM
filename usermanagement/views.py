@@ -72,7 +72,38 @@ def addPatient(request):
     #traitement de la requete post
    
     if request.method == "POST":
-        form = PatientForm(request.POST).save()
+        '''
+        
+    CNI_number = models.CharField(max_length=20,  blank= True, default=" ")
+    FirstName = models.CharField(max_length=50,  blank= True)
+    LastName = models.CharField(max_length=50,  blank= True, default=" ")
+    gender = models.CharField(max_length=50, choices=SEXE, default='Male',  blank= True)
+    Phone_number = models.CharField(max_length=100,  blank= True, default=" ")
+    BirthDate = models.DateField( blank= True,null=True, default="0000-00-00")      
+    Address = models.CharField(max_length=25,  blank= True, default=" ")
+    Email_address = models.CharField(max_length=25, blank= True, default=" ")
+    condition = models.CharField(max_length=50, choices=CONDITION, default='NoCritical')
+    Service = models.CharField(max_length=50, choices=SERVICE, default='Generalist')
+    ConsultationCost = models.CharField(max_length=23, blank= True)
+    status = models.CharField(max_length=20, default="invalid")
+        '''
+        p = Patient()
+        p.FirstName = request.POST['FirstName']
+        p.LastName = request.POST['LastName']
+        p.Phone_number = request.POST['Phone_number']
+        p.BirthDate = request.POST['BirthDate']
+        p.Address = request.POST['Address']
+        p.Email_address = request.POST['Email_address']
+        p.ConsultationCost = request.POST['ConsultationCost']
+        p.status = 'invalid'
+        p.gender = request.POST['sexe']
+        p.Service = request.POST['Service']
+        p.condition = request.POST['condition']
+        print(request.POST['sexe'])
+        p.save()
+        print('-----------------------------------------------------------')
+        print('-----------------------------------------------------------')
+        print('-----------------------------------------------------------')
         return viewpatientlist(request) #redirect('/addPatient')
     else:   
         form = PatientForm()
@@ -100,8 +131,10 @@ def viewpatientlist(request):
         page = request.GET.get('page')
         patients = paginator.get_page(page)
         patientList = []
+        patientList2 = []
         for p in patients:
             if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
+                patientList2.append[p]
                 patientList.append([p.FirstName,p.LastName,p.CNI_number])
                 
         context = {
@@ -535,11 +568,12 @@ def cashierviewexam(request):
     if request.method == 'POST':
         if 'name' in request.POST:
             name = request.POST['name']   #Il faut la jointure pour filtrer selon le nom
-    patientList = Patient.objects.filter(FirstName__contains=name).order_by("Date")[::-1]
+    patientList = Patient.objects.filter(FirstName__contains=name)
     examList = Examen.objects.filter(status__exact='invalid')
+    
     context = {
         'examList':examList,
-        'patientList':patientList,
+        # 'patientList':patientList,
     }
     return render(request=request,template_name='usermanagement/cashier/cashierviewexam.html',context=context)
 
@@ -556,7 +590,7 @@ def validationexams(request, id):
 def savevalidationexams(request,id):
     try:
         e = Examen.objects.filter(id__exact=id)[0]
-        e.pstatus = "valid"
+        e.status = "valid"
         e.save()
     except:
         pass

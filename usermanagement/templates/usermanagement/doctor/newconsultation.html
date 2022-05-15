@@ -5,6 +5,31 @@
 <h5>New Consutaltion...</h5>
 <div>
     <form method="POST" class="post-form">
+        <!--<input type="hidden" name="csrfmiddlewaretoken" value="VHI7C0VRfVlBaMqu2aC10pnhPiFfwe8IBq74bbYap7nIQjesmmlCh71YSfYj61aZ">: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
+        <input type="hidden" name="csrfmiddlewaretoken" value="VHI7C0VRfVlBaMqu2aC10pnhPiFfwe8IBq74bbYap7nIQjesmmlCh71YSfYj61aZ">
+        <div style="display:flex; justify-content:space-between">
+            <div>
+                <div>Name</div>
+                <div>
+                    <select name="idPatient" required="" id="id_idPatient">
+                        <option value="" selected="">---------</option>
+                        
+                        <option value="11">AZAFACK </option>
+                        
+                        <option value="26">kamsu kom boris</option>
+                        
+                        <option value="36">tictok </option>
+                        
+                        <option value="37">Nafi Bia</option>
+                        
+                    
+                    </select>
+                </div>
+                
+        
+
+    </form>
+    <form method="POST" class="post-form">
         <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
         {% csrf_token %}
         <div style="display:flex; justify-content:space-between">
@@ -19,32 +44,31 @@
                     
                     </select>
                 </div>
-                <div>{{form.consultation_reason.name}}</div>
-                <div style="border: none ; background-color:blue" >{{form.consultation_reason}}</div>
-                <div>{{form.allergy.name}}</div>
-                <div>{{form.allergy}}</div>
-                <div>{{form.previous_history.name}}</div>
-                <div>{{form.previous_history}}</div>
-                <div>{{form.weight.name}}</div>
-                <div>{{form.weight}}</div>
-                <div>{{form.height.name}}</div>
-                <div>{{form.height}}</div>
-                <div>{{form.temperature.name}}</div>
-                <div>{{form.temperature}}</div>
-                <div>{{form.arterialpressure.name}}</div>
-                <div>{{form.arterialpressure}}</div>
-                <div>{{form.skin_appearence.name}}</div>
-                <div>{{form.skin_appearence}}</div>
+                <div>consultation_reason</div>
+                <div style="border: none ; background-color:blue"><input type="text" name="consultation_reason" maxlength="100" required="" id="id_consultation_reason"></div>
+                <div>allergy</div>
+                <div><input type="text" name="allergy" maxlength="100" required="" id="id_allergy"></div>
+                <div>previous_history</div>
+                <div><input type="text" name="previous_history" maxlength="200" required="" id="id_previous_history"></div>
+                <div>weight</div>
+                <div><input type="number" name="weight" step="any" id="id_weight"></div>
+                <div>height</div>
+                <div><input type="number" name="height" step="any" id="id_height"></div>
+                <div>temperature</div>
+                <div><input type="number" name="temperature" step="any" required="" id="id_temperature"></div>
+                <div>arterialpressure</div>
+                <div><input type="number" name="arterialpressure" step="any" required="" id="id_arterialpressure"></div>
+                <div>skin_appearence</div>
+                <div><input type="text" name="skin_appearence" maxlength="100" required="" id="id_skin_appearence"></div>
             </div>
             <div>
-                <div>{{form.Consultation_Notes.name}}</div>
-                <div>{{form.Consultation_Notes}}</div>
+                <div>Consultation_Notes</div>
+                <div><textarea name="Consultation_Notes" cols="40" rows="10" maxlength="100000" id="id_Consultation_Notes"></textarea></div>
             </div>
         </div>
         <div style="justify-content:center ;">
             <input type="submit" class="save btn" value="Save">
         </div>   
-        
 
     </form>
 </div>

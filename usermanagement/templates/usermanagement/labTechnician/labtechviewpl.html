@@ -39,7 +39,7 @@
                 <div style="display: flex; flex-direction: column; width: 60%;">
                     {% for m in examens %}
                         {% if m.idPatient == p %}
-                            {% if m.status != 'valid' %}
+                            {% if m.status == 'invalid' %}
                                 <div style="display: flex; width:100%">
                                     <div style="width: 20%;"><li> {{m.ExamDescription}} </li></div>
                                     <div style="width: 50%;">
