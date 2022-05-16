@@ -9,6 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <title>{% block title %} Home{%endblock %} </title>
+
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="{% static 'usermanagement/plugins/bootstrap/css/bootstrap.min.css' %}"/>
 <!--
@@ -18,6 +19,18 @@
 <!-- Custom Css -->
 <link rel="stylesheet" href="{% static 'usermanagement/css/main.css' %}"/>
 <link rel="stylesheet" href="{% static 'usermanagement/css/mystyle.css' %}"/>
+<style>
+    .typewrite {
+    font-size: 60px;
+    margin-top: 10px;
+    float: left;
+    width: 100%;
+    text-align: center;
+    text-shadow: 4px 3px 0 rgba(0,0,0,0.0);
+    letter-spacing: -1px;
+    font-weight: 400;
+}
+</style>
 </head>
 
 <body class="theme-green">
@@ -52,10 +65,12 @@
         </ul>
     </div>
     {% endif %}
+
+
     
 <div class="container">
     <div class="welcome">
-        <h3> Welcome to Polyclinic Fultang </h3>
+        <h3><a href="" class="typewrite" data-period="2000" data-type='[ "Welcome to Life Care", "We Care Your Health", "We are Expert!" ]'></a></h3>
     </div>
 </div>
 
@@ -124,6 +139,7 @@
 <script src="{% static 'usermanagement/bundles/mainscripts.bundle.js' %}"></script><!-- Custom Js -->
 <script src="{% static 'usermanagement/js/pages/index.js' %}"></script>
 <script src="{% static 'usermanagement/js/pages/charts/sparkline.min.js' %}"></script>
+<script src="{% static 'usermanagement/description/custom.js' %}"></script>
 </body>
 
 <!-- Mirrored from thememakker.com/templates/swift/hospital/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 20 Nov 2021 08:11:50 GMT -->

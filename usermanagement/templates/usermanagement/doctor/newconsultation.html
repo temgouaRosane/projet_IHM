@@ -4,71 +4,61 @@
 {% block content %}
 <h5>New Consutaltion...</h5>
 <div>
-    <form method="POST" class="post-form">
-        <!--<input type="hidden" name="csrfmiddlewaretoken" value="VHI7C0VRfVlBaMqu2aC10pnhPiFfwe8IBq74bbYap7nIQjesmmlCh71YSfYj61aZ">: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
-        <input type="hidden" name="csrfmiddlewaretoken" value="VHI7C0VRfVlBaMqu2aC10pnhPiFfwe8IBq74bbYap7nIQjesmmlCh71YSfYj61aZ">
-        <div style="display:flex; justify-content:space-between">
-            <div>
-                <div>Name</div>
-                <div>
-                    <select name="idPatient" required="" id="id_idPatient">
-                        <option value="" selected="">---------</option>
-                        
-                        <option value="11">AZAFACK </option>
-                        
-                        <option value="26">kamsu kom boris</option>
-                        
-                        <option value="36">tictok </option>
-                        
-                        <option value="37">Nafi Bia</option>
-                        
-                    
-                    </select>
-                </div>
-                
-        
-
-    </form>
+                <style>
+                    input{
+                        border: none;
+                        border-bottom: solid 1px rgb(100, 90, 90);
+                        width: 30vw;
+                        background-color: transparent;
+                        transition: ease 0.15s;
+                    }
+                    input:focus{
+                        border: none;
+                        border-bottom: solid 2px rgb(14, 208, 170);
+                        width: 30vw;
+                        background-color: transparent;
+                    }
+                </style>
     <form method="POST" class="post-form">
         <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
         {% csrf_token %}
-        <div style="display:flex; justify-content:space-between">
-            <div>
-                <div>Name</div>
+        <div style="display:flex; width: 100%; margin-top: 5vh;">
+            <div style="width: 50%;">
                 <div>
-                    <select name="idPatient" required="" id="id_idPatient">
+                    <select style="width: 30vw; height:4vh;" name="idPatient" required="" id="id_idPatient">
                         <option value="" selected="">---------</option>
                         {% for p in patientList %}
                         <option value="{{p.id}}">{{p}}</option>
                         {% endfor %}
-                    
+                        
                     </select>
                 </div>
-                <div>consultation_reason</div>
-                <div style="border: none ; background-color:blue"><input type="text" name="consultation_reason" maxlength="100" required="" id="id_consultation_reason"></div>
-                <div>allergy</div>
+                <div style="margin-bottom:2vh;">Name</div>
+                <div style="border: none;"><input type="text" name="consultation_reason" maxlength="100" required="" id="id_consultation_reason"></div>
+                <div style="margin-bottom:2vh;">consultation_reason</div>
                 <div><input type="text" name="allergy" maxlength="100" required="" id="id_allergy"></div>
-                <div>previous_history</div>
+                <div style="margin-bottom:2vh;">allergy</div>
                 <div><input type="text" name="previous_history" maxlength="200" required="" id="id_previous_history"></div>
-                <div>weight</div>
+                <div style="margin-bottom:2vh;">previous_history</div>
                 <div><input type="number" name="weight" step="any" id="id_weight"></div>
-                <div>height</div>
-                <div><input type="number" name="height" step="any" id="id_height"></div>
-                <div>temperature</div>
+                <div style="margin-bottom:2vh;">weight</div>
+                <!-- <div><input type="number" name="height" step="any" id="id_height"></div>
+                <div>height</div> -->
                 <div><input type="number" name="temperature" step="any" required="" id="id_temperature"></div>
-                <div>arterialpressure</div>
-                <div><input type="number" name="arterialpressure" step="any" required="" id="id_arterialpressure"></div>
-                <div>skin_appearence</div>
-                <div><input type="text" name="skin_appearence" maxlength="100" required="" id="id_skin_appearence"></div>
+                <div style="margin-bottom:2vh;">temperature</div>
+                <!-- <div><input type="number" name="arterialpressure" step="any" required="" id="id_arterialpressure"></div>
+                <div>arterialpressure</div> -->
+                <!-- <div><input type="text" name="skin_appearence" maxlength="100" required="" id="id_skin_appearence"></div>
+                <div>skin_appearence</div> -->
+                <div style="margin-top: 4vh;">
+                    <input type="submit" class="save btn" value="Save">
+                </div>   
             </div>
-            <div>
+            <div style="width: 50%;">
                 <div>Consultation_Notes</div>
-                <div><textarea name="Consultation_Notes" cols="40" rows="10" maxlength="100000" id="id_Consultation_Notes"></textarea></div>
+                <div><textarea style="width: 50%; width: 40vw; height: 50vh;" name="Consultation_Notes" cols="40" rows="10" maxlength="100000" id="id_Consultation_Notes"></textarea></div>
             </div>
         </div>
-        <div style="justify-content:center ;">
-            <input type="submit" class="save btn" value="Save">
-        </div>   
 
     </form>
 </div>
