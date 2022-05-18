@@ -25,7 +25,7 @@ class ConsultationForm(ModelForm):
 class ExamForm(ModelForm):
     class Meta:
         model= Examen
-        fields = ['idPatient', 'ExamDescription', 'ExamCost']
+        fields = ['idPatient', 'ExamDescription', 'ExamCost', 'Notes']
 
 class MedicineForm(ModelForm):
     class Meta:

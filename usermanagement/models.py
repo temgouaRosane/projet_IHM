@@ -1,4 +1,5 @@
 from datetime import timezone
+from tkinter.tix import Tree
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
@@ -172,6 +173,7 @@ class Examen(models.Model):
         "Patient", on_delete=models.CASCADE, null=False)
     status = models.CharField(max_length=20, default="invalid")
     pstatus = models.CharField(max_length=20, default="invalid")
+    Notes = models.TextField(max_length=10000, blank=True, null=True)
 
     def __str__(self) -> str:
         return str(self.idPatient)+' '+str(self.ExamDescription)
