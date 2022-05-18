@@ -359,16 +359,15 @@ def newexamprescription(request):
         e = Examen() 
         e.ExamDescription = request.POST['ExamDescription']
         e.ExamCost = request.POST['ExamCost']
-        # e.idPatient = request.POST['idPatient']
+        e.idPatient = Patient.objects.filter(id__exact=request.POST['idPatient'])[0]
         # e.Time = request.POST['Time']
         # e.Date = request.POST['Date']
-        # e.status = request.POST['status']
-        # e.pstatus = request.POST['pstatus']
+        e.status = 'invalid'
+        e.pstatus = "invalid"
         e.Notes = request.POST['Notes']
 
         e.save()
         print("Hello Maimouna! Good Job!!!!!")
-        return render(request, 'usermanagement/doctor/newexamprescription.html', context=context)
 
 
     form = ExamForm()    
