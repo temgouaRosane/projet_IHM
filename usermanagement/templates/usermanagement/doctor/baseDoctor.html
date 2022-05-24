@@ -55,20 +55,14 @@
         <aside id="leftsidebar" class="sidebar">
             <!-- User Info -->
             <div class="user-info">
-                <div class="admin-image"> <img src="{% static 'usermanagement/images/chu.jpg' %}" alt="">
-                </div>
-                <div class="admin-action-info"> <span>Welcome</span>
-                    <h3>{{ user.username }}</h3>
-                    <ul>
-                        <li>
-                            <a href="{% url 'account_logout' %}" title="sign out">
-                                <span style="color:white;"> Signout </span>
-                                <i class="zmdi zmdi-sign-in"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="admin-image"> <img src="{% static 'usermanagement/images/random-avatar7.jpg' %}" alt=""> </div>
+            <div class="admin-action-info"> <span>Welcome</span>
+                <h3>{{ user.username }}</h3>
+                <ul>
+                   <span style="color:white;"> Signout </span><li><a href="{% url 'account_logout' %}" title="sign out" ><i class="zmdi zmdi-sign-in"></i></a></li>
+                </ul>
             </div>
+        </div>
             <!-- #User Info -->
             <!-- Menu -->
             <div class="menu">

@@ -1,5 +1,5 @@
+from enum import auto
 from multiprocessing import context
-import re
 from django.shortcuts import redirect, render
 from django.views.generic.edit import UpdateView, DeleteView
 from usermanagement.models import Consultation, Examen, Medicament, Patient
@@ -7,6 +7,7 @@ from .formulaire import  MedicineForm, PatientForm, ConsultationForm, ExamForm
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 import datetime
+from datetime import datetime
 from django.core.paginator import Paginator
 from usermanagement.models import Patient
 from django.core.mail import send_mail
@@ -108,7 +109,7 @@ def addPatient(request):
     else:   
         form = PatientForm()
         context={
-            'current_date': datetime.datetime.now().date().__str__(),
+            'current_date': datetime.now().date().__str__(),
             'form':form
         }
     return render(request, 'usermanagement/receptionist/addPatient.html', context=context)
@@ -134,7 +135,7 @@ def viewpatientlist(request):
         patientList2 = []
         for p in patients:
             if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
-                patientList2.append[p]
+                patientList2.append(p)
                 patientList.append([p.FirstName,p.LastName,p.CNI_number])
                 
         context = {
@@ -142,7 +143,7 @@ def viewpatientlist(request):
             'patients': patients,
             'selectName':name,
             
-        }
+            }
         return render(request, 'usermanagement/receptionist/viewpatientlist.html', context)
     patients = Patient.objects.all().order_by("Date")[::-1]
     paginator = Paginator(patients, 5)
@@ -465,7 +466,8 @@ def facturemedicament(request,id):
                     m.status = 'valid'
                     m.save()
         nom = Patient.objects.filter(id__exact=id)[0]
-        context = {'validMed':validMed,'nom':nom, 'coast': coast}
+        d = datetime.now()
+        context = {'validMed':validMed,'nom':nom, 'coast': coast,'d':d}
         return render(request, 'usermanagement/pharmacist/facturemedicament.html',context)
     return pharmacistviewpl(request)
 

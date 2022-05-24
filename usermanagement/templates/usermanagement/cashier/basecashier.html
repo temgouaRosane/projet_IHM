@@ -16,6 +16,17 @@
     <!-- Custom Css -->
     <link rel="stylesheet" href="{% static 'usermanagement/css/main.css' %}" />
     {% block style %}{% endblock %}
+
+    <script language="javascript">
+        function imprimer_bloc(divName) {
+            var printContents = document.getElementById(divName).innerHTML;    
+            var originalContents = document.body.innerHTML;      
+            document.body.innerHTML = printContents;     
+            window.print();     
+            document.body.innerHTML = originalContents;                
+        }
+    </script>
+
 </head>
 
 <body class="theme-cyan">

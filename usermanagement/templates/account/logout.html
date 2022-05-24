@@ -5,25 +5,30 @@
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-
-<h3 class="h3" id="head_banner">{% trans "Sign Out" %}</h3>
-
-<p class="confirm_logout_info">{% trans 'Are you sure you want to sign out?' %}</p>
-
-<form class="container-fluid text-center" id="logout_form" method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-
-  {% if redirect_field_value %}
-
-  	<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-
-  {% endif %}
+<div style="width: 100%; height:100%; background-color:  rgb(208, 198, 198);">
+  <div class="container-fluid" style="width:100%; height:70%;"> <br> <br>
+    <h3 class="h3" id="head_banner">{% trans "Sign Out" %}</h3>
   
-  <button  class="btn btn-outline-success" type="submit">{% trans 'Sign Out' %}</button>
-  <a class="btn btn-outline-danger" id="custom_logout_no" href="/home">{% trans 'No' %}</a>
-</form>
-
+    <p class="confirm_logout_info">{% trans 'Are you sure you want to sign out?' %}</p>
+  
+    <form class="container-fluid text-center" id="logout_form" method="post" action="{% url 'account_logout' %}">
+      {% csrf_token %}
+  
+      {% if redirect_field_value %}
+  
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+  
+      {% endif %}
+      
+      <button  class="btn btn-outline-success" type="submit">{% trans 'Sign Out' %}</button>
+      <a class="btn btn-outline-danger" id="custom_logout_no" href="/home">{% trans 'No' %}</a>
+    </form>
+  </div>
+  
+  <div style="width: 100%; height:30%; background-color: rgb(14, 110, 106);">
+  
+  </div>
+  
 </div>
 
 {% endblock %}

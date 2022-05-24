@@ -16,7 +16,7 @@
     <form style="text-align: center;" action="{% url 'usermanagement:viewpatientlist' %}" method="POST">
         {% csrf_token %}
         <label for="">Name</label>
-        <input name='name' type="text" value="{{selectName}}">
+        <input style="border:none; border-bottom:solid 0.5px rgb(47, 173, 223); width:15vw;margin-left:1vw;" name='name' type="text" value="{{selectName}}">
         <button>🔍</button>
         <br>
         <hr>
