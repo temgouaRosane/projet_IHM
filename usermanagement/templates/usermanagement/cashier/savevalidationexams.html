@@ -1,0 +1,6 @@
+<form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to valid ExamCost of: "{{ patient.FirstName }}"?</p>
+    <input type="submit" value="Valid">
+    <a href="{% url 'usermanagement:viewexamslist' %}" class="btn btn-purple"><h5>Cancel</h5></a>
+</form>

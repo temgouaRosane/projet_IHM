@@ -1,0 +1,52 @@
+{% load static %}
+
+{% block contentTitle %}
+    Add Patients
+{% endblock contentTitle %}
+{% block style %} <link rel="stylesheet" href="{% static 'usermanagement/css/addPatient.css' %}"/> {%endblock %} 
+
+{% block content %}
+<div style="margin: auto; width: fit-content;">
+    <form method="POST" class="post-form">
+        <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
+        {% csrf_token %}
+        <div>{{ form.FirstName.name }}</div>        
+        <div>{{ form.FirstName }}</div>
+        <div>{{ form.LastName.name }}</div>
+        <div>{{ form.LastName }}</div>
+        <div>{{ form.sexe.name }}</div>
+        <div>{{ form.sexe }}</div>
+        <div>{{ form.BirthDate.name }}</div>
+        <div>{{ form.BirthDate }}</div>
+        <div>{{ form.Address.name }}</div>
+        <div>{{ form.Address }}</div>
+        <div>{{ form.CNI_number.name }}</div>
+        <div>{{ form.CNI_number }}</div>
+        <div>{{ form.Phone_number.name }}</div>
+        <div>{{ form.Phone_number }}</div>
+        <div>{{ form.Email_address.name }}</div>
+        <div>{{ form.Email_address }}</div>
+        <div>{{ form.condition.name }}</div>
+        <div>{{ form.condition }}</div>
+        <div>{{ form.Service.name }}</div>
+        <div>{{ form.Service }}</div>
+        <div>{{ form.ConsultationCost.name }}</div>
+        <div>{{ form.ConsultationCost }}</div>
+        <script>
+            document.getElementById("id_ConsultationCost").readOnly = true;
+            
+            document.getElementById("id_Service").addEventListener("change",function(){
+                if("Generalist"===document.getElementById("id_Service").value){
+                    document.getElementById("id_ConsultationCost").value = 2000;
+                }else if("Specialist"===document.getElementById("id_Service").value){
+                    document.getElementById("id_ConsultationCost").value = 5000;
+                }else{
+                    document.getElementById("id_ConsultationCost").value = 10000
+                }
+            })
+        </script>
+        
+        <input type="submit" class="save btn" value="Save">
+    </form>
+</div>
+{% endblock content %}

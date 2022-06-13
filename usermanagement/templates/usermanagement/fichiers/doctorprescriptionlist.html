@@ -1,0 +1,55 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'usermanagement/css/prescriptionlist.css' %}">
+{% endblock %}
+{% block content %}
+
+<h6 style="text-align: center;">Prescription List...</h6><br> <br>
+<h6 style="border: solid; text-align: center; border-color: rgb(63, 92, 100);">*** Exam Prescription List ***</h6> <br>
+<table>
+    <thead> 
+        <th><h5 >PatientName</h5></th>
+        <th><h5 style="margin-left: 100%;">ExamDescription</h5></th>
+        <th><h5 style="margin-left: 300%;">ExamCost</h5></th>            
+        <th><h5 style="margin-left: 450%;">Date</h5></th>            
+        <th><h5 style="margin-left: 700%;">Time</h5></th>           
+    </thead>
+    <tbody> <hr>
+        {% for exam in examens %}           
+        <tr>
+            <td><h6>{{ exam.idPatient }}</h6></td>
+            <td><h6 style="margin-left: 100%;">{{ exam.ExamDescription }}</h6></td>
+            <td><h6 style="margin-left: 300%;">{{ exam.ExamCost }}&nbsp;&nbsp;&nbsp;Fcfa</h6></td>
+            <td><h6 style="margin-left: 450%;">{{ exam.Date }}</h6></td>
+            <td><h6 style="margin-left: 700%;">{{ exam.Time }}</h6></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> <hr> <br> <br>
+
+<h6 style="border: solid; text-align: center; border-color: rgb(63, 92, 100);">*** Medicine Prescription List ***</h6> <br>
+<table>
+    <thead>
+        <th><h5>PatientName</h5></th>
+        <th><h5 style="margin-left: 100%;">MedicineName</h5></th>
+        <th><h5 style="margin-left: 230%;">MedicineCost</h5></th>            
+        <th><h5 style="margin-left: 450%;">Date</h5></th>            
+        <th><h5 style="margin-left: 700%;">Time</h5></th>            
+    </thead>
+    <tbody> <hr>
+        {% for med  in medicaments %}
+       <!-- <tr style="border: solid; width: 100%;"></tr> -->  
+        <tr>
+            <td><h6>{{ med.idPatient }}</h6></td>
+            <td><h6 style="margin-left: 100%;">{{ med.MedicineName }}</h6></td>
+            <td><h6 style="margin-left: 230%;">{{ med.MedicineCost }}&nbsp;&nbsp;&nbsp;Fcfa</h6></td>
+            <td><h6 style="margin-left: 450%;">{{ med.Date }}</h6></td>
+            <td><h6 style="margin-left: 700%;">{{ med.Time }}</h6></td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table> <hr>
+{% endblock %}

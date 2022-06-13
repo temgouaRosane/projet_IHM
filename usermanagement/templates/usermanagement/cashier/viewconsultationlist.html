@@ -1,0 +1,83 @@
+    {% extends 'usermanagement/cashier/basecashier.html' %}
+
+{% load static %}
+{% block content %}
+
+
+<hr>
+{% csrf_token %}
+<form style="text-align: center;" action="{% url 'usermanagement:viewconsultationlist' %}" method="POST">
+    {% csrf_token %}
+    <label for="">Name</label>
+    <input name='name' type="text" value="{{selectName}}">
+    <button>🔍</button>
+    <hr>
+</form>
+
+<br>
+<div>
+
+    <div style="display: flex;">
+        <div style="width: 20%;">
+            <h6>Patient_Name</h6>
+        </div>
+        <div style="width: 20%;">
+            <h6>Service</h6>
+        </div>
+        <div style="width: 20%;">
+            <h6>Condition</h6>
+        </div>
+        <div style="width: 23%;">
+            <h6>Consultation<br>Cost</h6>
+        </div>
+        <div>
+            <h6>Action</h6>
+        </div>
+    </div>
+    {% for p in patientList %}
+    <form method="post" action="{% url 'usermanagement:validation' p.id %}">
+        {% csrf_token %}
+
+        <style>
+            .m{
+                width: 5vw;
+                height: 5vh;
+                border-radius: 30%;
+                transition: ease 0.25s;
+                border-color: rgb(156, 155, 155);
+            }
+            .m:hover{
+                width: 6vw;
+                height: 5vh;
+                border-radius: 30%;
+                background-color: rgb(64, 234, 64);
+            }
+        </style>
+        <hr>
+        <div style="display: flex;  width: 100%;">
+            <div style="display: flex; width: 20%;">
+                {{p}}
+            </div>
+            <div style="display: flex; width: 20%;">
+                {{p.Service}}
+            </div>
+            <div style="display: flex; width: 20%;">
+                {{p.condition}}
+            </div>
+            <div style="display: flex; width: 21%;">
+                {{p.ConsultationCost}}
+            </div>
+            <div>
+                <svg style=" height: 5vh;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                </svg>
+                <input class="m" type="submit" value="Payment">
+            </div>
+        </div>
+        
+        
+    </form>
+    {% endfor %}
+    <hr>
+</div>
+{% endblock %}

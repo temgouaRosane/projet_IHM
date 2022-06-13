@@ -1,0 +1,81 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'usermanagement/css/doctorviewpl.css' %}">
+{% endblock style %}
+{% block content %}
+<div>
+    {% comment %} 1)FirstName, 2)LastName, 3)Condition
+    {% endcomment %}
+    <h5>Consultation List...</h5>
+    <hr>
+    {% csrf_token %}
+    <form style="text-align: center;" action="{% url 'usermanagement:consultationlist' %}" method="POST">
+        {% csrf_token %}
+        <label for="">Name</label>
+        <input name='name' type="text" value="{{selectName}}">
+        <button>🔍</button>
+        <br>
+        <hr>
+    </form>
+
+    <div style="display: flex;">
+        <div style="width: 15%;">Patient ID</div>
+        <div style="width: 85%;">
+            <div style="width: 100%; display: flex;">
+                <div style="width: 15%;">date</div>
+                <div style="width: 15%;" >Time</div>
+                <div style="width: 25%;">consultation_reason</div>
+                <div style="width:25%";>previous_history</div>
+                <div>Allergy</div>
+            </div >
+        </div>
+    </div> <hr>
+
+    <div class='Grand'>
+        {% for nom,prenom,cni,l in patientList %}
+        <div class="patient" style='display:flex'>
+            <a style='width: 15%;' href="{% url 'usermanagement:patientDetails' nom %}">
+                <div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div>
+            </a>
+            <div style=" width: 85%;">
+                {% for c in consultationlist %}
+                {% if c.idPatient.id in l %}
+                <div style="display: flex; width: 100%;">
+                    <div style="display: flex; width: 100%;">
+                        <div style="width: 15%;">{{c.consultationDate}}</div>
+                        <div style="width: 15%;">{{c.Time}}</div>
+                        <div style="width: 25%;">{{c.consultation_reason}}</div>
+                        <div style="width: 25%;">{{c.previous_history}}</div>
+                        <div>{{c.allergy}}</div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if patients.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ patients.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ patients.number }} of {{ patients.paginator.num_pages }}.
+        </span>
+
+        {% if patients.has_next %}
+            <a href="?page={{ patients.next_page_number }}&&name={{selectName}}">next</a>
+            <a href="?page={{ patients.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

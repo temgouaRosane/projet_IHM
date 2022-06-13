@@ -1,0 +1,43 @@
+{% extends 'usermanagement/dentist/basedentist.html' %}
+
+{% load static %}
+{% block content %}
+
+<div style="margin: auto; width: fit-content;">
+    <form method="POST" class="post-form">
+        <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
+        {% csrf_token %}
+        <div>Name</div>
+        <div>
+            <select name="idPatient" required="" id="id_idPatient">
+                <option value="" selected="">---------</option>
+                {% for p in patientList %}
+                <option value="{{p.id}}">{{p}}</option>
+                {% endfor %}
+              
+            </select>
+        <div>{{ form.ExamDescription.name }}</div>
+        <div>{{ form.ExamDescription }}</div>
+        <div>{{ form.ExamCost.name }}</div>
+        <div>{{ form.ExamCost }}</div>
+        <script>
+            document.getElementById("id_ExamCost").readOnly = true;
+            
+            document.getElementById("id_ExamDescription").addEventListener("change",function(){
+                if("bloodtest"===document.getElementById("id_ExamDescription").value){
+                    document.getElementById("id_ExamCost").value = 5000;
+                }else if("GoutteEpaisse"===document.getElementById("id_ExamDescription").value){
+                    document.getElementById("id_ExamCost").value = 3000;
+                }else if("Electrophorese"===document.getElementById("id_ExamDescription").value){
+                    document.getElementById("id_ExamCost").value = 4500;
+                }else{
+                    document.getElementById("id_ExamCost").value = 2550
+                }
+            })
+        </script>
+        
+        <input type="submit" class="save btn" value="Save">
+    </form>
+</div>
+
+{% endblock %}

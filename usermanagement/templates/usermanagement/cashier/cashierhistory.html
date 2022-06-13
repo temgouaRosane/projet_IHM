@@ -1,0 +1,75 @@
+{% extends 'usermanagement/cashier/basecashier.html' %}
+
+{% load static %}
+{% block content %}
+
+
+<hr>
+{% csrf_token %}
+<form style="text-align: center;" action="{% url 'usermanagement:cashierhistory' %}" method="POST">
+    {% csrf_token %}
+    <label for="">Name</label>
+    <input name='name' type="text" value="{{selectName}}">
+    <button>🔍</button>
+    <hr>
+</form>
+
+
+<span style="text-decoration: solid;">This is the list of patients who have paid for their consultations...</span> <br> <br>
+<div>
+
+    <div style="display: flex;">
+        <div style="width: 20%;">
+            <h6>Patient_Name</h6>
+        </div>
+        <div style="width: 20%;">
+            <h6>Service</h6>
+        </div>
+        <div style="width: 20%;">
+            <h6>Consultation <br> Cost</h6>
+        </div>
+        <div style="width: 18%;">
+            <h6>Condition</h6>
+        </div>
+        <div>
+            <h6>Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  Time</h6>
+        </div>
+    </div>
+    {% for p in patientList %}
+    <form method="post" action="{% url 'usermanagement:validation' p.id %}">
+        {% csrf_token %}
+        <hr>
+        <div style="display: flex;  width: 100%;">
+            <div style="display: flex; width: 20%;">
+                {{p}}
+            </div>
+            <div style="display: flex; width: 20%;">
+                {{p.Service}}
+            </div>
+            <div style="display: flex; width: 20%;">
+                {{p.ConsultationCost}}
+            </div>
+
+            {% if p.condition == "Critical" %}
+                <div style="background-color:rgb(186, 42, 42) ;">{{p.condition}}</div>
+                {% else %}
+                    <div>{{p.condition}}</div>
+            {% endif %}
+
+            
+            <div>
+                {{p.Date}}
+            </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div>
+                {{p.Time}}
+            </div>
+        </div>
+        <!-- {% if p.status == "valid" %}
+        <input style="margin-left: 90%; height: 5vh; width: 4vw" type="text" value="OK" disabled> -->
+       
+        {% endif %}
+    </form>
+    {% endfor %}
+    <hr>
+</div>
+{% endblock %}

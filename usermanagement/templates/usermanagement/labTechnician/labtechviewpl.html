@@ -1,0 +1,64 @@
+{% extends 'usermanagement/labTechnician/baseLabTech.html' %}
+
+{% load static %}
+{% block content %}
+<br> <br>
+    <span style="text-decoration: solid;">Patient List...</span> 
+
+{% csrf_token %}
+<form style="text-align: center;" action="{% url 'usermanagement:labtechviewpl' %}" method="POST">
+    {% csrf_token %}
+    <label for="">Name</label>
+    <input name='name' type="text" value="{{selectName}}">
+    <button>🔍</button>
+    <hr>
+</form>
+
+
+    <div style= "padding: 1%; margin-top: 5vh;">
+
+        <div style="display: flex;">
+            <div style="width: 17%;">
+                <h6>Patient_Name</h6>
+            </div style="width: 50%;">
+            <div>
+                <h6 style="margin-left: 227%;">Patient_Exams</h6>
+            </div>
+            <div>
+                <h6 style="margin-left: 430%;">Send_To_Cashier</h6>
+            </div>
+        </div>
+        {% for p in listePatient %}
+        <form method="post" action="{% url 'usermanagement:factureexamen' p.id %}">
+            {% csrf_token %}
+            <hr>
+            <div style="display: flex; width: 100%">
+                <div style="display: flex; width: 40%;">
+                   {{p}}
+                </div>
+                <div style="display: flex; flex-direction: column; width: 60%;">
+                    {% for m in examens %}
+                        {% if m.idPatient == p%}
+                            {% if m.status == 'invalid' and m.pstatus == 'valid' %}
+                                <div style="display: flex; width:100%">
+                                    <div style="width: 20%;"><li> {{m.ExamDescription}} </li></div>
+                                    <div style="width: 50%;">
+                                        <select name="{{m.id}}" id="">
+                                            <option value="invalid">invalid</option>
+                                            <option value="valid">valid</option>
+                                        </select> <br> <br>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <input  style="margin-left: 80%; height: 5vh; width: 5vw"  type="submit" value="Valid">
+        </form>
+        {% endfor %}
+        <hr>
+    </div>
+{% endblock %}

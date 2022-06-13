@@ -1,0 +1,47 @@
+{% extends 'usermanagement/cashier/basecashier.html' %}
+{% load static %}
+
+{% block content %}
+<hr>
+<div style="display: flex;width: 100%;justify-content: space-between">
+    <div style="width: 20%;">Patient ID</div>
+    <div style="width: 20%;">Exams</div>
+    
+    <div style="width: 20%;">Prescription Date</div>
+    <div style="width: 20%;">Medicines</div>
+    <div style="width: 20%;">Prescription Date</div>
+</div>
+
+<hr>
+{% for m in listePatient %}
+    <div style="display: flex;">
+        <div style="width: 20%; "><a href="{% url 'usermanagement:viewbill' m.id %}">{{m}}</a></div>
+        <div style="display: flex;flex-direction: column; width:40%;">
+
+            {% for e in examen_list %}
+            {% if e.idPatient == m and e.status == 'valid'%}
+            <div style="display:flex; width:100%;">
+
+                <div style="width: 50%;">{{e.ExamDescription}}</div>
+                <div style="width: 50%;">{{e.Date}}&nbsp{{e.Time}}</div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div style="display: flex;flex-direction: column; width:40%;">
+
+            {% for e in medicament_list  %}
+            {% if e.idPatient == m and e.status == 'valid'%}
+            <div style="display:flex; width:100%;">
+                <div style="width: 50%;">{{e.MedicineName}}</div>
+                <div style="width: 50%;">{{e.Date}}&nbsp{{e.Time}}</div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+{% endfor %}
+<hr>
+
+{% endblock %}

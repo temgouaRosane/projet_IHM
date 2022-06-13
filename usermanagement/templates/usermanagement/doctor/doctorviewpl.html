@@ -1,0 +1,95 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'usermanagement/css/doctorviewpl.css' %}">
+{% endblock style %}
+{% block content %}
+<div>
+    {% comment %} 1)FirstName, 2)LastName, 3)Condition
+    {% endcomment %}
+    <span style="text-decoration: solid;">Patient List...</span>  
+
+    <hr>
+    {% csrf_token %}
+    <form style="text-align: center;" action="{% url 'usermanagement:doctorviewpl' %}" method="POST">
+        {% csrf_token %}
+        <label for="">Name</label>
+        <input name='name' type="text" value="{{selectName}}">
+        <button>🔍</button>
+        <br>
+        <hr>
+    </form>
+
+    <div style="display: flex;">
+        <div style="width: 15%; font-weight: 900;">Patient ID</div>
+        <div style="width: 75%;">
+            <div style="display: flex;">
+                <div style="width: 25%; font-weight: 900;">Date</div>
+                <div style="width: 25%; font-weight: 900;" >Time</div>
+                <div style="width: 25%; font-weight: 900;">Service</div>
+                <div style="width:25%; font-weight: 900;">Condition</div>
+            </div >
+        </div>
+                
+    </div> <hr>
+
+    <div class='Grand'>
+        {% for nom,prenom,cni in patientList %}
+        <div class="patient"  style='display:flex'>
+        <div style='width: 15%; color: dodgerblue;'><a href="{% url 'usermanagement:patientDetails' nom %}"><div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div></a>
+</div>
+            <div style=" width: 75%;">
+            {% for p in patients %}
+                {% if p.FirstName == nom and p.LastName == prenom and p.CNI_number == cni %}
+                <div style="display: flex; width:100%;">
+                    <div style="display: flex; width:100%;">
+                        <div style="width: 25%;">{{p.Date}}</div>
+                        <div style="width: 25%;">{{p.Time}}</div>
+                        <div style="width: 25%;">{{p.Service}}</div>
+                        {% if p.condition == "Critical" %}
+                        <div style="background-color:rgb(186, 42, 42) ;">{{p.condition}}</div>
+                        {% else %}
+                        <div>{{p.condition}}</div>
+                        {% endif %}
+                        
+                    </div>
+                    {% comment %} <div style="display: flex;">
+                        <a href="{% url 'usermanagement:patient_update' p.id %}" class="btn btn-purple">
+                            <h6>Update</h6>
+                        </a>
+                        <a href="{% url 'usermanagement:patient_confirm_delete' p.id %}" class="btn btn-purple">
+                            <h6>Delete</h6>
+                        </a>
+                    </div> {% endcomment %}
+                </div>
+                
+                {% endif %}
+                {% endfor %} </div>
+             </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if patients.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ patients.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ patients.number }} of {{ patients.paginator.num_pages }}.
+        </span>
+
+        {% if patients.has_next %}
+            <a href="?page={{ patients.next_page_number }}&&name={{selectName}}">next</a>
+            <a href="?page={{ patients.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock %}
+

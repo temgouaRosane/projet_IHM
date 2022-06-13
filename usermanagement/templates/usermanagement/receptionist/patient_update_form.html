@@ -1,0 +1,104 @@
+{% extends 'usermanagement/receptionist/receptionist.html' %}
+
+{% block style %} <link rel="stylesheet" href=""/> {%endblock %} 
+
+{% block content %}
+
+<h5>Updating patient...</h5>
+
+
+<form method="post">{% csrf_token %}
+    <div>FirstName</div>        
+        <div><input type="text" name="FirstName" value="kamsu kom" maxlength="50" id="id_FirstName"></div>
+        <div>LastName</div>
+        <div><input type="text" name="LastName" value="boris" maxlength="50" id="id_LastName"></div>
+        <div></div>
+        <div></div>
+        <div>BirthDate</div>
+        <div><input type="text" name="BirthDate" value="2022-03-06" id="id_BirthDate"></div>
+        <div>Address</div>
+        <div><input type="text" name="Address" value="simbock" maxlength="25" id="id_Address"></div>
+        <div>CNI_number</div>
+        <div><input type="text" name="CNI_number" value="000876" maxlength="20" id="id_CNI_number"></div>
+        <div>Phone_number</div>
+        <div><input type="text" name="Phone_number" value="6547898658" maxlength="100" id="id_Phone_number"></div>
+        <div>Email_address</div>
+        <div> <input type="text" name="Email_address" value="urielle@yahoo.com" maxlength="25" id="id_Email_address"></div>
+        <div>condition</div>
+        <div><select name="condition" id="id_condition">
+  <option value="NoCritical" selected="">NoCritical</option>
+
+  <option value="Critical">Critical</option>
+
+</select></div>
+        <div>Service</div>
+        <div><select name="Service" id="id_Service">
+  <option value="Generalist">Generalist</option>
+
+  <option value="Specialist" selected="">Specialist</option>
+
+</select></div>
+        <div>ConsultationCost</div>
+        <div><input type="text" name="ConsultationCost" value="5000" maxlength="23" id="id_ConsultationCost" readonly=""></div>
+        <script>
+            document.getElementById("id_ConsultationCost").readOnly = true;
+            
+            document.getElementById("id_Service").addEventListener("change",function(){
+                if("Generalist"===document.getElementById("id_Service").value){
+                    document.getElementById("id_ConsultationCost").value = 2000;
+                }else if("Specialist"===document.getElementById("id_Service").value){
+                    document.getElementById("id_ConsultationCost").value = 5000;
+                }else{
+                    document.getElementById("id_ConsultationCost").value = 0
+                }
+            })
+        </script>
+        
+    <input type="submit" value="Update">
+</form>
+
+
+
+
+<!-- 
+<form method="post">{% csrf_token %}
+    <div>{{ form.FirstName.name }}</div>        
+        <div>{{ form.FirstName }}</div>
+        <div>{{ form.LastName.name }}</div>
+        <div>{{ form.LastName }}</div>
+        <div>{{ form.sexe.name }}</div>
+        <div>{{ form.sexe }}</div>
+        <div>{{ form.BirthDate.name }}</div>
+        <div>{{ form.BirthDate }}</div>
+        <div>{{ form.Address.name }}</div>
+        <div>{{ form.Address }}</div>
+        <div>{{ form.CNI_number.name }}</div>
+        <div>{{ form.CNI_number }}</div>
+        <div>{{ form.Phone_number.name }}</div>
+        <div>{{ form.Phone_number }}</div>
+        <div>{{ form.Email_address.name }}</div>
+        <div> {{ form.Email_address }}</div>
+        <div>{{ form.condition.name }}</div>
+        <div>{{ form.condition }}</div>
+        <div>{{ form.Service.name }}</div>
+        <div>{{ form.Service }}</div>
+        <div>{{ form.ConsultationCost.name }}</div>jjjjjjj
+        <div>{{ form.ConsultationCost }}</div>
+        <script>
+            document.getElementById("id_ConsultationCost").readOnly = true;
+            
+            document.getElementById("id_Service").addEventListener("change",function(){
+                if("Generalist"===document.getElementById("id_Service").value){
+                    document.getElementById("id_ConsultationCost").value = 2000;
+                }else if("Specialist"===document.getElementById("id_Service").value){
+                    document.getElementById("id_ConsultationCost").value = 5000;
+                }else{
+                    document.getElementById("id_ConsultationCost").value = 0
+                }
+            })
+        </script>
+        
+    <input type="submit" value="Update">
+</form> -->
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+<br> 
+    <span style="text-decoration: solid;">Exam List...</span>  
+    <div style= "padding: 2%; margin-top: 5vh;">
+        {% csrf_token %}
+        <form style="text-align: center;" action="{% url 'usermanagement:examlist' %}" method="POST">
+            {% csrf_token %}
+            <label for="">Name</label>
+            <input name='name' type="text" value="{{selectName}}">
+            <button>🔍</button>
+            <br>
+            <hr>
+        </form>
+
+        <div style="display: flex; width: 100%;">
+            <div style="width: 25%;">
+                <h6>Patient_Name</h6>
+            </div>
+            <div style="width: 25%;">
+                <h6>Patient_Exams</h6>
+            </div>
+            <div style="width: 25%;">
+                <h6>Date</h6>
+            </div>
+            <div style="width: 25%;">
+                <h6>Time</h6>
+            </div>
+        </div>
+        {% for p in listePatient %}
+        <form method="post" action="{% url 'usermanagement:factureexamen' p.id %}">
+            {% csrf_token %}
+            <hr>
+            <div style="display: flex;">
+                <div style="display: flex; width: 25%;">
+                   {{p}}
+                </div>
+                <div style="display: flex; flex-direction: column; width: 75%;">
+                    {% for m in examens %}
+                        {% if m.idPatient == p %}
+                            <div style="display: flex;  width: 100%; flex-direction:row; margin: 2px;">
+                                <div style="width: 30%;">
+                                    <li> {{m.ExamDescription}} </li> 
+                                </div>
+                                <div style="width: 30%;">
+                                    {{m.Date}}
+                                </div>
+                                <div style="width: 30%;">
+                                    {{m.Time}}
+                                </div>
+                                {% if m.status == 'valid' %}
+                                <div style="width: 10%; background: #afa; text-align: center;">
+                                    {% else %}
+                                    <div style="width: 10%; background: #faa; text-align: center;">
+                                    {% endif %}
+                                    {{m.status}}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+        <hr>
+    </div>
+{% endblock %}

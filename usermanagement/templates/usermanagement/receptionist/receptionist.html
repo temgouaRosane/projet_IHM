@@ -1,0 +1,127 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from thememakker.com/templates/swift/hospital/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 20 Nov 2021 08:11:15 GMT -->
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title> Home </title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="{% static 'usermanagement/plugins/bootstrap/css/bootstrap.min.css' %}"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css">
+<link rel="stylesheet" href="{% static 'usermanagement/plugins/morrisjs/morris.css' %}"/>
+<!-- Custom Css -->
+<link rel="stylesheet" href="{% static 'usermanagement/css/main.css' %}"/>
+{% block style %}
+{% endblock %}
+</head>
+
+<body class="theme-cyan">
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="preloader">
+            <div class="spinner-layer pl-cyan">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+        <p>Please wait...</p>
+    </div>
+</div>
+
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
+
+<!-- Top Bar -->
+<nav class="navbar clearHeader">
+    <div class="col-12">
+        <div class="navbar-header"> <a href="javascript:void(0);" class="bars"></a> <a class="navbar-brand" href="index-2.html">Polyclinic Fultang</a> </div>
+        <ul class="nav navbar-nav navbar-right"></ul>
+    </div>
+</nav>
+<!-- #Top Bar -->
+<section> 
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar"> 
+        <!-- User Info -->
+        <div class="user-info">
+            <div class="admin-image"> <img src="{% static 'usermanagement/images/random-avatar7.jpg' %}" alt=""> </div>
+            <div class="admin-action-info"> <span>Welcome</span>
+                <h3>{{ user.username }}</h3>
+                <ul>
+                   <span style="color:white;"> Signout </span><li><a href="{% url 'account_logout' %}" title="sign out" ><i class="zmdi zmdi-sign-in"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- #User Info --> 
+        <!-- Menu -->
+        <div class="menu">
+            <ul class="list">
+                <li class="header">MAIN NAVIGATION</li>
+                                                               
+                
+                <li style="margin-top:2vh;"><a href="{% url 'usermanagement:viewpatientlist' %}"><svg style="color: #1cdcf9; margin-top:0.5vh;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+</svg><span>View Patient List</span> </a></li>
+                <li><a href="{% url 'usermanagement:addPatient' %}"><svg style="color: #1cdcf9;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                  </svg><span>Register New Patient</span> </a></li>
+
+
+            </ul>
+        </div>
+        <!-- #Menu -->
+    </aside>
+</section>
+
+<section class="content home">
+    <div class="container-fluid">
+        {% if messages %}
+            <div>
+                <ul>
+                {% for message in messages %}
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>{{message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <small class="text-muted">Welcome to Polyclinic Fultang</small> <br>
+            <span style="text-decoration: solid;">Receptionist page</span>  
+        
+        {% block content %}
+        {% endblock %}
+        
+    </div>
+</section> 
+
+
+
+
+
+<div class="color-bg-custom"></div><!-- Jquery Core Js --> 
+<script src="{% static 'usermanagement/bundles/libscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js --> 
+<script src="{% static 'usermanagement/bundles/vendorscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js --> 
+
+<script src="{% static 'usermanagement/bundles/chartscripts.bundle.js' %}"></script> <!-- Chart Plugins Js -->
+<script src="{% static 'usermanagement/bundles/sparklinescripts.bundle.js' %}"></script> <!-- Chart Plugins Js -->
+
+<script src="{% static 'usermanagement/bundles/mainscripts.bundle.js' %}"></script><!-- Custom Js -->
+<script src="{% static 'usermanagement/js/pages/index.js' %}"></script>
+<script src="{% static 'usermanagement/js/pages/charts/sparkline.min.js' %}"></script>
+</body>
+
+<!-- Mirrored from thememakker.com/templates/swift/hospital/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 20 Nov 2021 08:11:50 GMT -->
+</html>

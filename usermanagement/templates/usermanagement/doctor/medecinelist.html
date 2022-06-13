@@ -1,0 +1,66 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+
+{% load static %}
+{% block content %}
+<br>
+    <span style="text-decoration: solid;">Medecine List...</span>  
+
+  {% csrf_token %}
+        <form style="text-align: center;" action="{% url 'usermanagement:medecinelist' %}" method="POST">
+            {% csrf_token %}
+            <label for="">Name</label>
+            <input name='name' type="text" value="{{selectName}}">
+            <button>🔍</button>
+            <br>
+            <hr>
+        </form>
+    <div style= "padding: 2%; margin-top: 5vh;">
+
+        <div style="display: flex;">
+            <div style="width: 25%;">
+                <h6>Patient_Name</h6>
+            </div>
+            <div style="width: 25%;">
+                <h6>Patient_medecines</h6>
+            </div>
+            <div style="width: 25%;">
+                <h6>Date</h6>
+            </div>
+            <div style="width: 25%;">
+                <h6>Time</h6>
+            </div>
+        </div>
+        {% for p in listePatient %}
+        <form method="post" action="{% url 'usermanagement:factureexamen' p.id %}">
+            {% csrf_token %}
+            <hr>
+            <div style="display: flex;">
+                <div style="display: flex; width: 25%;">
+                   {{p}}
+                </div>
+                <div style="display: flex; flex-direction: column; width: 75%;">
+                    {% for m in medicaments %}
+                        {% if m.idPatient == p %}
+                            {% if m.status != 'valid' %}
+                            <div style="display: flex; flex-direction:row;">
+                                <div style="width: 33%;">
+                                    <li> {{m.MedicineName}} </li> 
+                                </div>
+                                <div style="width: 33%;">
+                                    {{m.Date}}
+                                </div>
+                                <div style="width: 33%;">
+                                    {{m.Time}}
+                                </div>
+                            </div>
+                               
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+        <hr>
+    </div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'usermanagement/dentist/basedentist.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'usermanagement/css/dentistviewpl.css' %}">
+{% endblock style %}
+{% block content %}
+<div>
+    {% comment %} 1)FirstName, 2)LastName, 3)Condition
+    {% endcomment %}
+    <span style="text-decoration: solid;">Patient List...</span>  
+
+    <hr>
+    {% csrf_token %}
+    <form style="text-align: center;" action="{% url 'usermanagement:dentistviewpl' %}" method="POST">
+        {% csrf_token %}
+        <label for="">Name</label>
+        <input name='name' type="text" value="{{selectName}}">
+        <button>🔍</button>
+        <br>
+        <hr>
+    </form>
+
+    <div style="display: flex;">
+        <div style="width: 25%;">Patient ID</div>
+        <div style="width: 75%;">
+            <div style="display: flex;">
+                <div style="width: 25%;">date</div>
+                <div style="width: 25%;" >Time</div>
+                <div style="width: 25%;">Service</div>
+                <div style="width:25%">Condition</div>
+            </div >
+        </div>
+        {% comment %} <div style="display:flex;width: 15%;">
+            <div style="width: 50%;">Edit</div>
+            <div style="width: 55%;">Delete</div>
+        </div> {% endcomment %}
+        
+    </div> <hr>
+
+    <div class='Grand'>
+        {% for nom,prenom,cni in patientList %}
+        <div class="patient"  style='display:flex'>
+        <div style='width: 25%;'><a  href="{% url 'usermanagement:patientDetails' nom prenom cni %}"><div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div></a>
+</div>
+            <div style=" width: 75%;">
+            {% for p in patients %}
+                {% if p.FirstName == nom and p.LastName == prenom and p.CNI_number == cni %}
+                <div style="display: flex; width:100%;">
+                    <div style="display: flex; width:100%;">
+                        <div style="width: 25%;">{{p.Date}}</div>
+                        <div style="width: 25%;">{{p.Time}}</div>
+                        <div style="width: 25%;">{{p.Service}}</div>
+                        <div>{{p.condition}}</div>
+                    </div>
+                    {% comment %} <div style="display: flex;">
+                        <a href="{% url 'usermanagement:patient_update' p.id %}" class="btn btn-purple">
+                            <h6>Update</h6>
+                        </a>
+                        <a href="{% url 'usermanagement:patient_confirm_delete' p.id %}" class="btn btn-purple">
+                            <h6>Delete</h6>
+                        </a>
+                    </div> {% endcomment %}
+                </div>
+                {% else %}
+                {% endif %}
+                {% endfor %} </div>
+             </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

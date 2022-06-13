@@ -1,0 +1,59 @@
+{% extends 'usermanagement/cashier/basecashier.html' %}
+{% load static %}
+
+{% block content %} 
+<br> <br>   
+<strong>{{nom.FirstName}}&nbsp;{{nom.LastName}} Bill... <br> <br></strong>
+<div>
+    {% for m in validMed %}
+        <div style="display: flex;">
+            <div style="width: 25%;">
+                {{m.MedicineName}}
+            </div>
+            <div>
+                {{m.MedicineCost}}&nbsp;FCFA
+            </div>
+        </div> <br>
+    {% endfor %}
+</div>
+<hr>
+<div>
+    {% for m in validExam %}
+        <div style="display: flex;">
+            <div style="width: 25%;">
+                {{m.ExamDescription}}
+            </div>
+            <div>
+                {{m.ExamCost}}&nbsp;FCFA
+            </div>
+        </div> <br>
+    {% endfor %}
+</div>
+<hr>
+<div style="margin-left: 25%;">Total : {{coast}} <br> <br>
+<style>
+    button{
+        height: 5vh;
+        width:10vw ;
+        margin-left: 19vw;
+        border-radius: 40%;
+        background-color: rgb(140, 197, 213);
+        border: none;
+        transition: ease 1s;
+    }
+    button:hover{
+        height: 5vh;
+        width:12vw ;
+        margin-left: 19vw;
+        border-radius: 40%;
+        background-color: rgb(76, 96, 101);
+        border: 1px;
+        
+    }
+</style>
+    
+<button style="height: 5vh; width: 6vw;"onclick="print()">Print</button>
+</div>
+
+
+{% endblock %}
