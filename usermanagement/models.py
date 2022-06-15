@@ -296,6 +296,7 @@ class Prescrire2(models.Model):
 class Drog(models.Model):
     medecineName = models.CharField(max_length=100)
     medecineCoast = models.FloatField()
+    
 class Exam(models.Model):
     examName = models.CharField(max_length=100)
     examCoast = models.FloatField()

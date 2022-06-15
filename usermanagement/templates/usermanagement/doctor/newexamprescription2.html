@@ -1,0 +1,187 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+
+{% load static %}
+{% block content %}
+
+<style>
+    input {
+        width: 30vw;
+        border: none;
+        border-bottom: solid 1px grey;
+        margin-bottom: 7vh;
+        transition: ease 0.25s;
+        height: 5vh;
+    }
+
+    input:active {
+        width: 30vw;
+        border: none;
+        border-bottom: solid 2px rgb(10, 95, 126);
+        margin-bottom: 7vh
+    }
+
+    select {
+        width: 30vw;
+        border: none;
+        border-bottom: solid 1px grey;
+        margin-bottom: 7vh;
+        transition: ease 0.25s;
+        height: 5vh;
+
+    }
+
+    select:active {
+        width: 30vw;
+        border: none;
+        border-bottom: solid 2px rgb(10, 95, 126);
+        margin-bottom: 7vh;
+        height: 5vh;
+    }
+
+    textarea {
+        width: 30vw;
+        height: 48vh;
+        border-color: rgb(154, 207, 201);
+        transition: ease 1s;
+    }
+
+    textarea:focus {
+        width: 32vw;
+        height: 50vh;
+        border-color: rgb(16, 33, 36);
+    }
+</style>
+
+<div style="margin-top: 5vh; width: fit-content;">
+    <form method="POST" class="post-form">
+        <!--{% csrf_token %}: tag de securite(protection contre les attaques intercept),c'est pour securise notre formulaire django -->
+        {% csrf_token %}
+
+        <div style="display: flex; width: 100%;">
+            <div style="width: 40vw; margin-left: 4vw;">
+                <div>Name</div>
+                <div>
+                    <input style="border:none; border-bottom:solid 0.5px rgb(47, 173, 223); width:30vw; display: none;" type="text"
+                        list="idPatient" name="idPatient" required="" value="{{patient.id}}">
+                </div>
+                <div>{{patient}}</div>
+                <div>ExamDescription</div>
+                <div style="display: flex;">
+                    <input style="border:none; border-bottom:solid 0.5px rgb(47, 173, 223); width:30vw;" type="text"
+                        list="ExamDescription" id='t1' name="ExamName">
+
+                    <datalist id="ExamDescription">
+                        {% for exam in exams %}
+                        <option value="{{exam.examName}}">{{exam.examName}}</option>
+                        {% endfor %}
+
+                    </datalist>
+                
+                    <input style="width: 10%; margin-left:10px ; background: #ddda;" type='button' value='Add'
+                        onClick='add_element()' ;>
+                </div>
+                <div id=disp></div>
+                <div id="total"></div>
+
+                <div>ExamCost</div>
+                <div><input type="text" name="ExamCost" maxlength="23" id="id_ExamCost" readonly=""></div>
+                <input type="submit" class="save btn" value="Save" onclick="save()">
+            </div>
+
+
+            <div style="width: 50%;">
+                <div>{{ form.Notes.name }}</div>
+                <div><textarea name="Notes" cols="40" rows="10" maxlength="10000" id="id_Notes"></textarea></div>
+            </div>
+        </div>
+
+
+
+        <!-- <script type="text/javascript">
+            var data = new Array(); // creating array
+            var exam = { bloodtest: 5000, GoutteEpaisse: 3000, Electrophorese: 4500, Covid: 2550 }
+            var total = 0
+
+            function add_element() {
+                if (data.includes(document.getElementById('t1').value+' '+exam[document.getElementById('t1').value]) || document.getElementById('t1').value == '') {
+                    return
+                }
+                if (!exam.hasOwnProperty(document.getElementById('t1').value)) {
+                    return
+                }
+                total += exam[document.getElementById('t1').value]
+                data.push(document.getElementById('t1').value+' '+exam[document.getElementById('t1').value]); // adding element to array
+                document.getElementById('t1').value = ''; // Making the text box blank
+                disp(); // displaying the array elements
+            }
+
+
+            function save() {
+                document.getElementById('t1').value = data.toString()
+            }
+            function remove_element(index_no) {
+                total = total - exam[data[index_no]]
+                var t1 = data.splice(index_no, 1);
+                disp(); // displaying the array elements
+            }
+            function disp() {
+                var str = '';
+                str = 'total number of elements in data array : ' + data.length + '<br>';
+                for (i = 0; i < data.length; i++) {
+                    str += i + 1 + ':' + data[i].split(' ')[0] + ' : ' + exam[data[i].split(' ')[0]] + "   <a href=# onClick='remove_element(" + data.indexOf(data[i]) + ")'> Remove</a> " + "<br >";  // adding each element with key number to variable
+                }
+
+
+                document.getElementById('disp').innerHTML = str; // Display the elements of the array
+                document.getElementById("id_ExamCost").value = total
+                document.getElementById('total').innerHTML = 'Total: ' + total;
+            }
+        </script> -->
+
+        <script type="text/javascript">
+            var data = new Array(); // creating array
+            var examen = {
+                {% for exam in exams %}
+            '{{ exam.examName }}': {{ exam.examCoast }},
+            {% endfor %}
+            };
+            console.log(examen);
+            var total = 0
+             function add_element() {
+                if (data.includes(document.getElementById('t1').value + ' ' + examen[document.getElementById('t1').value]) || document.getElementById('t1').value == '') {
+                    return
+                }
+                {% comment %} if (!examen.hasOwnProperty(document.getElementById('t1').value)) {
+                    return
+                } {% endcomment %}
+                
+                total += examen[document.getElementById('t1').value]
+                data.push(document.getElementById('t1').value+' '+examen[document.getElementById('t1').value]); // adding element to array
+                document.getElementById('t1').value = ''; // Making the text box blank
+                disp(); // displaying the array elements
+            }
+            function save() {
+                document.getElementById('t1').value = data.toString()
+            }
+            function remove_element(index_no) {
+                total = total - examen[data[index_no]]
+                var t1 = data.splice(index_no, 1);
+                disp(); // displaying the array elements
+            }
+            function disp() {
+                var str = '';
+                str = 'total number of elements in data array : ' + data.length + '<br>';
+                for (i = 0; i < data.length; i++) {
+                    str += i + 1 + ':' + data[i].split(' ')[0] + ' : ' + examen[data[i].split(' ')[0]] + "   <a href=# onClick='remove_element(" + data.indexOf(data[i]) + ")'> Remove</a> " + "<br >";  // adding each element with key number to variable
+                }
+
+
+                document.getElementById('disp').innerHTML = str; // Display the elements of the array
+                document.getElementById("id_ExamCost").value = total
+                document.getElementById('total').innerHTML = 'Total: ' + total;
+            }
+        </script>
+    </form>
+</div>
+
+{% endblock %}

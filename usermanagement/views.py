@@ -2,7 +2,8 @@ from enum import auto
 from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.views.generic.edit import UpdateView, DeleteView
-from usermanagement.models import Consultation, Drog, Examen, Medicament, Patient
+from flask import render_template
+from usermanagement.models import Consultation, Drog, Examen, Medicament, Patient, Exam
 from .formulaire import  MedicineForm, PatientForm, ConsultationForm, ExamForm
 from django.urls import reverse_lazy
 from django.http import HttpResponse
@@ -237,25 +238,24 @@ def doctorviewpl(request):
         page = request.GET.get('page')
         patients = paginator.get_page(page)
         patientList = []
-        patientList2 = []
         for p in patients:
-            if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
-                patientList2.append[p]
-                patientList.append([p.FirstName,p.LastName,p.CNI_number])
+            if not [p.id,p.FirstName,p.LastName,p.CNI_number] in patientList:
+                patientList.append([p.id,p.FirstName,p.LastName,p.CNI_number])
         context = {
             'patientList':patientList,
             'patients': patients,
             'selectName':name,
         }
         return render(request, 'usermanagement/doctor/doctorviewpl.html', context)
-    patients = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
+    patients = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid").order_by("Date")[::-1]
     paginator = Paginator(patients, 5)
     page = request.GET.get('page')
     patients = paginator.get_page(page)
     patientList = []
     for p in patients:
-        if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
-            patientList.append([p.FirstName,p.LastName,p.CNI_number])
+        if not [p.id,p.FirstName,p.LastName,p.CNI_number] in patientList:
+            patientList.append([p.id,p.FirstName,p.LastName,p.CNI_number])
+
     context = {
         'patientList':patientList,
         'patients': patients,
@@ -345,21 +345,7 @@ def newconsultation(request):
 
 def newexamprescription(request):
     if request.method == "POST":
-        # p = Patient()
-        # p.FirstName = request.POST['FirstName']
-    # Time = models.TimeField(auto_now=True)
-    # Date = models.DateField(auto_now=True)
-    # ExamDescription = models.CharField(max_length=50, choices=EXAM, null=True)
-    # ExamCost = models.CharField(max_length=23, blank=True, null=True)
-    # idPatient = models.ForeignKey(
-    #     "Patient", on_delete=models.CASCADE, null=False)
-    # status = models.CharField(max_length=20, default="invalid")
-    # pstatus = models.CharField(max_length=20, default="invalid")
-    # Notes = models.TextField(max_length=10000, blank=True, null=True)  
-
         ExamDescription = request.POST['ExamDescription'].split(',')
-        # e.Time = request.POST['Time']
-        # e.Date = request.POST['Date']
         for exam in ExamDescription:
                 
             e = Examen() 
@@ -370,13 +356,13 @@ def newexamprescription(request):
             e.ExamCost = int(exam.split()[1])
             e.ExamDescription = exam.split()[0]
             e.save()
-
-
-    form = ExamForm()    
+    form = ExamForm() 
+    exams = Exam.objects.all()   
     patientList = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
     context = {
         'form':form,
         'patientList':patientList,
+        'exams':exams
         }
     return render(request, 'usermanagement/doctor/newexamprescription.html', context=context)
 
@@ -438,10 +424,7 @@ def newmedicineprescription(request):
             m.Notes = request.POST['Notes']
             m.MedicineCost = int(medicament.split()[1])
             m.MedicineName = medicament.split()[0]
-            m.save()
-
-
-       
+            m.save()     
          
     form = MedicineForm()
     drogs = Drog.objects.all()
@@ -452,8 +435,88 @@ def newmedicineprescription(request):
         'drogs':drogs,
         }
     return render(request, 'usermanagement/doctor/newmedicineprescription.html', context=context)  
-    #return render(request, 'usermanagement/doctor/newmedicineprescription.html', {'form':form})
 
+def newexamprescription2(request,id):
+    if request.method == "POST":
+        ExamName = request.POST['ExamName'].split(',')
+        for exam in ExamName:
+                
+            e = Examen() 
+            e.idPatient = Patient.objects.filter(id__exact=request.POST['idPatient'])[0]
+            e.status = 'invalid'
+            e.pstatus = "invalid"
+            e.Notes = request.POST['Notes']
+            e.ExamCost = int(exam.split()[1])
+            e.ExamDescription = exam.split()[0]
+            e.save()
+    form = ExamForm() 
+    exams = Exam.objects.all()
+    p = Patient.objects.filter(id__iexact=id)[0]
+    patientList = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
+    context = {
+        'form':form,
+        'patientList':patientList,
+        'patient':p,
+        'exams':exams,
+        }
+    return render(request,'usermanagement/doctor/newexamprescription2.html',context=context)
+
+
+
+
+
+def patientActions(request,id):
+    p = Patient.objects.filter(id__iexact=id)[0]
+
+    context={
+        'id': id,
+        'nom': p.FirstName,
+    }
+    return render(request,'usermanagement/doctor/patientActions.html',context=context)
+
+def newconsultation2(request,id):
+    #traitement de la requete post
+    if request.method == "POST":
+        form1 =  ConsultationForm(request.POST).save()
+        return consultationlist(request)
+    else:   
+        form1 = ConsultationForm()
+    patientList = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
+    p = Patient.objects.filter(id__iexact=id)[0]
+    context = {
+        'form':form1,
+        'patientList':patientList,
+        'patient': p,
+        }
+    return render(request,'usermanagement/doctor/newconsultation2.html',context=context)
+
+
+
+
+def newmedicineprescription2(request,id):
+
+    if request.method == "POST":
+        MedicineName = request.POST['MedicineName'].split(',')
+        for medicament in MedicineName:
+            m = Medicament()
+            m.idPatient = Patient.objects.filter(id__exact=request.POST['idPatient'])[0]
+            m.status = 'invalid'
+            m.pstatus = "invalid"
+            m.Notes = request.POST['Notes']
+            m.MedicineCost = int(medicament.split()[1])
+            m.MedicineName = medicament.split()[0]
+            m.save()
+    form = MedicineForm()
+    p = Patient.objects.filter(id__iexact=id)[0]
+    drogs = Drog.objects.all()
+    patientList = Patient.objects.filter(Service__iexact="generalist",status__iexact="valid")
+    context = {
+        'form':form,
+        'patientList':patientList,
+        'drogs':drogs,
+        'patient':p,
+        }
+    return render(request,'usermanagement/doctor/newmedicineprescription2.html',context=context)
 
 
 
@@ -635,7 +698,7 @@ def cashierviewexam(request):
         if 'name' in request.POST:
             name = request.POST['name']   #Il faut la jointure pour filtrer selon le nom
     patientList = Patient.objects.filter(FirstName__contains=name)
-    examList = Examen.objects.filter(pstatus__exact='invalid')
+    examList = Examen.objects.filter(pstatus__exact='invalid').order_by("Date")[::-1]
     
     context = {
         'examList':examList,
@@ -691,7 +754,7 @@ def examshistory(request):
     if request.method == 'POST':
         if 'name' in request.POST:
             name = request.POST['name']  #Il faut la jointure pour filtrer selon le nom
-    examList = Examen.objects.filter(status__exact='valid').order_by("Date")[::-1]
+    examList = Examen.objects.filter(pstatus__exact='valid').order_by("Date")[::-1]
     context = {
         'examList':examList,
     }

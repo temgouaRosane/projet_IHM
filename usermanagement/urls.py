@@ -50,6 +50,14 @@ urlpatterns = [
     path('examlist/', examlist, name='examlist'),
     path('medecinelist/', medecinelist, name='medecinelist'),
     path('newmedicineprescription/', newmedicineprescription, name='newmedicineprescription'),
+    path('patientActions/<id>', patientActions, name='patientActions'),
+
+    path('newconsultation2/<id>', newconsultation2, name='newconsultation2'),
+    path('newexamprescription2/<id>', newexamprescription2, name='newexamprescription2'),
+    path('newmedicineprescription2/<id>', newmedicineprescription2, name='newmedicineprescription2'),
+
+
+    
 
 
 #------------------------------------PHARMACIST-----------------------------------------------#

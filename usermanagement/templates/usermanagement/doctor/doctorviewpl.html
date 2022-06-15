@@ -10,6 +10,23 @@
     {% endcomment %}
     <span style="text-decoration: solid;">Patient List...</span>  
 
+    <style>
+        .m{
+            width: 5vw;
+            height: 5vh;
+            border-radius: 30%;
+            transition: ease 0.25s;
+            border-color: rgb(156, 155, 155);
+        }
+        .m:hover{
+            width: 6vw;
+            height: 5vh;
+            border-radius: 30%;
+            background-color: rgb(64, 234, 64);
+        }
+    </style>
+    <hr>
+
     <hr>
     {% csrf_token %}
     <form style="text-align: center;" action="{% url 'usermanagement:doctorviewpl' %}" method="POST">
@@ -23,49 +40,38 @@
 
     <div style="display: flex;">
         <div style="width: 15%; font-weight: 900;">Patient ID</div>
-        <div style="width: 75%;">
-            <div style="display: flex;">
-                <div style="width: 25%; font-weight: 900;">Date</div>
-                <div style="width: 25%; font-weight: 900;" >Time</div>
-                <div style="width: 25%; font-weight: 900;">Service</div>
-                <div style="width:25%; font-weight: 900;">Condition</div>
-            </div >
-        </div>
-                
+        <div style="display: flex; width: 85%">
+            <div style="width: 20%; font-weight: 900;">Date</div>
+            <div style="width: 20%; font-weight: 900;" >Time</div>
+            <div style="width: 20%; font-weight: 900;">Service</div>
+            <div style="width:20%; font-weight: 900;">Condition</div>
+            <div style="width:20%; font-weight: 900;">Action</div>
+        </div >
+               
     </div> <hr>
 
     <div class='Grand'>
-        {% for nom,prenom,cni in patientList %}
+        {% for id,nom,prenom,cni in patientList %}
         <div class="patient"  style='display:flex'>
-        <div style='width: 15%; color: dodgerblue;'><a href="{% url 'usermanagement:patientDetails' nom %}"><div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div></a>
+        <div style='width: 15%; color: dodgerblue;'><a href="{% url 'usermanagement:patientActions' id %}"><div>{{nom}}&nbsp;{{prenom}}<br>CNI:{{cni}}</div></a>
 </div>
-            <div style=" width: 75%;">
+            <div style=" width: 85%; display:flex">
             {% for p in patients %}
                 {% if p.FirstName == nom and p.LastName == prenom and p.CNI_number == cni %}
-                <div style="display: flex; width:100%;">
-                    <div style="display: flex; width:100%;">
-                        <div style="width: 25%;">{{p.Date}}</div>
-                        <div style="width: 25%;">{{p.Time}}</div>
-                        <div style="width: 25%;">{{p.Service}}</div>
-                        {% if p.condition == "Critical" %}
-                        <div style="background-color:rgb(186, 42, 42) ;">{{p.condition}}</div>
-                        {% else %}
-                        <div>{{p.condition}}</div>
-                        {% endif %}
-                        
-                    </div>
-                    {% comment %} <div style="display: flex;">
-                        <a href="{% url 'usermanagement:patient_update' p.id %}" class="btn btn-purple">
-                            <h6>Update</h6>
-                        </a>
-                        <a href="{% url 'usermanagement:patient_confirm_delete' p.id %}" class="btn btn-purple">
-                            <h6>Delete</h6>
-                        </a>
-                    </div> {% endcomment %}
-                </div>
                 
+                        <div style="width: 20%;">{{p.Date}}</div>
+                        <div style="width: 20%;">{{p.Time}}</div>
+                        <div style="width: 20%;">{{p.Service}}</div>
+                        {% if p.condition == "Critical" %}
+                            <div style="background-color:rgb(186, 42, 42) ; width:20%">{{p.condition}}</div>
+                        {% else %}
+                            <div style="width:20% ;">{{p.condition}}</div>
+                        {% endif %}   
+                        <div style="width: 20%;">
+                            <input class="m" type="submit" value="Specialist">
+                        </div>                 
                 {% endif %}
-                {% endfor %} </div>
+            {% endfor %} </div>
              </div>
         <hr>
         {% endfor %}

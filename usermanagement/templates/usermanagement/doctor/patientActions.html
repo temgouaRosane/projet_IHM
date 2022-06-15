@@ -1,0 +1,14 @@
+{% extends 'usermanagement/doctor/baseDoctor.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'usermanagement/css/doctorviewpl.css' %}">
+{% endblock style %}
+{% block content %}
+<div style="display:flex ; flex-direction:column">
+    <a href="{% url 'usermanagement:patientDetails' nom %}">Patient Details</a>
+    <a href="{% url 'usermanagement:newconsultation2' id %}">New Consultation</a>
+    <a href="{% url 'usermanagement:newexamprescription2' id %}">Exam Prescription</a>
+    <a href="{% url 'usermanagement:newmedicineprescription2' id %}">Medicine Prescription</a>
+</div>
+{% endblock content %}
