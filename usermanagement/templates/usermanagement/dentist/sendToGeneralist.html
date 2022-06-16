@@ -1,0 +1,14 @@
+{% extends 'usermanagement/dentist/basedentist.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'usermanagement/css/doctorviewpl.css' %}">
+{% endblock style %}
+{% block content %}
+<div><h3>the transfer of the patient to the Generalist is carried out successfully</h3></div>
+<div>
+    <a href="{% url 'usermanagement:dentistviewpl' %}">
+        <input type="button" value="Back">
+    </a>
+</div>
+{% endblock content %}

@@ -12,7 +12,7 @@
 
     <style>
         .m{
-            width: 5vw;
+            width: 6vw;
             height: 5vh;
             border-radius: 30%;
             transition: ease 0.25s;
@@ -68,7 +68,10 @@
                             <div style="width:20% ;">{{p.condition}}</div>
                         {% endif %}   
                         <div style="width: 20%;">
-                            <input class="m" type="submit" value="Specialist">
+                            <form action="{% url 'usermanagement:sendToSpecialistValidation' p.id %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Specialist">
+                            </form>
                         </div>                 
                 {% endif %}
             {% endfor %} </div>

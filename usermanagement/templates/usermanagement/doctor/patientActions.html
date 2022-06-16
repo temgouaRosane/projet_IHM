@@ -5,10 +5,38 @@
 <link rel="stylesheet" href="{% static 'usermanagement/css/doctorviewpl.css' %}">
 {% endblock style %}
 {% block content %}
-<div style="display:flex ; flex-direction:column">
-    <a href="{% url 'usermanagement:patientDetails' nom %}">Patient Details</a>
-    <a href="{% url 'usermanagement:newconsultation2' id %}">New Consultation</a>
-    <a href="{% url 'usermanagement:newexamprescription2' id %}">Exam Prescription</a>
-    <a href="{% url 'usermanagement:newmedicineprescription2' id %}">Medicine Prescription</a>
+<style>
+    input{
+        width: 12vw;
+        height: 8vh;
+        border-radius: 60%;
+        transition: ease 0.25s;
+        border-color: rgb(18, 134, 142);
+    }
+    input:hover{
+        width: 15vw;
+        height: 8vh;
+        border-radius: 60%;
+    }
+</style>
+<div style="display:flex ;width: 100%; margin-top: 20vh; justify-content: space-around;">
+    <form action="{% url 'usermanagement:newconsultation2' id %}" style="width: 20%;">
+        {% csrf_token %}
+        <input type="submit" value="New Consultation" style="background-color: rgb(80, 205, 80);">
+    </form>
+    <form action="{% url 'usermanagement:newexamprescription2' id %}" style="width: 20%;">
+        {% csrf_token %}
+        <input type="submit" value="Exam Prescription" style="background-color: rgb(224, 80, 80);">
+    </form>
+    <form action="{% url 'usermanagement:newmedicineprescription2' id %}" style="width: 20%;">
+        {% csrf_token %}
+        <input type="submit" value="Medicine Prescription" style="background-color: rgb(255, 162, 0);">
+    </form>
+    <form action="{% url 'usermanagement:patientDetails' nom %}" style="width: 20%;">
+        {% csrf_token %}
+        <input type="submit" value="Patient Details" style="background-color: rgb(198, 66, 179);">
+    </form>
+    
+  
 </div>
 {% endblock content %}

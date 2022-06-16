@@ -51,6 +51,8 @@ urlpatterns = [
     path('medecinelist/', medecinelist, name='medecinelist'),
     path('newmedicineprescription/', newmedicineprescription, name='newmedicineprescription'),
     path('patientActions/<id>', patientActions, name='patientActions'),
+    path('sendToSpecialist/<id>', sendToSpecialist, name='sendToSpecialist'),
+    path('sendToSpecialistValidation/<id>', sendToSpecialistValidation, name='sendToSpecialistValidation'),
 
     path('newconsultation2/<id>', newconsultation2, name='newconsultation2'),
     path('newexamprescription2/<id>', newexamprescription2, name='newexamprescription2'),
@@ -109,6 +111,9 @@ urlpatterns = [
     path('dexamlist/', dexamlist, name='dexamlist'),
     path('dmedecinelist/', dmedecinelist, name='dmedecinelist'),
     path('dnewmedecineprescription/', dnewmedecineprescription, name='dnewmedecineprescription'),
+    path('sendToGeneralist/<id>', sendToGeneralist, name='sendToGeneralist'),
+    path('sendToGeneralistValidation/<id>', sendToGeneralistValidation, name='sendToGeneralistValidation'),
+
 
 
 

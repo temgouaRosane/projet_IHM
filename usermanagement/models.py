@@ -106,6 +106,7 @@ class Patient(models.Model):
         max_length=50, choices=SERVICE, default='Generalist')
     ConsultationCost = models.CharField(max_length=23, blank=True)
     status = models.CharField(max_length=20, default="invalid")
+    sentStatus = models.CharField(max_length=50, default='notSent')
 
     #weight = models.FloatField(blank= True, null= True)
     #arterialPressure = models.FloatField(blank= True, null= True)

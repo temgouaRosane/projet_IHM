@@ -1,0 +1,35 @@
+{% extends 'usermanagement/dentist/basedentist.html' %}
+{% load static %}
+
+{% block style %}
+    <style>
+        a+a>input{
+            background-color: rgb(201, 38, 38);
+            color: #fff;
+        }
+        a>input{
+            background-color: rgb(37, 192, 44);
+            color: #fff;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<hr>
+
+<p>Are you sure you want to send this patient to a Generalist?: <b> {{ p.FirstName }} </b> </p>
+
+<div style="display: flex;flex-direction: column;  width: 100%;">
+    <div style="display: flex; width: 25%;"><span> FullName:&nbsp; &nbsp;{{p}}</span></div>
+    <div style="display: flex; width: 25%;"> Service: <span> &nbsp; &nbsp; {{p.Service}}</span></div>
+    <div style="display: flex; width: 25%;">Condition: <span> &nbsp; &nbsp; {{p.condition}}</span></div>
+</div>
+<a href="{% url 'usermanagement:sendToGeneralist' p.id %}">
+    <input type="button" value="Valid">
+</a>
+<a href="{% url 'usermanagement:dentistviewpl' %}">
+    <input type="button" value="Cancel">
+</a>
+
+{% endblock %}

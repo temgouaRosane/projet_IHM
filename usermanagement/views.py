@@ -74,21 +74,6 @@ def addPatient(request):
     #traitement de la requete post
    
     if request.method == "POST":
-        '''
-        
-    CNI_number = models.CharField(max_length=20,  blank= True, default=" ")
-    FirstName = models.CharField(max_length=50,  blank= True)
-    LastName = models.CharField(max_length=50,  blank= True, default=" ")
-    gender = models.CharField(max_length=50, choices=SEXE, default='Male',  blank= True)
-    Phone_number = models.CharField(max_length=100,  blank= True, default=" ")
-    BirthDate = models.DateField( blank= True,null=True, default="0000-00-00")      
-    Address = models.CharField(max_length=25,  blank= True, default=" ")
-    Email_address = models.CharField(max_length=25, blank= True, default=" ")
-    condition = models.CharField(max_length=50, choices=CONDITION, default='NoCritical')
-    Service = models.CharField(max_length=50, choices=SERVICE, default='Generalist')
-    ConsultationCost = models.CharField(max_length=23, blank= True)
-    status = models.CharField(max_length=20, default="invalid")
-        '''
         p = Patient()
         p.FirstName = request.POST['FirstName']
         p.LastName = request.POST['LastName']
@@ -227,6 +212,28 @@ def patientDetails(request,nom):
 
 def doctor(request):        
     return render(request, 'usermanagement/doctor/doctor.html')
+
+def sendToSpecialistValidation(request, id):
+    p = Patient.objects.filter(id__exact=id)[0]
+    context={
+            "p": p
+        }     
+    return render(request, 'usermanagement/doctor/sendToSpecialistValidation.html', context=context)
+
+
+
+def sendToSpecialist(request, id):
+    p = Patient.objects.filter(id__iexact=id)[0]
+    p.sentStatus = "sent"
+    p.Service = "specialist"
+    p.save()
+    context={
+        "p":p
+    }
+    return render(request, 'usermanagement/doctor/sendToSpecialist.html', context=context)
+
+
+
 
 def doctorviewpl(request):
     if request.method == 'POST':
@@ -775,6 +782,25 @@ def examshistory(request):
 # def dentistviewpl(request):
 #     return render(request, 'usermanagement/dentist/dentistviewpl.html')
 
+def sendToGeneralistValidation(request, id):
+    p = Patient.objects.filter(id__exact=id)[0]
+    context={
+            "p": p
+        }     
+    return render(request, 'usermanagement/dentist/sendToGeneralistValidation.html', context=context)
+
+
+
+def sendToGeneralist(request, id):
+    p = Patient.objects.filter(id__iexact=id)[0]
+    p.sentStatus = "notSent"
+    p.Service = "generalist"
+    p.save()
+    context={
+        "p":p
+    }
+    return render(request, 'usermanagement/dentist/sendToGeneralist.html', context=context)
+
 def dentistviewpl(request):
     if request.method == 'POST':
         name = ''
@@ -782,9 +808,10 @@ def dentistviewpl(request):
             name = request.POST['name']
         patients = Patient.objects.filter(FirstName__contains=name,Service__iexact="specialist",status__iexact="valid")
         patientList = []
+        
         for p in patients:
             if not [p.FirstName,p.LastName,p.CNI_number] in patientList:
-                patientList.append([p.FirstName,p.LastName,p.CNI_number])
+                patientList.append([p.FirstName,p.LastName,p.CNI_number]) 
         context = {
             'patientList':patientList,
             'patients': patients,
