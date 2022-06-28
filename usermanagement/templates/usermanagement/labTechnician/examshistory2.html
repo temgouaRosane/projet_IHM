@@ -1,0 +1,57 @@
+{% extends 'usermanagement/labTechnician/baseLabTech.html' %}
+
+{% load static %}
+{% block content %}
+
+<hr>
+{% csrf_token %}
+<form style="text-align: center;" action="{% url 'usermanagement:examshistory2' %}" method="POST">
+    {% csrf_token %}
+    <label for="">Name</label>
+    <input name='name' type="text" value="{{selectName}}">
+    <button>🔍</button>
+    <hr>
+</form>
+
+<span style="text-decoration: solid;">Exam List...</span>
+<div style="padding: 2%; margin-top: 5vh; width: 100%;">
+
+    <div style="display: flex;">
+        <div style="width: 20%;">
+            <h6>Patient_Name</h6>
+        </div>
+        <div style="width: 15%;">
+            <h6>Service</h6>
+        </div>
+        <div style="width: 20%;">
+            <h6 >ExamDescription</h6>
+        </div>
+        <div style="width: 15%;">
+            <h6>ExamCost</h6>
+        </div>
+        <div  style="width: 15%;">
+            <h6>Date</h6>
+        </div>
+        <div>
+            <h6 style="width: 15%;">Time</h6>
+        </div>
+    </div>
+    {% for p in examList %}
+    <form method="post" action="{% url 'usermanagement:validationexams' p.id %}">
+        {% csrf_token %}
+        <hr>
+        <div style="display: flex;  width: 100%;">
+            <div style="display: flex; width: 20%;">{{p.idPatient}}</div>
+            <div style="display: flex; width: 15%;">{{p.idPatient.Service}}</div>
+            <div style="display: flex; width: 20%;">{{p.ExamDescription}}</div>
+            <div style="display: flex; width: 15%;">{{p.ExamCost}}</div>
+            <div style="display: flex; width: 15%;">{{p.Date}}</div>
+            <div style="display: flex; width: 15%;">{{p.Time}}</div>            
+        </div>
+        
+        
+    </form>
+    {% endfor %}
+    <hr>
+</div>
+{% endblock %}

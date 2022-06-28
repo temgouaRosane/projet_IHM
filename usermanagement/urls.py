@@ -47,6 +47,7 @@ urlpatterns = [
     path('consultationlist/', consultationlist, name='consultationlist'),
     path('newconsultation/', newconsultation, name='newconsultation'),
     path('newexamprescription/', newexamprescription, name='newexamprescription'),
+    path('Result/<id>', Result, name='Result'),
     path('examlist/', examlist, name='examlist'),
     path('medecinelist/', medecinelist, name='medecinelist'),
     path('newmedicineprescription/', newmedicineprescription, name='newmedicineprescription'),
@@ -76,6 +77,8 @@ urlpatterns = [
 
     path('labtechviewpl/', labtechviewpl, name='labtechviewpl'),
     path('factureexamen/<id>', factureexamen, name='factureexamen'),
+    path('examshistory2/', examshistory2, name='examshistory2'),
+    path('saveExamResult/<id>', saveExamResult, name='saveExamResult'),
 
 
 #------------------------------------CASHIER-----------------------------------------------#

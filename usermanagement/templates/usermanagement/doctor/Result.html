@@ -13,6 +13,7 @@
         transition: ease 0.25s;
         border-color: rgb(18, 134, 142);
         background-color: rgb(152, 229, 228);
+
     }
     input:hover{
         width: 15vw;
@@ -20,27 +21,31 @@
         border-radius: 10%;
     }
 </style>
-
 <div style="text-align:center ;font-style: italic; font-size: x-large;word-spacing: 5px;" >
     Patient :     
     <span>{{nom}}</span>
         <span>{{name}}</span>
-</div> <hr>
+</div>
+<hr>
+<div style="text-align: center; word-spacing: 4px;"><h6> <span style="text-decoration: underline;">Exam Result:</span> {{ExamName}}</h6></div> 
+<div style="text-align: center ;">{{result}}</div>
+
+
 
 <div style="display:flex ;width: 100%; margin-top: 20vh; justify-content: space-around;">
-    <form action="{% url 'usermanagement:newconsultation2' id %}" style="width: 20%;">
+    <form action="{% url 'usermanagement:newconsultation2' p.id %}" style="width: 20%;">
         {% csrf_token %}
         <input type="submit" value="New Consultation">
     </form>
-    <form action="{% url 'usermanagement:newexamprescription2' id %}" style="width: 20%;">
+    <form action="{% url 'usermanagement:newexamprescription2' p.id %}" style="width: 20%;">
         {% csrf_token %}
         <input type="submit" value="Exam Prescription">
     </form>
-    <form action="{% url 'usermanagement:newmedicineprescription2' id %}" style="width: 20%;">
+    <form action="{% url 'usermanagement:newmedicineprescription2' p.id %}" style="width: 20%;">
         {% csrf_token %}
         <input type="submit" value="Medicine Prescription">
     </form>
-    <form action="{% url 'usermanagement:patientDetails' nom %}" style="width: 20%;">
+    <form action="{% url 'usermanagement:patientDetails' p.FirstName %}" style="width: 20%;">
         {% csrf_token %}
         <input type="submit" value="Patient Details">
     </form>

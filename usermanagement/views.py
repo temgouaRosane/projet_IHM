@@ -362,6 +362,7 @@ def newexamprescription(request):
             e.Notes = request.POST['Notes']
             e.ExamCost = int(exam.split()[1])
             e.ExamDescription = exam.split()[0]
+            
             e.save()
     form = ExamForm() 
     exams = Exam.objects.all()   
@@ -384,7 +385,7 @@ def examlist(request):
     if request.method == 'POST':
         name = request.POST['name']
     
-    examens = Examen.objects.all()
+    examens = Examen.objects.all().order_by("Date")[::-1]
     listePatient = []
     for m in examens:
         if not m.idPatient in listePatient:
@@ -474,10 +475,12 @@ def newexamprescription2(request,id):
 
 def patientActions(request,id):
     p = Patient.objects.filter(id__iexact=id)[0]
+    name = p.LastName
 
     context={
         'id': id,
         'nom': p.FirstName,
+        'name':name
     }
     return render(request,'usermanagement/doctor/patientActions.html',context=context)
 
@@ -583,7 +586,7 @@ def pharmacistviewpl(request):
 def labtechviewpl(request):
     def ndExam(idPatient):
         # patients = Patient.objects.filter(FirstName__contains=name).order_by("Date")[::-1]
-        m = Examen.objects.filter(idPatient__exact=idPatient,pstatus__exact="valid",status__exact='invalid')
+        m = Examen.objects.filter(idPatient__exact=idPatient,pstatus__exact="valid",status__exact='invalid').order_by("Date")[::-1]
         # print(idPatient)
         return len(m)
     examens = Examen.objects.all()
@@ -607,6 +610,32 @@ def labtechviewpl(request):
     return render(request=request,template_name='usermanagement/labTechnician/labtechviewpl.html',context=context)
 
 
+def Result(request, id):
+    e = Examen.objects.filter(id__iexact=id)[0]
+    ExamName = e.ExamDescription
+    result = e.ExamResult
+    id = e.idPatient
+    nom = e.idPatient.FirstName
+    name = e.idPatient.LastName
+    # p = Patient.objects.filter(id__iexact=id)[0]
+    context = {
+        'p':id,
+        'result': result,
+        'nom': nom,
+        'name':name,
+        'ExamName':ExamName
+    }
+    return render(request, 'usermanagement/doctor/Result.html', context=context)
+def saveExamResult(request, id):
+    examen = Examen.objects.filter(id__iexact=id)[0]
+    note = request.POST['examResult']
+    examen.ExamResult = note
+    examen.save()
+    return labtechviewpl(request)
+    
+    
+
+
 def factureexamen(request,id):
     if request.method== 'POST':
         listeExamen = Examen.objects.filter(idPatient__exact=id)
@@ -619,8 +648,9 @@ def factureexamen(request,id):
                     m.status = 'valid'
                     m.save()
         nom = Patient.objects.filter(id__exact=id)[0]
-        context = {'validExam':validExam,'nom':nom}
-        return render(request, 'usermanagement/labTechnician/factureexamen.html',context)
+        context = {'validExam':validExam[0],'nom':nom}
+        return render(request, 'usermanagement/labTechnician/ExamResult.html', context=context)
+        # return render(request, 'usermanagement/labTechnician/labtechviewpl.html',context)
     return labtechviewpl(request)
 
 
@@ -766,6 +796,16 @@ def examshistory(request):
         'examList':examList,
     }
     return render(request=request,template_name='usermanagement/cashier/examshistory.html',context=context)
+def examshistory2(request):
+    name = ''
+    if request.method == 'POST':
+        if 'name' in request.POST:
+            name = request.POST['name']  #Il faut la jointure pour filtrer selon le nom
+    examList = Examen.objects.filter(pstatus__exact='valid').order_by("Date")[::-1]
+    context = {
+        'examList':examList,
+    }
+    return render(request=request,template_name='usermanagement/labTechnician/examshistory2.html',context=context)
 
      
 

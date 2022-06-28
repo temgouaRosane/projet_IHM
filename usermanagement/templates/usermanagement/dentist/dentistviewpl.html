@@ -21,6 +21,22 @@
         <hr>
     </form>
 
+    <style>
+         .n{
+            border-radius: 30%;
+            width: 9vw;
+            transition: ease 0.25s;
+            border-color: rgb(154, 130, 130);
+        }
+        .n:hover{
+            border-radius: 30%;
+            width: 10vw;
+            transition: ease 0.25s;
+            border-color: rgb(154, 130, 130);
+            background-color: rgb(64, 251, 64);
+        }
+    </style>
+
     <div style="display: flex;">
         <div style="width: 15%;">Patient ID</div>
         <div style="width: 85%;">
@@ -52,7 +68,7 @@
                         <div style="width: 20%;">
                             <form action="{% url 'usermanagement:sendToGeneralistValidation' p.id %}">
                                 {% csrf_token %}
-                                <input type="submit" value="Generalist">
+                                <input class="n" type="submit" value="SendToGeneralist">
                             </form>
                         </div>  
                     </div>

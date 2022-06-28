@@ -1,4 +1,5 @@
 from datetime import timezone
+from operator import mod
 from tkinter.tix import Tree
 from django.db import models
 from django.conf import settings
@@ -175,6 +176,7 @@ class Examen(models.Model):
     status = models.CharField(max_length=20, default="invalid")
     pstatus = models.CharField(max_length=20, default="invalid")
     Notes = models.TextField(max_length=10000, blank=True, null=True)
+    ExamResult = models.TextField(max_length=1000, blank=True, null=True)
 
     def __str__(self) -> str:
         return str(self.idPatient)+' '+str(self.ExamDescription)
